@@ -144,6 +144,7 @@ void Settings::drawWindow()
 		if (ImGui::BeginTabItem("Advanced"))
 		{
 			radioButtonsChoice("Process", &processSearchMode, "Auto", "Manual");
+			Ui::hoveredTooltip("Allow you to choose the process, only use if you know what you are doing");
 
 			Ui::checkbox(Ui::lol("PCSX2 Cheats Path"), &pcsx2.useDifferentCheatsPath);
 			Ui::hoveredTooltip("Use a different PCSX2 cheats path, otherwise it use \"PCSX2 Directory/cheats\" path");
