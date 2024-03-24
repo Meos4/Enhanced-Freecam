@@ -1,0 +1,41 @@
+#include "Gamepad.hpp"
+
+#include <array>
+
+namespace Gamepad
+{
+	const char* Gamepad::toStringXbox(Gamepad::Action action)
+	{
+		static constexpr std::array<const char*, static_cast<std::size_t>(Gamepad::Action::Count)> names
+		{
+			"D-Pad Up", "D-Pad Down", "D-Pad Left", "D-Pad Right",
+			"Start", "Back", "Left Thumb", "Right Thumb",
+			"Left Shoulder", "Right Shoulder", "Left Trigger", "Right Trigger",
+			"(A)", "(B)", "(X)", "(Y)",
+			"Left Thumb X+", "Left Thumb X-", "Left Thumb Y+", "Left Thumb Y-",
+			"Right Thumb X+", "Right Thumb X-", "Right Thumb Y+", "Right Thumb Y-"
+		};
+
+		return names[static_cast<std::size_t>(action)];
+	}
+
+	const char* Gamepad::toStringPlayStation(Gamepad::Action action)
+	{
+		switch (action)
+		{
+		case Gamepad::Action::Select: return "Select";
+		case Gamepad::Action::L1: return "L1";
+		case Gamepad::Action::R1: return "R1";
+		case Gamepad::Action::L3: return "L3";
+		case Gamepad::Action::R3: return "R3";
+		case Gamepad::Action::L2: return "L2";
+		case Gamepad::Action::R2: return "R2";
+		case Gamepad::Action::Cross: return "Cross";
+		case Gamepad::Action::Circle: return "Circle";
+		case Gamepad::Action::Square: return "Square";
+		case Gamepad::Action::Triangle: return "Triangle";
+		}
+
+		return Gamepad::toStringXbox(action);
+	}
+}

@@ -1,0 +1,6 @@
+add_subdirectory(${PS2_DIR}/DBZBudokai3)
+add_subdirectory(${PS2_DIR}/DBZInfiniteWorld)
+add_subdirectory(${PS2_DIR}/DragonQuest8)
+add_subdirectory(${PS2_DIR}/HauntingGround)
+add_subdirectory(${PS2_DIR}/JadeCocoon2)
+add_subdirectory(${PS2_DIR}/Sly1)

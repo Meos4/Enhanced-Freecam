@@ -1,0 +1,69 @@
+if (WIN32)
+	add_subdirectory(${COMMON_DIR}/Windows)
+endif()
+
+add_subdirectory(${COMMON_DIR}/Debug)
+add_subdirectory(${COMMON_DIR}/GLFW)
+add_subdirectory(${COMMON_DIR}/PS1)
+add_subdirectory(${COMMON_DIR}/PS2)
+
+target_sources(${PROJECT_NAME} PRIVATE AsyncGameSearcher.cpp
+	AsyncGameSearcher.hpp
+	Buffer.hpp
+	Camera3DControls.cpp
+	Camera3DControls.hpp
+	CameraModel.cpp
+	CameraModel.hpp
+	Console.cpp
+	Console.hpp
+	Dockspace.cpp
+	Dockspace.hpp 
+	EfException.hpp
+	EulerAngles.hpp
+	FreecamModel.cpp
+	FreecamModel.hpp
+	GameInfo.hpp
+	Gamepad.cpp
+	Gamepad.hpp
+	GamepadWrapper.cpp
+	GamepadWrapper.hpp
+	GamePlatform.cpp
+	GamePlatform.hpp
+	GamePlatformWrapper.cpp
+	GamePlatformWrapper.hpp
+	InputWrapper.cpp
+	InputWrapper.hpp
+	Json.cpp
+	Json.hpp
+	Keyboard.cpp
+	Keyboard.hpp
+	Main.cpp
+	Math.hpp
+	Mips.hpp
+	MiscModel.cpp
+	MiscModel.hpp
+	Path.hpp
+	Path.cpp
+	Process.hpp
+	Ram.cpp
+	Ram.hpp
+	Renderer.cpp
+	Renderer.hpp
+	Settings.cpp
+	Settings.hpp
+	Software.hpp
+	State.cpp
+	State.hpp
+	System.cpp
+	System.hpp
+	TemplateTypes.hpp
+	Types.hpp
+	Ui.cpp
+	Ui.hpp
+	Util.cpp
+	Util.hpp
+	Vec2.hpp
+	Vec3.hpp
+	Welcome.cpp
+	Welcome.hpp
+)
