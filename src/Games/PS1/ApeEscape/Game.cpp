@@ -84,7 +84,7 @@ namespace PS1::ApeEscape
 			"Stage Select",
 			"Space Menu",
 			"Training Preview",
-			"Level Preview",
+			"Stage Preview",
 			"Clear Stage",
 			"Race Result"
 		};
