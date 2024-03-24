@@ -41,6 +41,14 @@ add_executable(${PROJECT_NAME} ${SOURCES_IMGUI})
 add_subdirectory(${PROJECT_SOURCE_DIR}/src)
 
 if (WIN32)
+	# Keep TTY in debug
+	set_target_properties(${PROJECT_NAME} PROPERTIES
+		LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE"
+		LINK_FLAGS_RELEASE "/SUBSYSTEM:windows /ENTRY:mainCRTStartup"
+		LINK_FLAGS_RELWITHDEBINFO "/SUBSYSTEM:windows /ENTRY:mainCRTStartup"
+		LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:windows /ENTRY:mainCRTStartup"
+	)
+
 	# XInput
 	find_library(LIB_XINPUT xinput)
 
