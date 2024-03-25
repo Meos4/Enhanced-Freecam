@@ -85,6 +85,8 @@ namespace Ui
 			case Ui::Color::Success: return 0xFF'29'B0'29;
 			case Ui::Color::Error: return 0xFF'29'29'B0;
 			case Ui::Color::Exception: return 0xFF'29'60'A0;
+			case Ui::Color::DuckStation: return 0xFF'00'4E'C1;
+			case Ui::Color::PCSX2: return 0xFF'D1'99'05;
 			}
 		}
 
