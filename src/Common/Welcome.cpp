@@ -19,7 +19,7 @@ namespace Welcome
 				Ui::separatorText("PlayStation 1");
 				ImGui::TextUnformatted("Emulator:");
 				ImGui::SameLine();
-				ImGui::PushStyleColor(ImGuiCol_Text, 0xFF'00'67'FF);
+				ImGui::PushStyleColor(ImGuiCol_Text, Ui::color(Ui::Color::DuckStation));
 				ImGui::TextUnformatted("DuckStation");
 				ImGui::PopStyleColor();
 				ImGui::SameLine();
@@ -29,7 +29,7 @@ namespace Welcome
 				Ui::separatorText("PlayStation 2");
 				ImGui::TextUnformatted("Emulator:");
 				ImGui::SameLine();
-				ImGui::PushStyleColor(ImGuiCol_Text, 0xFF'FA'C3'38);
+				ImGui::PushStyleColor(ImGuiCol_Text, Ui::color(Ui::Color::PCSX2));
 				ImGui::TextUnformatted("PCSX2");
 				ImGui::PopStyleColor();
 				ImGui::SameLine();

@@ -23,6 +23,8 @@ namespace Ui
 		Success,
 		Error,
 		Exception,
+		DuckStation,
+		PCSX2,
 		Count
 	};
 

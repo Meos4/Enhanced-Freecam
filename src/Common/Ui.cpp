@@ -73,7 +73,9 @@ namespace Ui
 			0xC0'CE'70'3E, // Blue Z
 			0xFF'33'E5'33, // Success
 			0xFF'33'33'E5, // Error
-			0xFF'33'E5'FF  // Exception
+			0xFF'33'E5'FF, // Exception
+			0xFF'00'67'FF, // DuckStation
+			0xFF'FA'C3'38  // PCSX2
 		};
 
 		if (!g_settings.isADarkTheme())
