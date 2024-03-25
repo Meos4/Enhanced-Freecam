@@ -17,6 +17,10 @@ Settings g_settings;
 static constexpr auto _Settings{ "Settings" };
 static constexpr auto decimalsMax{ 6 };
 
+static constexpr auto 
+	fontSizeMin{ 13 }, 
+	fontSizeMax{ fontSizeMin + static_cast<s32>(Font::Count) - 1 };
+
 void Settings::init()
 {
 	const auto imguiIniPath{ Path::imguiIni() };
@@ -36,7 +40,13 @@ void Settings::init()
 	auto* const io{ &ImGui::GetIO() };
 	io->IniFilename = NULL;
 	io->ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-	io->Fonts->AddFontFromMemoryCompressedTTF(Roboto_Medium_compressed_data, Roboto_Medium_compressed_size, 13.f);
+	const auto fontSizeFloatMin{ static_cast<float>(fontSizeMin) };
+
+	for (std::size_t i{}; i < static_cast<std::size_t>(Font::Count); ++i)
+	{
+		const auto size{ fontSizeFloatMin + static_cast<float>(i) };
+		imFonts[i] = io->Fonts->AddFontFromMemoryCompressedTTF(Roboto_Medium_compressed_data, Roboto_Medium_compressed_size, size);
+	}
 }
 
 void Settings::drawWindow()
@@ -70,6 +80,13 @@ void Settings::drawWindow()
 			if (ImGui::Combo(Ui::lol("Theme"), (s32*)&theme, "Dark\0Ruby\0Dark 2\0Light\0Classic\0"))
 			{
 				updateTheme();
+			}
+
+			s32 uiFont{ static_cast<s32>(font) + fontSizeMin };
+			if (Ui::slider(Ui::lol("Font Size"), &uiFont, "%d", ImGuiSliderFlags_AlwaysClamp, fontSizeMin, fontSizeMax))
+			{
+				font = static_cast<Font>(uiFont - fontSizeMin);
+				updateFont();
 			}
 
 			if (Ui::checkbox(Ui::lol("Multi Viewports"), &isMultiViewports))
@@ -178,6 +195,8 @@ void Settings::readSettings(const Json::Read& json)
 
 			JSON_GET_MIN_MAX(j, theme, 0, static_cast<s32>(Theme::Count) - 1);
 			updateTheme();
+			JSON_GET_MIN_MAX(j, font, 0, static_cast<s32>(Font::Count) - 1);
+			updateFont();
 			JSON_GET(j, isMultiViewports);
 			updateIsMultiViewports();
 			JSON_GET(j, multiViewportsAlwaysOnTop);
@@ -218,6 +237,7 @@ void Settings::writeSettings(Json::Write* json) const
 
 	auto* const j{ &(*json)[_Settings] };
 	JSON_SET(j, theme);
+	JSON_SET(j, font);
 	JSON_SET(j, isMultiViewports);
 	JSON_SET(j, multiViewportsAlwaysOnTop);
 
@@ -275,6 +295,11 @@ void Settings::updateMultiViewportsAlwaysOnTop() const
 	{
 		ImGui::DestroyPlatformWindow(g.Viewports[i]);
 	}
+}
+
+void Settings::updateFont() const
+{
+	ImGui::GetIO().FontDefault = imFonts[static_cast<std::size_t>(font)];
 }
 
 void Settings::setThemeDark()

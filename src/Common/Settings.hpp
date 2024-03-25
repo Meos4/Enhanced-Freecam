@@ -36,12 +36,24 @@ enum class SearchMode
 	Manual
 };
 
+enum class Font
+{
+	RobotoMedium13,
+	RobotoMedium14,
+	RobotoMedium15,
+	Count
+};
+
+struct ImFont;
+
 struct Settings
 {
 	Theme theme{ Theme::Dark };
 	GamepadLayout gamepadLayout{ GamepadLayout::Xbox };
 	KeyboardLayout keyboardLayout{ KeyboardLayout::Qwerty };
 	SearchMode processSearchMode{ SearchMode::Auto };
+	Font font{ Font::RobotoMedium13 };
+	std::array<ImFont*, static_cast<std::size_t>(Font::Count)> imFonts;
 	bool smoothCamera{ true };
 	bool isMultiViewports{ true };
 	bool multiViewportsAlwaysOnTop{};
@@ -131,6 +143,7 @@ struct Settings
 	void updateTheme() const;
 	void updateIsMultiViewports() const;
 	void updateMultiViewportsAlwaysOnTop() const;
+	void updateFont() const;
 
 	static void setThemeDark();
 	static void setThemeRuby();
