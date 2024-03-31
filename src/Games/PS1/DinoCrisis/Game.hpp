@@ -47,7 +47,7 @@ namespace PS1::DinoCrisis
 	{
 		enum
 		{
-			NtscU,
+			NtscU1_1,
 			Count
 		};
 	};
