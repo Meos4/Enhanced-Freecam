@@ -8,6 +8,8 @@ namespace PS1::libgte
 		long t[3];
 	};
 
+	static_assert(sizeof(libgte::MATRIX) == 32);
+
 	struct SVECTOR
 	{
 		short vx, vy, vz;
