@@ -223,7 +223,7 @@ namespace PS1::ApeEscape
 			sc{ static_cast<s16>((sz * cy) >> 12) },
 			ss{ static_cast<s16>((sz * sy) >> 12) };
 	
-		libgte::MATRIX view;
+		libgte::MATRIX view{};
 		view.m[0][0] = cc - ((ss * sx) >> 12);
 		view.m[0][1] = (-cx * sz) >> 12;
 		view.m[0][2] = cs + ((sc * sx) >> 12);
