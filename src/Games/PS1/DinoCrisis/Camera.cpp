@@ -159,7 +159,7 @@ namespace PS1::DinoCrisis
 			sc{ static_cast<s16>((sz * cy) >> 12) },
 			ss{ static_cast<s16>((sz * sy) >> 12) };
 
-		libgte::MATRIX view;
+		libgte::MATRIX view{};
 		view.m[0][0] = cc - ((ss * sx) >> 12);
 		view.m[0][1] = (-cx * sz) >> 12;
 		view.m[0][2] = cs + ((sc * sx) >> 12);
@@ -169,7 +169,6 @@ namespace PS1::DinoCrisis
 		view.m[2][0] = (-cx * sy) >> 12;
 		view.m[2][1] = sx;
 		view.m[2][2] = (cx * cy) >> 12;
-		view.t[0] = view.t[1] = view.t[2] = 0;
 
 		const auto fov{ static_cast<s16>(floatToFixed(m_fov)) };
 
