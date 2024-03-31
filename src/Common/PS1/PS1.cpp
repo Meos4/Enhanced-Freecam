@@ -1,6 +1,7 @@
 #include "PS1.hpp"
 
 #include "Games/PS1/ApeEscape/Game.hpp"
+#include "Games/PS1/DinoCrisis/Game.hpp"
 
 #include "Common/AsyncGameSearcher.hpp"
 #include "Common/Path.hpp"
@@ -15,9 +16,10 @@ namespace PS1
 {
 	std::span<const GameInfo> games()
 	{
-		static constexpr std::array<GameInfo, 1> games
+		static constexpr std::array<GameInfo, 2> games
 		{
-			ADD_GAME_INFO(ApeEscape)
+			ADD_GAME_INFO(ApeEscape),
+			ADD_GAME_INFO(DinoCrisis)
 		};
 
 		return games;
