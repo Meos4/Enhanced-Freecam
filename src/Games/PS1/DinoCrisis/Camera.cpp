@@ -39,6 +39,29 @@ namespace PS1::DinoCrisis
 
 	void Camera::enable(bool enable)
 	{
+		const auto& ram{ m_game->ram() };
+		const auto offsetMC{ m_game->offset().mainCamera };
+
+		if (!enable && ram.read<u8>(offsetMC + 0x70) != 0) // Mode
+		{
+			auto packet{ ram.read<std::array<s16, 7>>(offsetMC + 0x30) };
+			const auto target{ ram.read<libgte::SVECTOR>(offsetMC + 0x40) };
+			const auto position{ ram.read<libgte::SVECTOR>(offsetMC + 0x20) };
+
+			const auto 
+				x{ std::abs(position.vx - target.vx) },
+				y{ std::abs(position.vy - target.vy) },
+				z{ std::abs(position.vz - target.vz) };
+
+			packet[0] = target.vx;
+			packet[1] = target.vy;
+			packet[2] = target.vz;
+			packet[6] = static_cast<s16>(std::sqrtf(static_cast<float>(x * x + y * y + z * z)));
+
+			ram.write(offsetMC + 0x1C, packet[6]);
+			ram.write(offsetMC + 0x30, packet);
+		}
+
 		m_isEnabled = enable;
 	}
 
@@ -204,6 +227,9 @@ namespace PS1::DinoCrisis
 			offset.Fn_setNextFrameCamera + 0x12C, 0xA622003C, 0x00000000, // Shadow Forward
 			offset.Fn_moveNextCamera, std::array<Mips_t, 2>{ 0x3C021F80, 0x8C420000 }, Mips::jrRaNop(), // Cutscene Position
 			offset.Fn_updateLinearCutsceneCamera + 0x74, 0xA623003C, 0x00000000, // Shadow Forward
+			offset.Fn_updateLinearCutsceneCamera + 0xE0, 0xA6220020, 0x00000000, // X
+			offset.Fn_updateLinearCutsceneCamera + 0xF4, 0xA6220022, 0x00000000, // Y
+			offset.Fn_updateLinearCutsceneCamera + 0x108, 0xA6220024, 0x00000000, // Z
 			offset.Fn_updateGameOver + 0x64, 0xA604003C, 0x00000000, // Shadow Forward
 			offset.Fn_dinosaurEntranceCameraTransition + 0x138, 0xA6020030, 0x00000000, // X
 			offset.Fn_dinosaurEntranceCameraTransition + 0x144, 0xA6020032, 0x00000000, // Y
