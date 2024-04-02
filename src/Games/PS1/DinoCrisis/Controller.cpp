@@ -23,10 +23,11 @@ namespace PS1::DinoCrisis
 	void Controller::update()
 	{
 		const auto offsetPS{ m_game->offset().Fn_padStatus };
+		const auto psShift{ m_game->version() == Version::NtscJ ? 0x114 : 0x108 };
 
 		m_game->ram().writeConditional(m_isButtonEnabled,
-			offsetPS + 0x108, 0xA4A70000, 0xA4A00000,
-			offsetPS + 0x118, 0xA4A20002, 0xA4A00002
+			offsetPS + psShift, 0xA4A70000, 0xA4A00000,
+			offsetPS + psShift + 0x10, 0xA4A20002, 0xA4A00002
 		);
 	}
 
