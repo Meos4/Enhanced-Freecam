@@ -9,6 +9,10 @@ Games
 * Jade Cocoon 2 (PAL, NTSC-U, NTSC-J)
 * Sly Cooper and the Thievius Raccoonus (PAL, NTSC-U, NTSC-J)
 
+Download
+--------
+[GitHub](https://github.com/Meos4/Enhanced-Freecam/releases)
+
 Building
 --------
 Requirements:
