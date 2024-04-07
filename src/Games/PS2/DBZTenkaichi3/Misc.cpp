@@ -46,11 +46,7 @@ namespace PS2::DBZTenkaichi3
 		const auto flags{ ram.read<s32>(offset.flags) };
 		const bool isPauseMenuEnabled{ flags & 0x4000 ? true : false };
 
-		if (!isPauseMenuEnabled)
-		{
-			ram.write(offset.flags, m_isGamePaused ? flags | 0x100 : flags & ~0x100);
-		}
-
+		ram.write(offset.flags, m_isGamePaused || isPauseMenuEnabled ? flags | 0x100 : flags & ~0x100);
 		ram.write(offset.Fn_battleDrawHud, m_isHudHidden ? Mips::jrRaNop() : std::array<Mips_t, 2>{ 0x27BDFFF0, 0xFFBF0000 });
 	}
 
