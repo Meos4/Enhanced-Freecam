@@ -1,6 +1,7 @@
 #include "PS2.hpp"
 
 #include "Games/PS2/DBZBudokai3/Game.hpp"
+#include "Games/PS2/DBZTenkaichi3/Game.hpp"
 #include "Games/PS2/DBZInfiniteWorld/Game.hpp"
 #include "Games/PS2/DragonQuest8/Game.hpp"
 #include "Games/PS2/HauntingGround/Game.hpp"
@@ -21,9 +22,10 @@ namespace PS2
 {
 	std::span<const GameInfo> games()
 	{
-		static constexpr std::array<GameInfo, 6> games
+		static constexpr std::array<GameInfo, 7> games
 		{
 			ADD_GAME_INFO(DBZBudokai3),
+			ADD_GAME_INFO(DBZTenkaichi3),
 			ADD_GAME_INFO(DBZInfiniteWorld),
 			ADD_GAME_INFO(DragonQuest8),
 			ADD_GAME_INFO(HauntingGround),
