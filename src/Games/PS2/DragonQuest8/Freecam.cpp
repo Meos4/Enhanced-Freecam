@@ -9,26 +9,8 @@
 
 namespace PS2::DragonQuest8
 {
-	static constexpr Input3D input3D
-	{
-		.forward = Input::MoveForward,
-		.backward = Input::MoveBackward,
-		.right = Input::MoveRight,
-		.left = Input::MoveLeft,
-		.up = Input::MoveUp,
-		.down = Input::MoveDown,
-		.rotateRollPos = Input::RotateZPos,
-		.rotateRollNeg = Input::RotateZNeg,
-		.rotatePitchPos = Input::RotateXPos,
-		.rotatePitchNeg = Input::RotateXNeg,
-		.rotateYawPos = Input::RotateYPos,
-		.rotateYawNeg = Input::RotateYNeg,
-		.fovPos = Input::FovPos,
-		.fovNeg = Input::FovNeg
-	};
-
 	Freecam::Freecam(Game* game)
-		: m_game(game), m_camera(game), m_misc(game), m_controller(game), m_controls(m_game->input(), input3D)
+		: m_game(game), m_camera(game), m_misc(game), m_controller(game), m_controls(m_game->input())
 	{
 	}
 
@@ -69,15 +51,13 @@ namespace PS2::DragonQuest8
 				Input::MovementSpeedPos, Input::MovementSpeedNeg,
 				Input::RotationSpeedPos, Input::RotationSpeedNeg);
 
-			const auto dt{ Renderer::deltaTime() };
-
-			m_camera.moveForward(m_controls.forwardVelocity(dt));
-			m_camera.moveRight(m_controls.rightVelocity(dt));
-			m_camera.moveUp(m_controls.upVelocity(dt));
-			m_camera.rotateX(m_controls.pitchVelocity(dt));
-			m_camera.rotateY(m_controls.yawVelocity(dt));
-			m_camera.rotateZ(m_controls.rollVelocity(dt));
-			m_camera.increaseFov(m_controls.fovVelocity(dt));
+			m_camera.moveForward(m_controls.forwardVelocity(Input::MoveForward, Input::MoveBackward));
+			m_camera.moveRight(m_controls.rightVelocity(Input::MoveRight, Input::MoveLeft));
+			m_camera.moveUp(m_controls.upVelocity(Input::MoveUp, Input::MoveDown));
+			m_camera.rotateX(m_controls.pitchVelocity(Input::RotateXPos, Input::RotateXNeg));
+			m_camera.rotateY(m_controls.yawVelocity(Input::RotateYPos, Input::RotateYNeg));
+			m_camera.rotateZ(m_controls.rollVelocity(Input::RotateZPos, Input::RotateZNeg));
+			m_camera.increaseFov(m_controls.fovVelocity(Input::FovPos, Input::FovNeg));
 		}
 	}
 
