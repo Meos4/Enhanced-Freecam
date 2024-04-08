@@ -40,8 +40,6 @@ namespace PS2::DBZTenkaichi3
 			RotationSpeedNeg,
 			PauseGame,
 			HideHud,
-			TimescalePos,
-			TimescaleNeg,
 			Count
 		};
 	};

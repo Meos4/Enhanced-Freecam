@@ -64,9 +64,7 @@ namespace PS2::DBZTenkaichi3
 			{ "Rotation Speed+", i.rotationSpeedPos },
 			{ "Rotation Speed-", i.rotationSpeedNeg },
 			{ "Pause Game", i.pauseGame },
-			{ "Hide Hud", i.hideHud },
-			{ "Timescale+", i.timescalePos },
-			{ "Timescale-", i.timescaleNeg }
+			{ "Hide Hud", i.hideHud }
 		};
 	}
 
