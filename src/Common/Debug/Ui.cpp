@@ -29,6 +29,13 @@ namespace Debug::Ui
 			s32 column{ 3 };
 		} data;
 
+		const auto ramSize{ static_cast<u32>(ram.size()) };
+
+		auto isACallback = [](Mips_t instr)
+		{
+			return (instr >> 16) % 32 == 0 && (instr & 0x0000FFFF) == 0x0000F809;
+		};
+
 		auto clearCall = [&]()
 		{
 			for (auto& [offset, instr, isEnabled] : data.call)
@@ -41,37 +48,7 @@ namespace Debug::Ui
 			data.call.clear();
 		};
 
-		ImGui::Begin("Mips Call", isOpen);
-		const auto ramSize{ static_cast<u32>(ram.size()) };
-		const auto buttonOneLetterSize{ ::Ui::buttonOneLetterSize() };
-
-		if (::Ui::button("+", buttonOneLetterSize))
-		{
-			data.begin = std::clamp(data.begin + data.size, u32(0), ramSize);
-		}
-
-		ImGui::SameLine();
-		if (::Ui::button("-", buttonOneLetterSize))
-		{
-			data.begin = std::clamp(data.begin - data.size, u32(0), ramSize);
-		}
-
-		ImGui::SameLine();
-		ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x * 0.6f);
-		::Ui::drag("##MCBegin", &data.begin, u32(4), "%X", 0, u32(0), ramSize);
-		data.begin = std::clamp(data.begin - (data.begin % 4), u32(0), ramSize);
-
-		ImGui::SameLine();
-		ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
-		::Ui::drag("##MCSize", &data.size, u32(4), "%X", 0, u32(0), ramSize);
-		data.size = std::clamp(data.size - (data.size % 4), u32(0), ramSize - data.begin);
-
-		auto isACallback = [](Mips_t instr)
-		{
-			return (instr >> 16) % 32 == 0 && (instr & 0x0000FFFF) == 0x0000F809;
-		};
-
-		if (::Ui::button("Search"))
+		auto searchCall = [&]()
 		{
 			clearCall();
 
@@ -90,6 +67,37 @@ namespace Debug::Ui
 					data.call.emplace_back(Call{ u32(data.begin + i * sizeof(Mips_t)), instr, true });
 				}
 			}
+		};
+
+		ImGui::Begin("Mips Call", isOpen);
+		const auto buttonOneLetterSize{ ::Ui::buttonOneLetterSize() };
+
+		if (::Ui::button("+", buttonOneLetterSize))
+		{
+			data.begin = std::clamp(data.begin + data.size, u32(0), ramSize);
+			searchCall();
+		}
+
+		ImGui::SameLine();
+		if (::Ui::button("-", buttonOneLetterSize))
+		{
+			data.begin = std::clamp(data.begin - data.size, u32(0), ramSize);
+			searchCall();
+		}
+
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x * 0.6f);
+		::Ui::drag("##MCBegin", &data.begin, u32(4), "%X", 0, u32(0), ramSize);
+		data.begin = std::clamp(data.begin - (data.begin % 4), u32(0), ramSize);
+
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
+		::Ui::drag("##MCSize", &data.size, u32(4), "%X", 0, u32(0), ramSize);
+		data.size = std::clamp(data.size - (data.size % 4), u32(0), ramSize - data.begin);
+
+		if (::Ui::button("Search"))
+		{
+			searchCall();
 		}
 
 		if (data.call.size())
