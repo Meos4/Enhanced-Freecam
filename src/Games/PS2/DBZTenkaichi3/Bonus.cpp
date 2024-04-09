@@ -36,7 +36,11 @@ namespace PS2::DBZTenkaichi3
 			offset.Fn_drawNearBlur, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFE0, 0xFFB00000 }
 		);
 
-		ram.write(offset.Fn_drawAuras, m_noAuras ? Mips::jrRaNop() : std::array<Mips_t, 2>{ 0x27BDFFE0, 0xFFB00000 });
+		ram.writeConditional(m_noAuras, 
+			offset.Fn_drawAuras, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFE0, 0xFFB00000 },
+			offset.Fn_drawAurasLightning, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFD0, 0xFFB10008 }
+		);
+
 		ram.write(offset.Fn_drawCharTextures + 0x418, Mips::li(Mips::Register::a1, m_shaders));
 	}
 

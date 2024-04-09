@@ -16,6 +16,7 @@ namespace PS2::DBZTenkaichi3
 			Fn_battleSetPlayerCamera,
 			Fn_cutsceneUpdateCamera,
 			Fn_drawAuras,
+			Fn_drawAurasLightning,
 			Fn_drawCharTextures,
 			Fn_drawFarBlur,
 			Fn_drawNearBlur,
