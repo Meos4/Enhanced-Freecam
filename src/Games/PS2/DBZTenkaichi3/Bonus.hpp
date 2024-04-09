@@ -18,5 +18,6 @@ namespace PS2::DBZTenkaichi3
 	private:
 		Game* m_game;
 		bool m_noBlur{};
+		bool m_noAuras{};
 	};
 }

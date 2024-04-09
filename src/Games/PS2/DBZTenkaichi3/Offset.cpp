@@ -16,6 +16,7 @@ namespace PS2::DBZTenkaichi3
 		.Fn_battleDrawHud = 0x00212DD0,
 		.Fn_battleSetPlayerCamera = 0x0023F170,
 		.Fn_cutsceneUpdateCamera = 0x0023DBD0,
+		.Fn_drawAuras = 0x00164D98,
 		.Fn_drawFarBlur = 0x002460C8,
 		.Fn_drawNearBlur = 0x00103068,
 		.Fn_padStatus = 0x00122AD8,

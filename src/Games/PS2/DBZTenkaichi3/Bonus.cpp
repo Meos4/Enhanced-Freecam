@@ -19,9 +19,10 @@ namespace PS2::DBZTenkaichi3
 
 	void Bonus::draw()
 	{
-		Ui::setXSpacingStr("No Blur");
+		Ui::setXSpacingStr("No Auras");
 
 		Ui::checkbox(Ui::lol("No Blur"), &m_noBlur);
+		Ui::checkbox(Ui::lol("No Auras"), &m_noAuras);
 	}
 
 	void Bonus::update()
@@ -33,6 +34,8 @@ namespace PS2::DBZTenkaichi3
 			offset.Fn_drawFarBlur, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFF40, 0x24050010 },
 			offset.Fn_drawNearBlur, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFE0, 0xFFB00000 }
 		);
+
+		ram.write(offset.Fn_drawAuras, m_noAuras ? Mips::jrRaNop() : std::array<Mips_t, 2>{ 0x27BDFFE0, 0xFFB00000 });
 	}
 
 	void Bonus::readSettings(const Json::Read& json)
@@ -43,6 +46,7 @@ namespace PS2::DBZTenkaichi3
 			{
 				const auto& j{ json[_Bonus] };
 				JSON_GET(j, m_noBlur);
+				JSON_GET(j, m_noAuras);
 			}
 		}
 		catch (const Json::Exception& e)
@@ -55,5 +59,6 @@ namespace PS2::DBZTenkaichi3
 	{
 		auto* const j{ &(*json)[_Bonus] };
 		JSON_SET(j, m_noBlur);
+		JSON_SET(j, m_noAuras);
 	}
 }
