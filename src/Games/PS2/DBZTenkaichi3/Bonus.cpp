@@ -23,6 +23,7 @@ namespace PS2::DBZTenkaichi3
 
 		Ui::checkbox(Ui::lol("No Blur"), &m_noBlur);
 		Ui::checkbox(Ui::lol("No Auras"), &m_noAuras);
+		Ui::slider(Ui::lol("Shaders"), &m_shaders, "%d", ImGuiSliderFlags_AlwaysClamp);
 	}
 
 	void Bonus::update()
@@ -36,6 +37,7 @@ namespace PS2::DBZTenkaichi3
 		);
 
 		ram.write(offset.Fn_drawAuras, m_noAuras ? Mips::jrRaNop() : std::array<Mips_t, 2>{ 0x27BDFFE0, 0xFFB00000 });
+		ram.write(offset.Fn_drawCharTextures + 0x418, Mips::li(Mips::Register::a1, m_shaders));
 	}
 
 	void Bonus::readSettings(const Json::Read& json)
@@ -47,6 +49,7 @@ namespace PS2::DBZTenkaichi3
 				const auto& j{ json[_Bonus] };
 				JSON_GET(j, m_noBlur);
 				JSON_GET(j, m_noAuras);
+				JSON_GET(j, m_shaders);
 			}
 		}
 		catch (const Json::Exception& e)
@@ -60,5 +63,6 @@ namespace PS2::DBZTenkaichi3
 		auto* const j{ &(*json)[_Bonus] };
 		JSON_SET(j, m_noBlur);
 		JSON_SET(j, m_noAuras);
+		JSON_SET(j, m_shaders);
 	}
 }
