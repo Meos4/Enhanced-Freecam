@@ -1,8 +1,12 @@
 #include "Bonus.hpp"
 
 #include "Common/Console.hpp"
+#include "Common/Mips.hpp"
+#include "Common/Ui.hpp"
 
 #include "Game.hpp"
+
+#include <array>
 
 namespace PS2::DBZTenkaichi3
 {
@@ -15,12 +19,20 @@ namespace PS2::DBZTenkaichi3
 
 	void Bonus::draw()
 	{
+		Ui::setXSpacingStr("No Blur");
 
+		Ui::checkbox(Ui::lol("No Blur"), &m_noBlur);
 	}
 
 	void Bonus::update()
 	{
+		const auto& ram{ m_game->ram() };
+		const auto& offset{ m_game->offset() };
 
+		ram.writeConditional(m_noBlur,
+			offset.Fn_drawFarBlur, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFF40, 0x24050010 },
+			offset.Fn_drawNearBlur, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFE0, 0xFFB00000 }
+		);
 	}
 
 	void Bonus::readSettings(const Json::Read& json)
@@ -30,7 +42,7 @@ namespace PS2::DBZTenkaichi3
 			if (json.contains(_Bonus))
 			{
 				const auto& j{ json[_Bonus] };
-
+				JSON_GET(j, m_noBlur);
 			}
 		}
 		catch (const Json::Exception& e)
@@ -42,6 +54,6 @@ namespace PS2::DBZTenkaichi3
 	void Bonus::writeSettings(Json::Write* json)
 	{
 		auto* const j{ &(*json)[_Bonus] };
-
+		JSON_SET(j, m_noBlur);
 	}
 }

@@ -17,5 +17,6 @@ namespace PS2::DBZTenkaichi3
 		void writeSettings(Json::Write* json);
 	private:
 		Game* m_game;
+		bool m_noBlur;
 	};
 }

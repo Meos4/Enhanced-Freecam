@@ -15,6 +15,8 @@ namespace PS2::DBZTenkaichi3
 			Fn_battleDrawHud,
 			Fn_battleSetPlayerCamera,
 			Fn_cutsceneUpdateCamera,
+			Fn_drawFarBlur,
+			Fn_drawNearBlur,
 			Fn_padStatus,
 			Fn_setViewMatrix,
 			Fn_unknown,
