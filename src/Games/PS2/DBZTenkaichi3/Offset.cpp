@@ -24,6 +24,7 @@ namespace PS2::DBZTenkaichi3
 		.Fn_padStatus = 0x00122AD8,
 		.Fn_setViewMatrix = 0x0023ECB0,
 		.Fn_unknown = 0x002A9820,
+		.Fn_updateCharNear = 0x0024AE28,
 		.Fn_viewModelUpdateCamera = 0x0023FDA8
 	};
 	

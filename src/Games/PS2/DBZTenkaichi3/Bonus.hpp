@@ -19,6 +19,7 @@ namespace PS2::DBZTenkaichi3
 		Game* m_game;
 		bool m_noBlur{};
 		bool m_noAuras{};
-		u8 m_shaders{ 128 };
+		bool m_noNearTransparency{};
+				u8 m_shaders{ 128 };
 	};
 }

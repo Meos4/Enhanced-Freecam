@@ -23,6 +23,7 @@ namespace PS2::DBZTenkaichi3
 			Fn_padStatus,
 			Fn_setViewMatrix,
 			Fn_unknown,
+			Fn_updateCharNear,
 			Fn_viewModelUpdateCamera;
 	};
 }

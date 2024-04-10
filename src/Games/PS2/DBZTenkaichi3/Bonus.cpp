@@ -19,10 +19,11 @@ namespace PS2::DBZTenkaichi3
 
 	void Bonus::draw()
 	{
-		Ui::setXSpacingStr("No Auras");
+		Ui::setXSpacingStr("No Near Transparency");
 
 		Ui::checkbox(Ui::lol("No Blur"), &m_noBlur);
 		Ui::checkbox(Ui::lol("No Auras"), &m_noAuras);
+		Ui::checkbox(Ui::lol("No Near Transparency"), &m_noNearTransparency);
 		Ui::slider(Ui::lol("Shaders"), &m_shaders, "%d", ImGuiSliderFlags_AlwaysClamp);
 	}
 
@@ -41,6 +42,7 @@ namespace PS2::DBZTenkaichi3
 			offset.Fn_drawAurasLightning, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFD0, 0xFFB10008 }
 		);
 
+		ram.write(offset.Fn_updateCharNear + 0xB4, m_noNearTransparency ? 0x1000002C : 0x1040002C);
 		ram.write(offset.Fn_drawCharTextures + 0x418, Mips::li(Mips::Register::a1, m_shaders));
 	}
 
@@ -53,6 +55,7 @@ namespace PS2::DBZTenkaichi3
 				const auto& j{ json[_Bonus] };
 				JSON_GET(j, m_noBlur);
 				JSON_GET(j, m_noAuras);
+				JSON_GET(j, m_noNearTransparency);
 				JSON_GET(j, m_shaders);
 			}
 		}
@@ -67,6 +70,7 @@ namespace PS2::DBZTenkaichi3
 		auto* const j{ &(*json)[_Bonus] };
 		JSON_SET(j, m_noBlur);
 		JSON_SET(j, m_noAuras);
+		JSON_SET(j, m_noNearTransparency);
 		JSON_SET(j, m_shaders);
 	}
 }
