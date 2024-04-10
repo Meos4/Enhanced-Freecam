@@ -99,17 +99,18 @@ namespace PS2::DBZTenkaichi3
 
 		if (PS2::isValidMemoryRange(m_ram.read<u32>(m_offset.battlePlayerPtr)))
 		{
-			if (PS2::isValidMemoryRange(m_ram.read<s32>(cutscenePtr + 0x32C) == 1))
+			m_state = State::Battle;
+
+			if (PS2::isValidMemoryRange(cutscenePtr))
 			{
-				m_state = State::DragonHistory;
-			}
-			else if (PS2::isValidMemoryRange(m_ram.read<u32>(cutscenePtr + 0x2C0)))
-			{
-				m_state = State::BattleCutscene;
-			}
-			else
-			{
-				m_state = State::Battle;
+				if (m_ram.read<s32>(cutscenePtr + 0x32C) == 1)
+				{
+					m_state = State::DragonHistory;
+				}
+				else if (PS2::isValidMemoryRange(m_ram.read<u32>(cutscenePtr + 0x2C0)))
+				{
+					m_state = State::BattleCutscene;
+				}
 			}
 		}
 		else if (PS2::isValidMemoryRange(m_ram.read<u32>(m_offset.battlePlayerPtr + 0xC8)))
@@ -118,14 +119,7 @@ namespace PS2::DBZTenkaichi3
 		}
 		else if (PS2::isValidMemoryRange(cutscenePtr))
 		{
-			if (m_ram.read<s32>(cutscenePtr + 0x32C) == 0)
-			{
-				m_state = State::ShenronCutscene;
-			}
-			else
-			{
-				m_state = State::ShenronWish;
-			}
+			m_state == m_ram.read<s32>(cutscenePtr + 0x32C) == 1 ? State::ShenronWish : State::ShenronCutscene;
 		}
 		else
 		{
