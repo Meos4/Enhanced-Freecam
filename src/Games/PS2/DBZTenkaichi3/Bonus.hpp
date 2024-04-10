@@ -20,6 +20,7 @@ namespace PS2::DBZTenkaichi3
 		bool m_noBlur{};
 		bool m_noAuras{};
 		bool m_noNearTransparency{};
-				u8 m_shaders{ 128 };
+		bool m_noOnScreenEffects{};
+		u8 m_shaders{ 128 };
 	};
 }
