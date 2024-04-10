@@ -41,7 +41,7 @@ namespace PS2::DBZTenkaichi3
 
 		ram.writeConditional(m_noAuras, 
 			offset.Fn_drawAuras, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFE0, 0xFFB00000 },
-			offset.Fn_drawAurasLightning, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFD0, 0xFFB10008 }
+			offset.Fn_drawAurasLightning, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFE0, 0xFFB00000 }
 		);
 
 		ram.write(offset.Fn_updateCharNear + 0xB4, m_noNearTransparency ? 0x1000002C : 0x1040002C);
