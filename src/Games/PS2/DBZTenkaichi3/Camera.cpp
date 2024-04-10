@@ -220,7 +220,7 @@ namespace PS2::DBZTenkaichi3
 				jal_ccSetViewMatrix{ Mips::jal(offset.Fn_unknown) },
 				jal_sceVu0InversMatrix{ Mips::jal(offset.Fn_sceVu0InversMatrix) };
 
-			m_game->ram().writeConditional(enable,
+			m_game->ram().writeConditional(m_game->state() == State::None || enable,
 				offset.Fn_battleSetPlayerCamera + 0x28, std::array<Mips_t, 2>{ jal_setViewMatrix, 0x26050040 }, std::array<Mips_t, 2>{ jal_ccSetViewMatrix, 0x26040040 },
 				offset.Fn_viewModelUpdateCamera + 0x280, std::array<Mips_t, 2>{ jal_setViewMatrix, 0x0200202D }, std::array<Mips_t, 2>{ jal_ccSetViewMatrix, 0x00A02021 },
 				// Story - Shenron

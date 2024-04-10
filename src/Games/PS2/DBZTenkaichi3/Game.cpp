@@ -113,13 +113,14 @@ namespace PS2::DBZTenkaichi3
 				}
 			}
 		}
-		else if (PS2::isValidMemoryRange(m_ram.read<u32>(m_offset.battlePlayerPtr + 0xC8)))
+		else if (const auto viewModelPtr{ m_ram.read<u32>(m_offset.viewModelPtr) };
+				PS2::isValidMemoryRange(viewModelPtr) && m_ram.read<s32>(viewModelPtr + 0x1628) == 7)
 		{
 			m_state = State::ViewModel;
 		}
 		else if (PS2::isValidMemoryRange(cutscenePtr))
 		{
-			m_state == m_ram.read<s32>(cutscenePtr + 0x32C) == 1 ? State::ShenronWish : State::ShenronCutscene;
+			m_state = m_ram.read<s32>(cutscenePtr + 0x32C) == 1 ? State::ShenronWish : State::ShenronCutscene;
 		}
 		else
 		{

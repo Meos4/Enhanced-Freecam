@@ -28,6 +28,7 @@ namespace PS2::DBZTenkaichi3
 	{
 		const auto& ram{ m_game->ram() };
 		const auto& offset{ m_game->offset() };
+		const auto state{ m_game->state() };
 
 		if (m_isEnabled)
 		{
@@ -44,10 +45,14 @@ namespace PS2::DBZTenkaichi3
 		}
 
 		const auto flags{ ram.read<s32>(offset.flags) };
-		const bool isPauseMenuEnabled{ flags & 0x4000 ? true : false };
+		const bool isPauseMenuEnabled{ (state == State::Battle || state == State::BattleCutscene) && flags & 0x4000 ? true : false };
 
-		ram.write(offset.flags, m_isGamePaused || isPauseMenuEnabled ? flags | 0x100 : flags & ~0x100);
-		ram.write(offset.Fn_battleDrawHud, m_isHudHidden ? Mips::jrRaNop() : std::array<Mips_t, 2>{ 0x27BDFFF0, 0xFFBF0000 });
+		if (state != State::None)
+		{
+			ram.write(offset.flags, m_isGamePaused || isPauseMenuEnabled ? flags | 0x100 : flags & ~0x100);
+		}
+
+		ram.write(offset.Fn_battleDrawHud, state != State::None && m_isHudHidden ? Mips::jrRaNop() : std::array<Mips_t, 2>{ 0x27BDFFF0, 0xFFBF0000 });
 	}
 
 	void Misc::enable(bool enable)
