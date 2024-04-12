@@ -12,6 +12,7 @@ namespace PS2::DBZTenkaichi3
 			Fn_sceVu0InversMatrix,
 			battlePlayerPtr,
 			flags,
+			progressionPtr,
 			viewModelPtr,
 			Fn_battleDrawHud,
 			Fn_battleSetPlayerCamera,

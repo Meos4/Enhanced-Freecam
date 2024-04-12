@@ -13,6 +13,7 @@ namespace PS2::DBZTenkaichi3
 		.Fn_sceVu0InversMatrix = 0x00120340,
 		.battlePlayerPtr = 0x002FFF94,
 		.flags = 0x003305F8,
+		.progressionPtr = 0x0030070C,
 		.viewModelPtr = 0x003B2154,
 		.Fn_battleDrawHud = 0x00212DD0,
 		.Fn_battleSetPlayerCamera = 0x0023F170,
