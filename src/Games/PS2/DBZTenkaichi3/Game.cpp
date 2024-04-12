@@ -99,18 +99,25 @@ namespace PS2::DBZTenkaichi3
 
 		if (PS2::isValidMemoryRange(m_ram.read<u32>(m_offset.battlePlayerPtr)))
 		{
-			m_state = State::Battle;
-
-			if (PS2::isValidMemoryRange(cutscenePtr))
+			if (m_ram.read<s32>(m_offset.splitscreen) == 0)
 			{
-				if (m_ram.read<s32>(cutscenePtr + 0x32C) == 1)
+				m_state = State::Battle;
+
+				if (PS2::isValidMemoryRange(cutscenePtr))
 				{
-					m_state = State::DragonHistory;
+					if (m_ram.read<s32>(cutscenePtr + 0x32C) == 1)
+					{
+						m_state = State::DragonHistory;
+					}
+					else if (PS2::isValidMemoryRange(m_ram.read<u32>(cutscenePtr + 0x2C0)))
+					{
+						m_state = State::BattleCutscene;
+					}
 				}
-				else if (PS2::isValidMemoryRange(m_ram.read<u32>(cutscenePtr + 0x2C0)))
-				{
-					m_state = State::BattleCutscene;
-				}
+			}
+			else 
+			{
+				m_state = State::None;
 			}
 		}
 		else if (const auto viewModelPtr{ m_ram.read<u32>(m_offset.viewModelPtr) };
