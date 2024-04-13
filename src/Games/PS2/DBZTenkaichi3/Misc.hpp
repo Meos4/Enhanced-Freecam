@@ -16,7 +16,6 @@ namespace PS2::DBZTenkaichi3
 		Game* m_game;
 		bool m_isGamePaused{};
 		bool m_isHudHidden{};
-		float m_timescale{};
 		bool m_isEnabled{};
 	};
 }
