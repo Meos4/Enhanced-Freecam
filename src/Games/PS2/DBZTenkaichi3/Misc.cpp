@@ -52,6 +52,14 @@ namespace PS2::DBZTenkaichi3
 			ram.write(offset.flags, m_isGamePaused || isPauseMenuEnabled ? flags | 0x100 : flags & ~0x100);
 		}
 
+		ram.writeConditional(state != State::None && m_isGamePaused,
+			offset.Fn_updateChar + 0x24, std::array<Mips_t, 2>{ 0x00000000, 0x00000000 }, std::array<Mips_t, 2>{ 0x54600056, 0xDFB00020 }, // Frustrum
+			offset.Fn_updateChar + 0xF0, 0x10000011, 0x14400011, // Anim
+			offset.Fn_updateCharBlinkEyes, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFE0, 0xFFB10008 },
+			offset.Fn_updateCharVisibility + 0x30, std::array<Mips_t, 2>{ 0x00000000, 0x00000000 }, std::array<Mips_t, 2>{ 0x54600029, 0xDFB00000 },
+			offset.Fn_updateCharVisibility2 + 0x30, std::array<Mips_t, 2>{ 0x00000000, 0x00000000 }, std::array<Mips_t, 2>{ 0x54600035, 0xDFB00000 }
+		);
+
 		ram.write(offset.Fn_battleDrawHud, state != State::None && m_isHudHidden ? Mips::jrRaNop() : std::array<Mips_t, 2>{ 0x27BDFFF0, 0xFFBF0000 });
 	}
 

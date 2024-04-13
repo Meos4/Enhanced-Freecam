@@ -30,6 +30,10 @@ namespace PS2::DBZTenkaichi3
 			Fn_padStatus,
 			Fn_setViewMatrix,
 			Fn_unknown,
+			Fn_updateChar,
+			Fn_updateCharBlinkEyes,
+			Fn_updateCharVisibility,
+			Fn_updateCharVisibility2,
 			Fn_updateCharNear,
 			Fn_viewModelUpdateCamera;
 	};
