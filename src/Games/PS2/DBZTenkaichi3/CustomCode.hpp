@@ -8,7 +8,7 @@ namespace PS2::DBZTenkaichi3
 
 	namespace CustomCode
 	{
-		inline constexpr auto viewMatrixSize{ sizeof(float[4][4]) - sizeof(float) };
+		inline constexpr auto viewMatrixSize{ sizeof(float[4][4]) };
 
 		void update(const Game& game);
 		bool isApplied(const Game& game);
