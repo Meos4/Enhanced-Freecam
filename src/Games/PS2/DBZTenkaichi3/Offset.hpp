@@ -25,6 +25,7 @@ namespace PS2::DBZTenkaichi3
 			Fn_drawFarBlur,
 			Fn_drawNearBlur,
 			Fn_drawShade,
+			Fn_drawSprite,
 			Fn_drawWhiteLines,
 			Fn_drawWhiteScreen,
 			Fn_padStatus,

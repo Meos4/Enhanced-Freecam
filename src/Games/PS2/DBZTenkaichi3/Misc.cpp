@@ -60,6 +60,11 @@ namespace PS2::DBZTenkaichi3
 			offset.Fn_updateCharVisibility2 + 0x30, std::array<Mips_t, 2>{ 0x00000000, 0x00000000 }, std::array<Mips_t, 2>{ 0x54600035, 0xDFB00000 }
 		);
 
+		ram.writeConditional(state != State::None && m_isHudHidden, 
+			offset.Fn_battleDrawHud, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFF0, 0xFFBF0000 },
+			offset.Fn_drawSprite, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFF0, 0xFFB00000 }
+		);
+
 		ram.write(offset.Fn_battleDrawHud, state != State::None && m_isHudHidden ? Mips::jrRaNop() : std::array<Mips_t, 2>{ 0x27BDFFF0, 0xFFBF0000 });
 	}
 

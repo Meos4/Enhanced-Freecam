@@ -26,6 +26,7 @@ namespace PS2::DBZTenkaichi3
 		.Fn_drawFarBlur = 0x002460C8,
 		.Fn_drawNearBlur = 0x00103068,
 		.Fn_drawShade = 0x00196AA8,
+		.Fn_drawSprite = 0x0010D800,
 		.Fn_drawWhiteLines = 0x0017F620,
 		.Fn_drawWhiteScreen = 0x00172C98,
 		.Fn_padStatus = 0x00122AD8,
