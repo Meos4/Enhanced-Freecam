@@ -57,7 +57,8 @@ namespace PS2::DBZTenkaichi3
 			offset.Fn_updateChar + 0xF0, 0x10000011, 0x14400011, // Anim
 			offset.Fn_updateCharBlinkEyes, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFE0, 0xFFB10008 },
 			offset.Fn_updateCharVisibility + 0x30, std::array<Mips_t, 2>{ 0x00000000, 0x00000000 }, std::array<Mips_t, 2>{ 0x54600029, 0xDFB00000 },
-			offset.Fn_updateCharVisibility2 + 0x30, std::array<Mips_t, 2>{ 0x00000000, 0x00000000 }, std::array<Mips_t, 2>{ 0x54600035, 0xDFB00000 }
+			offset.Fn_updateCharVisibility2 + 0x30, std::array<Mips_t, 2>{ 0x00000000, 0x00000000 }, std::array<Mips_t, 2>{ 0x54600035, 0xDFB00000 },
+			offset.Fn_updateShenron + 0x68, 0x00000000, 0x1460001D
 		);
 
 		ram.writeConditional(state != State::None && m_isHudHidden, 

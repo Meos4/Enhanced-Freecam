@@ -36,6 +36,7 @@ namespace PS2::DBZTenkaichi3
 			Fn_updateCharVisibility,
 			Fn_updateCharVisibility2,
 			Fn_updateCharNear,
+			Fn_updateShenron,
 			Fn_viewModelUpdateCamera;
 	};
 }

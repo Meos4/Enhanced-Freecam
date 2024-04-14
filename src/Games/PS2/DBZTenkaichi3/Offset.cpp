@@ -37,6 +37,7 @@ namespace PS2::DBZTenkaichi3
 		.Fn_updateCharVisibility = 0x0024B380,
 		.Fn_updateCharVisibility2 = 0x0024B470,
 		.Fn_updateCharNear = 0x0024AE28,
+		.Fn_updateShenron = 0x002632E0,
 		.Fn_viewModelUpdateCamera = 0x0023FDA8
 	};
 	
