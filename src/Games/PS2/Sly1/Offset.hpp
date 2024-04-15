@@ -23,6 +23,7 @@ namespace PS2::Sly1
 			Fn_DrawLogo__FP4LOGO,
 			Fn_DrawNote__FP4NOTE,
 			Fn_DrawPrompt__FP6PROMPT,
+			Fn_DrawTimer__FP5TIMER,
 			Fn_DrawTitle__FP5TITLE,
 			Fn_DrawTv__FP2TV,
 			Fn_DrawWmc__FP3WMC,

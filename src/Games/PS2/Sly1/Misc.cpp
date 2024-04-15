@@ -52,7 +52,8 @@ namespace PS2::Sly1
 			dpInstr,
 			dbInstr,
 			dtInstr,
-			dnInstr;
+			dnInstr,
+			dt2Instr;
 
 		if (m_game->version() == Version::NtscU)
 		{
@@ -63,6 +64,7 @@ namespace PS2::Sly1
 			dbInstr = { 0x27BDFB50, 0x7FB20400 };
 			dtInstr = { 0x27BDFEB0, 0x7FB10100 };
 			dnInstr = { 0x27BDFEC0, 0x7FB10100 };
+			dt2Instr = { 0x27BDFF60, 0x7FB10050 };
 		}
 		else if (m_game->version() == Version::Pal)
 		{
@@ -73,6 +75,7 @@ namespace PS2::Sly1
 			dbInstr = { 0x27BDF820, 0x7FB20730 };
 			dtInstr = { 0x27BDFEA0, 0x7FB10110 };
 			dnInstr = { 0x27BDFEA0, 0x7FB20120 };
+			dt2Instr = { 0x27BDFEB0, 0x7FB10110 };
 		}
 		else
 		{
@@ -83,6 +86,7 @@ namespace PS2::Sly1
 			dbInstr = { 0x27BDF820, 0x7FB20730 };
 			dtInstr = { 0x27BDFEA0, 0x7FB10110 };
 			dnInstr = { 0x27BDFEA0, 0x7FB20120 };
+			dt2Instr = { 0x27BDFEB0, 0x7FB10110 };
 		}
 
 		ram.writeConditional(m_isHudHidden,
@@ -96,7 +100,8 @@ namespace PS2::Sly1
 			offset.Fn_DrawTitle__FP5TITLE, Mips::jrRaNop(), dtInstr,
 			offset.Fn_DrawWmc__FP3WMC, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFE80, 0x7FB300F0 },
 			offset.Fn_DrawBossctr__FP7BOSSCTR, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFF00, 0x7FB500B0 },
-			offset.Fn_DrawNote__FP4NOTE, Mips::jrRaNop(), dnInstr
+			offset.Fn_DrawNote__FP4NOTE, Mips::jrRaNop(), dnInstr,
+			offset.Fn_DrawTimer__FP5TIMER, Mips::jrRaNop(), dt2Instr
 		);
 	}
 
