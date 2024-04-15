@@ -225,8 +225,7 @@ namespace PS2::Sly1
 			offset.Fn_SetCmPosMat__FP2CMP6VECTORP7MATRIX3 + 0x28, 0x7E020080, 0x00000000, // Rot
 			offset.Fn_SetCmPosMat__FP2CMP6VECTORP7MATRIX3 + 0x30, 0x7E030090, 0x00000000, // Rot
 			offset.Fn_SetCmPosMat__FP2CMP6VECTORP7MATRIX3 + 0x38, 0x7E0200A0, 0x00000000, // Rot
-			offset.Fn_UpdateCmMat4__FP2CM + 0x48, 0x4500000A, 0x00000000, // Boss frustrum
-			offset.Fn_RenderTv__FP2TV, std::array<Mips_t, 2>{ 0x27BDFE20, 0x3C020027 }, Mips::jrRaNop()
+			offset.Fn_UpdateCmMat4__FP2CM + 0x48, 0x4500000A, 0x00000000 // Boss frustrum
 		);
 	}
 }

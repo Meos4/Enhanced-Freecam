@@ -31,7 +31,6 @@ namespace PS2::Sly1
 			Fn_LoadRotateMatrixPanTilt__FffP7MATRIX3,
 			Fn_MarkClockTick__FP5CLOCK,
 			Fn_RecalcCmFrustrum__FP2CM,
-			Fn_RenderTv__FP2TV,
 			Fn_SetCm__FP2CMP6VECTORT1ff,
 			Fn_SetCmLookAtSmooth__FP2CMiP6VECTORT2P2SOffffff,
 			Fn_SetCmPosMat__FP2CMP6VECTORP7MATRIX3,
