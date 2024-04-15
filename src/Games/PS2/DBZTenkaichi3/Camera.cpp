@@ -220,14 +220,16 @@ namespace PS2::DBZTenkaichi3
 				jal_ccSetViewMatrix{ Mips::jal(offset.Fn_unknown) },
 				jal_sceVu0InversMatrix{ Mips::jal(offset.Fn_sceVu0InversMatrix) };
 
+			const auto cucShift{ m_game->version() == Version::Pal ? 0x4AC : 0x4B4 };
+
 			m_game->ram().writeConditional(m_game->state() == State::None || enable,
 				offset.Fn_battleSetPlayerCamera + 0x28, std::array<Mips_t, 2>{ jal_setViewMatrix, 0x26050040 }, std::array<Mips_t, 2>{ jal_ccSetViewMatrix, 0x26040040 },
 				offset.Fn_viewModelUpdateCamera + 0x280, std::array<Mips_t, 2>{ jal_setViewMatrix, 0x0200202D }, std::array<Mips_t, 2>{ jal_ccSetViewMatrix, 0x00A02021 },
 				// Story - Shenron
 				offset.Fn_cutsceneUpdateCamera + 0x140, std::array<Mips_t, 2>{ jal_setViewMatrix, 0x24850040 }, std::array<Mips_t, 2>{ jal_ccSetViewMatrix, 0x24840040 },
 				// Cutscene
-				offset.Fn_cutsceneUpdateCamera + 0x4AC, jal_sceVu0InversMatrix, jal_ccSetViewMatrix,
-				offset.Fn_cutsceneUpdateCamera + 0x580, jal_sceVu0InversMatrix, 0x00000000
+				offset.Fn_cutsceneUpdateCamera + cucShift, jal_sceVu0InversMatrix, jal_ccSetViewMatrix,
+				offset.Fn_cutsceneUpdateCamera + cucShift + 0xD4, jal_sceVu0InversMatrix, 0x00000000
 			);
 		}
 	}

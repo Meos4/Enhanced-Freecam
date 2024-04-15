@@ -29,6 +29,7 @@ namespace PS2::DBZTenkaichi3
 		const auto& ram{ m_game->ram() };
 		const auto& offset{ m_game->offset() };
 		const auto state{ m_game->state() };
+		const auto version{ m_game->version() };
 
 		if (m_isEnabled)
 		{
@@ -57,9 +58,14 @@ namespace PS2::DBZTenkaichi3
 			offset.Fn_updateChar + 0xF0, 0x10000011, 0x14400011, // Anim
 			offset.Fn_updateCharBlinkEyes, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFE0, 0xFFB10008 },
 			offset.Fn_updateCharVisibility + 0x30, std::array<Mips_t, 2>{ 0x00000000, 0x00000000 }, std::array<Mips_t, 2>{ 0x54600029, 0xDFB00000 },
-			offset.Fn_updateCharVisibility2 + 0x30, std::array<Mips_t, 2>{ 0x00000000, 0x00000000 }, std::array<Mips_t, 2>{ 0x54600035, 0xDFB00000 },
-			offset.Fn_updateShenron + 0x68, 0x00000000, 0x1460001D
+			offset.Fn_updateCharVisibility2 + 0x30, std::array<Mips_t, 2>{ 0x00000000, 0x00000000 }, std::array<Mips_t, 2>{ 0x54600035, 0xDFB00000 }
 		);
+
+		if (m_game->version() != Version::NtscJ)
+		{
+			const auto usIntr{ version == Version::Pal ? 0x1460001D : 0x1460001F };
+			ram.write(offset.Fn_updateShenron + 0x68, state != State::None && m_isGamePaused ? 0x00000000 : usIntr);
+		}
 
 		ram.writeConditional(state != State::None && m_isHudHidden, 
 			offset.Fn_battleDrawHud, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFF0, 0xFFBF0000 },

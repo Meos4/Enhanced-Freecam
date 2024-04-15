@@ -49,6 +49,8 @@ namespace PS2::DBZTenkaichi3
 		enum
 		{
 			Pal,
+			NtscU,
+			NtscJ,
 			Count
 		};
 	};

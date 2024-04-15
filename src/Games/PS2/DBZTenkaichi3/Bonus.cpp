@@ -41,6 +41,7 @@ namespace PS2::DBZTenkaichi3
 	{
 		const auto& ram{ m_game->ram() };
 		const auto& offset{ m_game->offset() };
+		const auto version{ m_game->version() };
 
 		ram.writeConditional(m_noBlur,
 			offset.Fn_drawFarBlur, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFF40, 0x24050010 },
@@ -54,10 +55,12 @@ namespace PS2::DBZTenkaichi3
 
 		ram.write(offset.Fn_updateCharNear + 0xB4, m_noNearTransparency ? 0x1000002C : 0x1040002C);
 
+		const auto dwlInstr{ version == Version::Pal ? 0x8F82AB80 : 0x8F82A800 };
+
 		ram.writeConditional(m_noOnScreenEffects,
 			offset.Fn_drawWhiteScreen, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFD0, 0x3C02002F },
 			offset.Fn_drawShade, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFE0, 0xFFB20010 },
-			offset.Fn_drawWhiteLines, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFDB0, 0x8F82AB80 },
+			offset.Fn_drawWhiteLines, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFDB0, dwlInstr },
 			offset.Fn_drawBlurCutscene, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x00A0382D, 0x3C05FF00 }
 		);
 
@@ -174,6 +177,11 @@ namespace PS2::DBZTenkaichi3
 				ram.write(progressionPtr + 0xC10, progression2);
 				ram.write(progressionPtr + 0x1808, *charDataPtr, evoZSize);
 				ram.write(progressionPtr + 0x2EC8, items);
+
+				if (version == Version::NtscJ)
+				{
+					ram.write(progressionPtr + 0xC30, 0x01FFFFFF); // Ost
+				}
 
 				Console::append(Console::Type::Success, "All unlocked successfully");
 			}
