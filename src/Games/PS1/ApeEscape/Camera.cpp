@@ -145,7 +145,7 @@ namespace PS1::ApeEscape
 		const auto& offset{ m_game->offset() };
 
 		libgte::MATRIX view;
-		ram.read(offset.viewMatrix, &view.m);
+		ram.read(offset.viewMatrix, &view);
 
 		for (s32 i{}; i < 3; ++i)
 		{
@@ -156,6 +156,32 @@ namespace PS1::ApeEscape
 		m_euler.roll = std::atan2(fixedToFloat(-view.m[0][1]), fixedToFloat(view.m[1][1]));
 		m_euler.pitch = std::asin(fixedToFloat(view.m[2][1]));
 		m_euler.yaw = std::atan2(fixedToFloat(-view.m[2][0]), fixedToFloat(view.m[2][2]));
+
+		auto cutscenePosition = [&]()
+		{
+			// Not 100% accurate but better than nothing
+			auto* const v{ (s16*)&view.m };
+			static constexpr auto yRatio{ floatToFixed(4096.f / 3040.f) };
+
+			for (s32 i{}; i < 3; ++i)
+			{
+				v[3 + i] = (v[3 + i] * yRatio) >> 12;
+			}
+
+			for (s32 i{}; i < 9; ++i)
+			{
+				v[i] = -v[i];
+			}
+
+			m_position = {};
+
+			for (s32 i{}; i < 3; ++i)
+			{
+				m_position.x += (view.m[i][0] * view.t[i]) >> 12;
+				m_position.y += (view.m[i][1] * view.t[i]) >> 12;
+				m_position.z += (view.m[i][2] * view.t[i]) >> 12;
+			}
+		};
 
 		const auto version{ m_game->version() };
 
@@ -196,6 +222,7 @@ namespace PS1::ApeEscape
 			ram.read(offset.overlay + csShift, &m_position); break;
 		case State::AllVideo:
 		case State::IngameCutscene:
+			cutscenePosition(); break;
 		case State::RaceResult:
 			m_position = {}; break;
 		case State::StageSelect:

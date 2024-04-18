@@ -21,6 +21,5 @@ namespace PS1::ApeEscape
 		Game m_game;
 		Freecam m_freecam;
 		Bonus m_bonus;
-		bool m_showNote{ true };
 	};
 }

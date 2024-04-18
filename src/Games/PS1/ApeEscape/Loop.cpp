@@ -19,14 +19,6 @@ namespace PS1::ApeEscape
 			const auto& json{ jsonRead.value() };
 			m_game.readSettings(json);
 			m_bonus.readSettings(json);
-			try
-			{
-				JSON_GET(json, m_showNote);
-			}
-			catch (const Json::Exception& e)
-			{
-				Console::append(Console::Type::Exception, Json::exceptionFormat, "Loop", e.what());
-			}
 		}
 	}
 
@@ -35,7 +27,6 @@ namespace PS1::ApeEscape
 		Json::Write json;
 		m_game.writeSettings(&json);
 		m_bonus.writeSettings(&json);
-		JSON_SET(&json, m_showNote);
 		Json::overwrite(json, PS1::settingsFilePath(Game::name));
 
 		if (isValid())
@@ -47,12 +38,6 @@ namespace PS1::ApeEscape
 
 	void Loop::draw()
 	{
-		if (m_showNote)
-		{
-			Console::append(Console::Type::Common,
-				"({}) Note: During some cutscenes, it is sometimes impossible to receive the camera position, and will be at 0, 0, 0", Game::name);
-			m_showNote = false;
-		}
 		DRAW_GAME_WINDOWS(m_freecam.draw(), m_game.input()->draw(), m_game.settings()->draw(), m_bonus.draw());
 		PS1_DEBUG_DRAW_WINDOW;
 	}
