@@ -66,9 +66,14 @@ namespace PS1::ApeEscape
 			smShift,
 			smShift2,
 			spShift,
-			spShift2;
+			spShift2,
+			sbShift,
+			sbShift2,
+			sbShift3;
 
-		Mips_t spInstr;
+		Mips_t 
+			spInstr,
+			sbInstr;
 
 		if (version == Version::NtscU)
 		{
@@ -80,9 +85,13 @@ namespace PS1::ApeEscape
 			smShift2 = 0x9B30;
 			spShift = 0x32F4;
 			spShift2 = 0x3594;
+			sbShift = 0x39EC;
+			sbShift2 = 0x3D7C;
+			sbShift3 = 0xEA34;
 			spInstr = 0x27BDFFD0;
+			sbInstr = 0x0C047081;
 		}
-		else if (version == Version::NtscJ)
+		else
 		{
 			iglShift = 0x164;
 			csShift = 0x1E94;
@@ -92,19 +101,17 @@ namespace PS1::ApeEscape
 			smShift2 = 0x9B40;
 			spShift = 0x2DE0;
 			spShift2 = 0x369C;
+			sbShift = 0x3B1C;
+			sbShift2 = 0x3D5C;
+			sbShift3 = 0xE944;
 			spInstr = 0x27BDFFC8;
+			sbInstr = 0x0C047045;
 		}
-		else
+
+		if (version == Version::NtscJRev1)
 		{
-			iglShift = 0x164;
-			csShift = 0x1E94;
-			ssShift = 0xF74;
-			ssShift2 = 0x1244;
 			smShift = 0x3D18;
 			smShift2 = 0x9B70;
-			spShift = 0x2DE0;
-			spShift2 = 0x369C;
-			spInstr = 0x27BDFFC8;
 		}
 
 		ram.writeConditional(m_isGamePaused,
@@ -168,6 +175,42 @@ namespace PS1::ApeEscape
 		else if (state == State::RaceResult)
 		{
 			ram.write(offset.overlay + 0x1D8, m_isHudHidden ? Mips::jrRaNop() : std::array<Mips_t, 2>{ 0x18A00009, 0x00001821 } );
+		}
+		else if (state == State::SpecterBoxing)
+		{
+			ram.writeConditional(m_isHudHidden,
+				offset.minigame + 0x1D1C, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFD0, 0xAFB20020 },
+				offset.minigame + 0x1FE0, 0x00000000, sbInstr, 
+				offset.minigame + 0x2428, 0x00000000, sbInstr,
+				offset.minigame + sbShift, 0x00000000, sbInstr,
+				offset.minigame + sbShift2, 0x00000000, sbInstr,
+				offset.minigame + sbShift2 + 0xC4, 0x00000000, sbInstr,
+				offset.minigame + sbShift2 + 0xE0, 0x00000000, sbInstr,
+				offset.minigame + sbShift2 + 0xFC, 0x00000000, sbInstr,
+				offset.minigame + sbShift2 + 0x118, 0x00000000, sbInstr,
+				offset.minigame + sbShift2 + 0x2CC, 0x00000000, sbInstr,
+				offset.minigame + sbShift3, 0x00000000, sbInstr,
+				offset.minigame + sbShift3 + 0x38, 0x00000000, sbInstr,
+				offset.minigame + sbShift3 + 0x74, 0x00000000, sbInstr,
+				offset.minigame + sbShift3 + 0xA8, 0x00000000, sbInstr,
+				offset.minigame + sbShift3 + 0xD0, 0x00000000, sbInstr,
+				offset.minigame + sbShift3 + 0xF8, 0x00000000, sbInstr,
+				offset.minigame + sbShift3 + 0x120, 0x00000000, sbInstr,
+				offset.minigame + sbShift3 + 0x148, 0x00000000, sbInstr,
+				offset.minigame + sbShift3 + 0x1E8, 0x00000000, sbInstr,
+				offset.minigame + sbShift3 + 0x290, 0x00000000, sbInstr,
+				offset.minigame + sbShift3 + 0x338, 0x00000000, sbInstr,
+				offset.minigame + sbShift3 + 0x3E0, 0x00000000, sbInstr,
+				offset.minigame + sbShift3 + 0x6440, 0x00000000, sbInstr,
+				offset.minigame + sbShift3 + 0x64AC, 0x00000000, sbInstr,
+				offset.minigame + sbShift3 + 0x650C, 0x00000000, sbInstr,
+				offset.minigame + sbShift3 + 0x6564, 0x00000000, sbInstr,
+				offset.minigame + sbShift3 + 0x65C0, 0x00000000, sbInstr,
+				offset.minigame + sbShift3 + 0x6650, 0x00000000, sbInstr,
+				offset.minigame + sbShift3 + 0x66D0, 0x00000000, sbInstr,
+				offset.minigame + sbShift3 + 0x6704, 0x00000000, sbInstr,
+				offset.minigame + sbShift3 + 0x673C, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFC8, 0xAFB00018 }
+			);
 		}
 	}
 

@@ -143,9 +143,45 @@ namespace PS1::ApeEscape
 
 		const auto& ram{ m_game->ram() };
 		const auto& offset{ m_game->offset() };
+		const auto version{ m_game->version() };
+
+		u32 cShift,
+			csShift,
+			tpShift,
+			sbShift;
+
+		if (version == Version::NtscU)
+		{
+			cShift = 0x59A8;
+			csShift = 0x3B30;
+			tpShift = 0x2CB0;
+			sbShift = 0x35D38;
+		}
+		else if (version == Version::NtscJ)
+		{
+			cShift = 0x5A18;
+			csShift = 0x3BF0;
+			tpShift = 0x2CB0;
+			sbShift = 0x36208;
+		}
+		else
+		{
+			cShift = 0x5A68;
+			csShift = 0x3C40;
+			tpShift = 0x2CF0;
+			sbShift = 0x36208;
+		}
 
 		libgte::MATRIX view;
-		ram.read(offset.viewMatrix, &view);
+
+		if (state == State::SpecterBoxing)
+		{
+			ram.read(offset.minigame + sbShift, &view);
+		}
+		else
+		{
+			ram.read(offset.viewMatrix, &view);
+		}
 
 		for (s32 i{}; i < 3; ++i)
 		{
@@ -157,15 +193,18 @@ namespace PS1::ApeEscape
 		m_euler.pitch = std::asin(fixedToFloat(view.m[2][1]));
 		m_euler.yaw = std::atan2(fixedToFloat(-view.m[2][0]), fixedToFloat(view.m[2][2]));
 
-		auto cutscenePosition = [&]()
+		auto extractPosition = [&](bool minigame)
 		{
 			// Not 100% accurate but better than nothing
 			auto* const v{ (s16*)&view.m };
-			static constexpr auto yRatio{ floatToFixed(4096.f / 3040.f) };
 
-			for (s32 i{}; i < 3; ++i)
+			if (!minigame)
 			{
-				v[3 + i] = (v[3 + i] * yRatio) >> 12;
+				static constexpr auto yRatio{ floatToFixed(4096.f / 3040.f) };
+				for (s32 i{}; i < 3; ++i)
+				{
+					v[3 + i] = (v[3 + i] * yRatio) >> 12;
+				}
 			}
 
 			for (s32 i{}; i < 9; ++i)
@@ -183,31 +222,6 @@ namespace PS1::ApeEscape
 			}
 		};
 
-		const auto version{ m_game->version() };
-
-		u32 cShift,
-			csShift,
-			tpShift;
-
-		if (version == Version::NtscU)
-		{
-			cShift = 0x59A8;
-			csShift = 0x3B30;
-			tpShift = 0x2CB0;
-		}
-		else if (version == Version::NtscJ)
-		{
-			cShift = 0x5A18;
-			csShift = 0x3BF0;
-			tpShift = 0x2CB0;
-		}
-		else
-		{
-			cShift = 0x5A68;
-			csShift = 0x3C40;
-			tpShift = 0x2CF0;
-		}
-
 		switch (state)
 		{
 		case State::Ingame:
@@ -222,11 +236,13 @@ namespace PS1::ApeEscape
 			ram.read(offset.overlay + csShift, &m_position); break;
 		case State::AllVideo:
 		case State::IngameCutscene:
-			cutscenePosition(); break;
+			extractPosition(false); break;
 		case State::RaceResult:
 			m_position = {}; break;
 		case State::StageSelect:
 			ram.read(0x001FFF90, &m_position); break;
+		case State::SpecterBoxing:
+			extractPosition(true); break;
 		}
 	}
 
@@ -274,35 +290,55 @@ namespace PS1::ApeEscape
 		view.m[0][0] = view.m[0][0] * xFov >> 12;
 		view.m[0][1] = view.m[0][1] * xFov >> 12;
 		view.m[0][2] = view.m[0][2] * xFov >> 12;
-		view.m[1][0] = view.m[1][0] * yFov >> 12;
-		view.m[1][1] = view.m[1][1] * yFov >> 12;
-		view.m[1][2] = view.m[1][2] * yFov >> 12;
 		eye->vx = eye->vx * xFov >> 12;
-		eye->vy = eye->vy * yFov >> 12;
 
-		libgte::MATRIX billb{};
-		billb.m[0][0] = cy;
-		billb.m[0][2] = -sy;
-		billb.m[1][1] = fixedOne;
-		billb.m[2][0] = sy;
-		billb.m[2][2] = cy;
+		const auto state{ m_game->state() };
 
-		libgte::MulMatrix0(&view, &billb, &billb);
+		if (state == State::SpecterBoxing)
+		{
+			view.m[1][0] = view.m[1][0] * xFov >> 12;
+			view.m[1][1] = view.m[1][1] * xFov >> 12;
+			view.m[1][2] = view.m[1][2] * xFov >> 12;
+			eye->vy = eye->vy * xFov >> 12;
+		}
+		else
+		{
+			view.m[1][0] = view.m[1][0] * yFov >> 12;
+			view.m[1][1] = view.m[1][1] * yFov >> 12;
+			view.m[1][2] = view.m[1][2] * yFov >> 12;
+			eye->vy = eye->vy * yFov >> 12;
+		}
 
 		const auto& ram{ m_game->ram() };
 		const auto& offset{ m_game->offset() };
 
-		if (m_game->state() == State::Ingame)
+		if (state == State::SpecterBoxing)
 		{
-			ram.write(CustomCode::viewMatrixOffset(*m_game), view);
+			ram.write(offset.minigame + (m_game->version() == Version::NtscU ? 0x35D38 : 0x36208), view);
 		}
 		else
 		{
-			ram.write(offset.viewMatrix, view);
-		}
+			libgte::MATRIX billb{};
+			billb.m[0][0] = cy;
+			billb.m[0][2] = -sy;
+			billb.m[1][1] = fixedOne;
+			billb.m[2][0] = sy;
+			billb.m[2][2] = cy;
 
-		ram.write(offset.billboardMatrix, billb.m);
-		writeProjectionMatrix(xFov, yFov);
+			libgte::MulMatrix0(&view, &billb, &billb);
+
+			if (state == State::Ingame)
+			{
+				ram.write(CustomCode::viewMatrixOffset(*m_game), view);
+			}
+			else
+			{
+				ram.write(offset.viewMatrix, view);
+			}
+
+			ram.write(offset.billboardMatrix, billb.m);
+			writeProjectionMatrix(xFov, yFov);
+		}
 	}
 
 	void Camera::enableGameCamera(bool enable)
@@ -314,25 +350,44 @@ namespace PS1::ApeEscape
 
 		u32 avShift,
 			ssShift,
-			tpShift;
+			tpShift,
+			sbShift,
+			sbShift2;
+
+		Mips_t 
+			sbInstr,
+			sbInstr2,
+			sbInstr3,
+			sbInstr4;
 
 		if (version == Version::NtscU)
 		{
 			avShift = 0x200C;
 			ssShift = 0x2560;
 			tpShift = 0x20D8;
+			sbShift = 0xBAF0;
+			sbShift2 = 0xFD14;
+			sbInstr = 0x27840110;
+			sbInstr2 = 0x878200EA;
+			sbInstr3 = 0x978400D8;
+			sbInstr4 = 0x0C047375;
 		}
-		else if (version == Version::NtscJ)
+		else
 		{
 			avShift = 0x209C;
 			ssShift = 0x2524;
 			tpShift = 0x214C;
+			sbShift = 0xBA00;
+			sbShift2 = 0xFC24;
+			sbInstr = 0x27840128;
+			sbInstr2 = 0x87820102;
+			sbInstr3 = 0x978400F0;
+			sbInstr4 = 0x0C047339;
 		}
-		else
+
+		if (version == Version::NtscJRev1)
 		{
 			avShift = 0x20BC;
-			ssShift = 0x2524;
-			tpShift = 0x214C;
 		}
 
 		if (state != State::Ingame || enable)
@@ -374,6 +429,18 @@ namespace PS1::ApeEscape
 			ram.writeConditional(enable,
 				offset.overlay, std::array<Mips_t, 2>{ 0x27BDFF88, 0xAFB10064 }, Mips::jrRaNop(), 
 				offset.overlay + tpShift, std::array<Mips_t, 2>{ 0x27BDFF88, 0x240408C8}, Mips::jrRaNop()
+			);
+		}
+		else if (state == State::SpecterBoxing)
+		{
+			ram.writeConditional(enable,
+				offset.minigame + sbShift, std::array<Mips_t, 2>{ 0x27BDFFD8, sbInstr }, Mips::jrRaNop(),
+				offset.minigame + sbShift + 0x144, std::array<Mips_t, 2>{ sbInstr2, 0x27BDFFD8 }, Mips::jrRaNop(),
+				offset.minigame + sbShift + 0x220, std::array<Mips_t, 2>{ 0x27BDFFB0, sbInstr3 }, Mips::jrRaNop(),
+				offset.minigame + sbShift2, sbInstr4, 0x00000000,
+				offset.minigame + sbShift2 + 0x20, 0xAD020018, 0x00000000,
+				offset.minigame + sbShift2 + 0x2C, 0xAD000014, 0x00000000,
+				offset.minigame + sbShift2 + 0x34, 0xAD02001C, 0x00000000
 			);
 		}
 	}
