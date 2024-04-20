@@ -14,6 +14,7 @@ namespace PS1::ApeEscape
 			cutsceneState,
 			fog,
 			globalStruct,
+			minigame,
 			overlay,
 			projectionMatrix,
 			sonyLibrary,
