@@ -144,7 +144,7 @@ namespace Debug::Ui
 					auto* const c{ &data.call[i + j] };
 					std::string formattedOffset;
 
-					if (isACallback(data.call[i].instr))
+					if (isACallback(c->instr))
 					{
 						formattedOffset = std::format("{:08X} -> Callback", c->offset);
 					}
