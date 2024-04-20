@@ -5,6 +5,8 @@
 #include "Loop.hpp"
 
 #include <array>
+#include <cstring>
+#include <type_traits>
 
 namespace PS1::ApeEscape
 {
@@ -86,7 +88,9 @@ namespace PS1::ApeEscape
 			"Training Preview",
 			"Stage Preview",
 			"Clear Stage",
-			"Race Result"
+			"Race Result",
+			"Ski Kidz Racing",
+			"Specter Boxing"
 		};
 
 		return names;
@@ -135,6 +139,32 @@ namespace PS1::ApeEscape
 			LOOP_SAVE_CONFIRM = 35,
 			LOOP_TITLE_SCREEN_DEMO = 36
 		};
+
+		// Ski Kidz Racing (MINI1.EXE) | Specter Boxing (MINI2.EXE)
+		static constexpr std::array<u8, 32> 
+		MINI1Begin
+		{
+			83, 75, 82, 69, 70, 46, 66, 73, 78, 59, 49, 0, 38, 2, 88, 2, 138, 2, 188, 2, 82, 3, 8, 2, 244, 1, 88, 2, 38, 2, 8, 2
+		},
+		MINI2Begin
+		{
+			140, 13, 16, 128, 112, 14, 16, 128, 148, 15, 16, 128, 136, 16, 16, 128, 180, 17, 16, 128, 168, 18, 16, 128, 204, 19, 16, 128, 192, 20, 16, 128
+		};
+
+		std::remove_const_t<decltype(MINI1Begin)> bufferMg;
+		auto* const bufferMgPtr{ bufferMg.data() };
+		m_ram.read(m_offset.minigame, bufferMgPtr, bufferMg.size());
+
+		if (std::memcmp(bufferMgPtr, MINI1Begin.data(), bufferMg.size()) == 0)
+		{
+			m_state = State::SkiKidzRacing;
+			return;
+		}
+		if (std::memcmp(bufferMgPtr, MINI2Begin.data(), bufferMg.size()) == 0)
+		{
+			m_state = State::SpecterBoxing;
+			return;
+		}
 
 		if (m_ram.read<u8>(m_offset.cutsceneState) == 1)
 		{

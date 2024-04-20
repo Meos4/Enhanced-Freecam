@@ -71,6 +71,8 @@ namespace PS1::ApeEscape
 			StagePreview,
 			ClearStage,
 			RaceResult,
+			SkiKidzRacing,
+			SpecterBoxing,
 			Count
 		};
 	};
