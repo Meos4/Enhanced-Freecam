@@ -32,6 +32,7 @@ namespace PS1::ApeEscape
 		const auto& ram{ m_game->ram() };
 		const auto& offset{ m_game->offset() };
 		const auto state{ m_game->state() };
+		const auto version{ m_game->version() };
 
 		ram.writeConditional(m_isButtonEnabled,
 			offset.Fn_padStatus + 0x1B8, 0xAE240158, 0xAE200158,
@@ -45,10 +46,36 @@ namespace PS1::ApeEscape
 			offset.Fn_padStatus + 0x3F0, 0xA6420182, 0xA6400182
 		);
 
-		if (state == State::SpecterBoxing)
+		if (state == State::SkiKidzRacing)
 		{
-			const auto version{ m_game->version() };
+			u32 ljShift;
+			u16 bStructShift;
 
+			if (version == Version::NtscU)
+			{
+				ljShift = 0x1FC04;
+				bStructShift = 0x1F8;
+			}
+			else
+			{
+				ljShift = 0x1FB5C;
+				bStructShift = 0x228;
+			}
+
+			ram.write(offset.minigame + ljShift + 0xFC, m_isButtonEnabled ? 0xAF820000 + bStructShift : 0xAF800000 + bStructShift);
+
+			ram.writeConditional(m_isLJoystickEnabled,
+				offset.minigame + ljShift, 0xA4430000, 0xA4400000,
+				offset.minigame + ljShift + 0xC, 0xA4430000, 0xA4400000
+			);
+
+			ram.writeConditional(m_isRJoystickEnabled,
+				offset.minigame + ljShift + 0x30, 0xA4430000, 0xA4400000,
+				offset.minigame + ljShift + 0x40, 0xA4430000, 0xA4400000
+			);
+		}
+		else if (state == State::SpecterBoxing)
+		{
 			u32 bShift;
 			u32 ljXStructShift;
 

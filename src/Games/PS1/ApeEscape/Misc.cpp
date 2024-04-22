@@ -67,12 +67,16 @@ namespace PS1::ApeEscape
 			smShift2,
 			spShift,
 			spShift2,
+			skrShift,
+			skrShift2,
 			sbShift,
 			sbShift2,
 			sbShift3;
 
 		Mips_t 
 			spInstr,
+			skrInstr,
+			skrInstr2,
 			sbInstr;
 
 		if (version == Version::NtscU)
@@ -85,10 +89,14 @@ namespace PS1::ApeEscape
 			smShift2 = 0x9B30;
 			spShift = 0x32F4;
 			spShift2 = 0x3594;
+			skrShift = 0x2EEC;
+			skrShift2 = 0x228C8;
 			sbShift = 0x39EC;
 			sbShift2 = 0x3D7C;
 			sbShift3 = 0xEA34;
 			spInstr = 0x27BDFFD0;
+			skrInstr = 0x0C049FA6;
+			skrInstr2 = 0x0C0427E2;
 			sbInstr = 0x0C047081;
 		}
 		else
@@ -101,10 +109,14 @@ namespace PS1::ApeEscape
 			smShift2 = 0x9B40;
 			spShift = 0x2DE0;
 			spShift2 = 0x369C;
+			skrShift = 0x2E44;
+			skrShift2 = 0x22834;
 			sbShift = 0x3B1C;
 			sbShift2 = 0x3D5C;
 			sbShift3 = 0xE944;
 			spInstr = 0x27BDFFC8;
+			skrInstr = 0x0C049F81;
+			skrInstr2 = 0x0C0427B8;
 			sbInstr = 0x0C047045;
 		}
 
@@ -175,6 +187,20 @@ namespace PS1::ApeEscape
 		else if (state == State::RaceResult)
 		{
 			ram.write(offset.overlay + 0x1D8, m_isHudHidden ? Mips::jrRaNop() : std::array<Mips_t, 2>{ 0x18A00009, 0x00001821 } );
+		}
+		else if (state == State::SkiKidzRacing)
+		{
+			ram.writeConditional(m_isHudHidden,
+				offset.minigame + skrShift, 0x00000000, skrInstr,
+				offset.minigame + skrShift + 0x12C, 0x00000000, skrInstr,
+				offset.minigame + skrShift + 0x240, 0x00000000, skrInstr,
+				offset.minigame + skrShift + 0x6FC, 0x00000000, skrInstr,
+				offset.minigame + skrShift + 0xB68, 0x00000000, skrInstr,
+				offset.minigame + skrShift + 0x7414, 0x00000000, skrInstr,
+				offset.minigame + skrShift + 0xD9A4, 0x00000000, skrInstr + 0x10, // Hide Char
+				offset.minigame + skrShift + 0x130A0, 0x00000000, skrInstr,
+				offset.minigame + skrShift2, 0x00000000, skrInstr2
+			);
 		}
 		else if (state == State::SpecterBoxing)
 		{

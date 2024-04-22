@@ -148,6 +148,7 @@ namespace PS1::ApeEscape
 		u32 cShift,
 			csShift,
 			tpShift,
+			skrShift,
 			sbShift;
 
 		if (version == Version::NtscU)
@@ -155,6 +156,7 @@ namespace PS1::ApeEscape
 			cShift = 0x59A8;
 			csShift = 0x3B30;
 			tpShift = 0x2CB0;
+			skrShift = 0x42B40;
 			sbShift = 0x35D38;
 		}
 		else if (version == Version::NtscJ)
@@ -162,6 +164,7 @@ namespace PS1::ApeEscape
 			cShift = 0x5A18;
 			csShift = 0x3BF0;
 			tpShift = 0x2CB0;
+			skrShift = 0x427B8;
 			sbShift = 0x36208;
 		}
 		else
@@ -169,12 +172,17 @@ namespace PS1::ApeEscape
 			cShift = 0x5A68;
 			csShift = 0x3C40;
 			tpShift = 0x2CF0;
+			skrShift = 0x427B8;
 			sbShift = 0x36208;
 		}
 
 		libgte::MATRIX view;
 
-		if (state == State::SpecterBoxing)
+		if (state == State::SkiKidzRacing)
+		{
+			ram.read(offset.minigame + skrShift, &view);
+		}
+		else if (state == State::SpecterBoxing)
 		{
 			ram.read(offset.minigame + sbShift, &view);
 		}
@@ -241,6 +249,8 @@ namespace PS1::ApeEscape
 			m_position = {}; break;
 		case State::StageSelect:
 			ram.read(0x001FFF90, &m_position); break;
+		case State::SkiKidzRacing:
+			extractPosition(true); break;
 		case State::SpecterBoxing:
 			extractPosition(true); break;
 		}
@@ -294,7 +304,7 @@ namespace PS1::ApeEscape
 
 		const auto state{ m_game->state() };
 
-		if (state == State::SpecterBoxing)
+		if (state == State::SkiKidzRacing || state == State::SpecterBoxing)
 		{
 			view.m[1][0] = view.m[1][0] * xFov >> 12;
 			view.m[1][1] = view.m[1][1] * xFov >> 12;
@@ -312,7 +322,18 @@ namespace PS1::ApeEscape
 		const auto& ram{ m_game->ram() };
 		const auto& offset{ m_game->offset() };
 
-		if (state == State::SpecterBoxing)
+		if (state == State::SkiKidzRacing)
+		{
+			auto* const v{ (s16*)&view.m };
+
+			for (s32 i{}; i < 9; ++i)
+			{
+				v[i] *= 2;
+			}
+
+			ram.write(offset.minigame + (m_game->version() == Version::NtscU ? 0x42B40 : 0x427B8), view);
+		}
+		else if (state == State::SpecterBoxing)
 		{
 			ram.write(offset.minigame + (m_game->version() == Version::NtscU ? 0x35D38 : 0x36208), view);
 		}
@@ -351,10 +372,14 @@ namespace PS1::ApeEscape
 		u32 avShift,
 			ssShift,
 			tpShift,
+			skrShift,
 			sbShift,
 			sbShift2;
 
 		Mips_t 
+			skrInstr,
+			skrInstr2,
+			skrInstr3,
 			sbInstr,
 			sbInstr2,
 			sbInstr3,
@@ -365,8 +390,12 @@ namespace PS1::ApeEscape
 			avShift = 0x200C;
 			ssShift = 0x2560;
 			tpShift = 0x20D8;
+			skrShift = 0x6348;
 			sbShift = 0xBAF0;
 			sbShift2 = 0xFD14;
+			skrInstr = 0x0C04A306;
+			skrInstr2 = 0x0C04A1EE;
+			skrInstr3 = 0xA4432B40;
 			sbInstr = 0x27840110;
 			sbInstr2 = 0x878200EA;
 			sbInstr3 = 0x978400D8;
@@ -377,8 +406,12 @@ namespace PS1::ApeEscape
 			avShift = 0x209C;
 			ssShift = 0x2524;
 			tpShift = 0x214C;
+			skrShift = 0x62A0;
 			sbShift = 0xBA00;
 			sbShift2 = 0xFC24;
+			skrInstr = 0x0C04A2E1;
+			skrInstr2 = 0x0C04A1C9;
+			skrInstr3 = 0xA44327B8;
 			sbInstr = 0x27840128;
 			sbInstr2 = 0x87820102;
 			sbInstr3 = 0x978400F0;
@@ -429,6 +462,35 @@ namespace PS1::ApeEscape
 			ram.writeConditional(enable,
 				offset.overlay, std::array<Mips_t, 2>{ 0x27BDFF88, 0xAFB10064 }, Mips::jrRaNop(), 
 				offset.overlay + tpShift, std::array<Mips_t, 2>{ 0x27BDFF88, 0x240408C8}, Mips::jrRaNop()
+			);
+		}
+		else if (state == State::SkiKidzRacing)
+		{
+			ram.writeConditional(enable,
+				offset.minigame + skrShift, 
+					std::array<Mips_t, 4>{ 0xAE000018, 0xAE000014, 0x10600005, 0xAE02001C },
+					std::array<Mips_t, 4>{ 0x00000000, 0x00000000, 0x10600005, 0x00000000 },
+				offset.minigame + skrShift + 0x2C, skrInstr, 0x00000000,
+				offset.minigame + skrShift + 0x2BC, skrInstr, 0x00000000,
+				offset.minigame + skrShift + 0x4F0, skrInstr, 0x00000000,
+				offset.minigame + skrShift + 0x1CD0, skrInstr, 0x00000000,
+				offset.minigame + skrShift + 0x1C1C, 0xAE400014, 0x00000000,
+				offset.minigame + skrShift + 0x1C24, 0xAE420018, 0x00000000,
+				offset.minigame + skrShift + 0x1C34, 0xAE42001C, 0x00000000,
+				offset.minigame + skrShift + 0x1CE4, skrInstr2, 0x00000000,
+				offset.minigame + skrShift + 0x1E24, skrInstr, 0x00000000,
+				offset.minigame + skrShift + 0x1E30, skrInstr2, 0x00000000,
+				offset.minigame + skrShift + 0x1F50, skrInstr, 0x00000000,
+				offset.minigame + skrShift + 0x1F5C, skrInstr2, 0x00000000,
+				offset.minigame + skrShift + 0x11CF8, skrInstr, 0x00000000,
+				offset.minigame + skrShift + 0x11E28, skrInstr, 0x00000000,
+				offset.minigame + skrShift + 0x12454, skrInstr3, 0x1000000A,
+				offset.minigame + skrShift + 0x125CC, 0x2442FCC0, 0x240201C0,
+				offset.minigame + skrShift + 0x126EC, 0x2442FFC0, 0x240201C0,
+				offset.minigame + skrShift + 0x12CDC, skrInstr2, 0x00000000,
+				offset.minigame + skrShift + 0x12D20, 0xAE220014, 0x00000000,
+				offset.minigame + skrShift + 0x12D54, 0xAE220018, 0x00000000,
+				offset.minigame + skrShift + 0x12D6C, 0xAE22001C, 0x00000000
 			);
 		}
 		else if (state == State::SpecterBoxing)
