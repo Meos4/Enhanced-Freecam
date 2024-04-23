@@ -389,7 +389,7 @@ namespace PS1::ApeEscape
 		{
 			avShift = 0x200C;
 			ssShift = 0x2560;
-			tpShift = 0x20D8;
+			tpShift = 0x2104;
 			skrShift = 0x6348;
 			sbShift = 0xBAF0;
 			sbShift2 = 0xFD14;
@@ -405,7 +405,7 @@ namespace PS1::ApeEscape
 		{
 			avShift = 0x209C;
 			ssShift = 0x2524;
-			tpShift = 0x214C;
+			tpShift = 0x2178;
 			skrShift = 0x62A0;
 			sbShift = 0xBA00;
 			sbShift2 = 0xFC24;
@@ -460,8 +460,8 @@ namespace PS1::ApeEscape
 		else if (state == State::TrainingPreview)
 		{
 			ram.writeConditional(enable,
-				offset.overlay, std::array<Mips_t, 2>{ 0x27BDFF88, 0xAFB10064 }, Mips::jrRaNop(), 
-				offset.overlay + tpShift, std::array<Mips_t, 2>{ 0x27BDFF88, 0x240408C8 }, Mips::jrRaNop()
+				offset.overlay, std::array<Mips_t, 2>{ 0x27BDFF88, 0xAFB10064 }, Mips::jrRaNop(),
+				offset.overlay + tpShift, std::array<Mips_t, 2>{ 0xAD480000, 0xAD490004 }, std::array<Mips_t, 2>{ 0x1000000D, 0x00000000 }
 			);
 		}
 		else if (state == State::SkiKidzRacing)
