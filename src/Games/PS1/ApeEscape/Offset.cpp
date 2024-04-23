@@ -9,6 +9,7 @@ namespace PS1::ApeEscape
 	static constexpr Offset
 	offsetNtscU
 	{
+		.Fn_CompMatrix = 0x0002FF50,
 		.Fn_memcpy = 0x000A3760,
 		.billboardMatrix = 0x000EBFD0,
 		.cameraPosition = 0x000F45A8,
@@ -26,6 +27,7 @@ namespace PS1::ApeEscape
 		.Fn_drawLayer2 = 0x00043A8C,
 		.Fn_drawText = 0x0008D9D0,
 		.Fn_inGameLoop = 0x0005BF70,
+		.Fn_initRotationMatrix = 0x0004637C,
 		.Fn_padStatus = 0x0001325C,
 		.Fn_setViewMatrix = 0x00046670,
 		.Fn_updateAdditional = 0x00050C34,
@@ -35,6 +37,7 @@ namespace PS1::ApeEscape
 	},
 	offsetNtscJ
 	{
+		.Fn_CompMatrix = 0x0002FF40,
 		.Fn_memcpy = 0x000A35A0,
 		.billboardMatrix = 0x000EBBF0,
 		.cameraPosition = 0x000F41C8,
@@ -52,6 +55,7 @@ namespace PS1::ApeEscape
 		.Fn_drawLayer2 = 0x00043A7C,
 		.Fn_drawText = 0x0008D7D0,
 		.Fn_inGameLoop = 0x0005BF60,
+		.Fn_initRotationMatrix = 0x0004636C,
 		.Fn_padStatus = 0x0001324C,
 		.Fn_setViewMatrix = 0x00046660,
 		.Fn_updateAdditional = 0x00050C24,
@@ -61,6 +65,7 @@ namespace PS1::ApeEscape
 	},
 	offsetNtscJRev1
 	{
+		.Fn_CompMatrix = 0x0002FF40,
 		.Fn_memcpy = 0x000A35F0,
 		.billboardMatrix = 0x000EBC40,
 		.cameraPosition = 0x000F4220,
@@ -78,6 +83,7 @@ namespace PS1::ApeEscape
 		.Fn_drawLayer2 = 0x00043A7C,
 		.Fn_drawText = 0x0008D810,
 		.Fn_inGameLoop = 0x0005BF60,
+		.Fn_initRotationMatrix = 0x0004636C,
 		.Fn_padStatus = 0x0001324C,
 		.Fn_setViewMatrix = 0x00046660,
 		.Fn_updateAdditional = 0x00050C24,

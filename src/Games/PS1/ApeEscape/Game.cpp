@@ -90,7 +90,8 @@ namespace PS1::ApeEscape
 			"Clear Stage",
 			"Race Result",
 			"Ski Kidz Racing",
-			"Specter Boxing"
+			"Specter Boxing",
+			"Galaxy Monkey"
 		};
 
 		return names;
@@ -226,6 +227,7 @@ namespace PS1::ApeEscape
 			m_state = State::ClearStage; return;
 
 		case LOOP_RACE_RESULT: m_state = State::RaceResult; return;
+		case LOOP_GALAXY_MONKEY: m_state = State::GalaxyMonkey; return;
 		}
 
 		m_state = State::None;

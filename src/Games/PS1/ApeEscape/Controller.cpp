@@ -82,7 +82,7 @@ namespace PS1::ApeEscape
 			if (version == Version::NtscU)
 			{
 				bShift = 0x135B8;
-				ljXStructShift = 0x13C;		
+				ljXStructShift = 0x13C;
 			}
 			else
 			{
@@ -105,6 +105,39 @@ namespace PS1::ApeEscape
 			ram.write(offset.minigame + bShift + 0x1128, m_isRJoystickEnabled ? 
 				std::array<Mips_t, 2>{ 0xA7830000 + rjXStructShift, 0xA7820000 + rjYStructShift } : 
 				std::array<Mips_t, 2>{ 0xA7800000 + rjXStructShift, 0xA7800000 + rjYStructShift }
+			);
+		}
+		else if (state == State::GalaxyMonkey)
+		{
+			u32 ljShift;
+			u32 bInstrShift;
+
+			if (version == Version::NtscU)
+			{
+				ljShift = 0x2A38;
+				bInstrShift = 0xFBF8;
+			}
+			else if (version == Version::NtscJ)
+			{
+				ljShift = 0x2A38;
+				bInstrShift = 0xFBE8;
+			}
+			else
+			{
+				ljShift = 0x2A40;
+				bInstrShift = 0xFC58;
+			}
+
+			ram.write(offset.overlay + 0x1B4, m_isButtonEnabled ? 0xAC440000 + bInstrShift : 0xAC400000 + bInstrShift);
+
+			ram.writeConditional(m_isLJoystickEnabled,
+				offset.overlay + ljShift, 0xA2020010, 0xA2000010,
+				offset.overlay + ljShift + 0x10, 0xA2020011, 0xA2000011
+			);
+
+			ram.writeConditional(m_isRJoystickEnabled,
+				offset.overlay + ljShift + 0x20, 0xA2020012, 0xA2000012,
+				offset.overlay + ljShift + 0x34, 0xA2020013, 0xA2000013
 			);
 		}
 	}

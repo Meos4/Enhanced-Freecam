@@ -73,6 +73,7 @@ namespace PS1::ApeEscape
 			RaceResult,
 			SkiKidzRacing,
 			SpecterBoxing,
+			GalaxyMonkey,
 			Count
 		};
 	};

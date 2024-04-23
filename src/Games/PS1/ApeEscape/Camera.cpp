@@ -52,6 +52,15 @@ namespace PS1::ApeEscape
 		if (!enable)
 		{
 			writeProjectionMatrix(4096, 3040);
+
+			if (m_game->state() == State::GalaxyMonkey)
+			{
+				libgte::MATRIX vm{};
+				vm.m[0][0] = 4096;
+				vm.m[1][1] = 3040;
+				vm.m[2][2] = 4096;
+				m_game->ram().write(m_game->offset().viewMatrix, vm);
+			}
 		}
 
 		m_isEnabled = enable;
@@ -246,6 +255,7 @@ namespace PS1::ApeEscape
 		case State::IngameCutscene:
 			extractPosition(false); break;
 		case State::RaceResult:
+		case State::GalaxyMonkey:
 			m_position = {}; break;
 		case State::StageSelect:
 			ram.read(0x001FFF90, &m_position); break;
@@ -503,6 +513,15 @@ namespace PS1::ApeEscape
 				offset.minigame + sbShift2 + 0x20, 0xAD020018, 0x00000000,
 				offset.minigame + sbShift2 + 0x2C, 0xAD000014, 0x00000000,
 				offset.minigame + sbShift2 + 0x34, 0xAD02001C, 0x00000000
+			);
+		}
+		else if (state == State::GalaxyMonkey)
+		{
+			ram.writeConditional(enable,
+				offset.overlay + 0x77C, Mips::jal(offset.Fn_initRotationMatrix), 0x00000000,
+				offset.overlay + 0x790, Mips::jal(offset.Fn_CompMatrix), 0x00000000,
+				offset.overlay + 0xFFC, Mips::jal(offset.Fn_initRotationMatrix), 0x00000000,
+				offset.overlay + 0x1014, Mips::jal(offset.Fn_CompMatrix), 0x00000000
 			);
 		}
 	}

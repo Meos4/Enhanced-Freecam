@@ -71,13 +71,16 @@ namespace PS1::ApeEscape
 			skrShift2,
 			sbShift,
 			sbShift2,
-			sbShift3;
+			sbShift3,
+			gmShift,
+			gmShift2;
 
 		Mips_t 
 			spInstr,
 			skrInstr,
 			skrInstr2,
-			sbInstr;
+			sbInstr,
+			gmInstr;
 
 		if (version == Version::NtscU)
 		{
@@ -94,10 +97,13 @@ namespace PS1::ApeEscape
 			sbShift = 0x39EC;
 			sbShift2 = 0x3D7C;
 			sbShift3 = 0xEA34;
+			gmShift = 0x2FD4;
+			gmShift2 = 0x7AF0;
 			spInstr = 0x27BDFFD0;
 			skrInstr = 0x0C049FA6;
 			skrInstr2 = 0x0C0427E2;
 			sbInstr = 0x0C047081;
+			gmInstr = 0x90C80000;
 		}
 		else
 		{
@@ -114,16 +120,22 @@ namespace PS1::ApeEscape
 			sbShift = 0x3B1C;
 			sbShift2 = 0x3D5C;
 			sbShift3 = 0xE944;
+			gmShift = 0x2FD4;
+			gmShift2 = 0x7B20;
 			spInstr = 0x27BDFFC8;
 			skrInstr = 0x0C049F81;
 			skrInstr2 = 0x0C0427B8;
 			sbInstr = 0x0C047045;
+			gmInstr = 0x90C80000;
 		}
 
 		if (version == Version::NtscJRev1)
 		{
 			smShift = 0x3D18;
 			smShift2 = 0x9B70;
+			gmShift = 0x2FDC;
+			gmShift2 = 0x7B28;
+			gmInstr = 0x90C30000;
 		}
 
 		ram.writeConditional(m_isGamePaused,
@@ -236,6 +248,19 @@ namespace PS1::ApeEscape
 				offset.minigame + sbShift3 + 0x66D0, 0x00000000, sbInstr,
 				offset.minigame + sbShift3 + 0x6704, 0x00000000, sbInstr,
 				offset.minigame + sbShift3 + 0x673C, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFC8, 0xAFB00018 }
+			);
+		}
+		else if (state == State::GalaxyMonkey)
+		{
+			ram.writeConditional(m_isHudHidden,
+				offset.overlay + 0x1048, 0x00001021, 0x24020100, // Logo Y Size
+				offset.overlay + 0x2368, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFF0, 0x00805021 }, // Text
+				offset.overlay + 0x24D4, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x8C4A0004, gmInstr }, // Mid Text
+				offset.overlay + gmShift, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x3C085555, 0x35085555 }, // Green Frame
+				offset.overlay + gmShift + 0x2470, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x3C07E100, 0x34E7020F }, // Life
+				offset.overlay + gmShift + 0x3AC0, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x00005821, 0x3C028014 }, // Large Text
+				offset.overlay + gmShift + 0x421C, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFC8, 0x3C04800F },
+				offset.overlay + gmShift2, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFE0, 0xAFB00010 } // Text
 			);
 		}
 	}

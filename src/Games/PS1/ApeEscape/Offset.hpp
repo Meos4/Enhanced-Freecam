@@ -8,7 +8,8 @@ namespace PS1::ApeEscape
 	{
 		static const Offset& create(s32 version);
 
-		u32 Fn_memcpy,
+		u32 Fn_CompMatrix,
+			Fn_memcpy,
 			billboardMatrix,
 			cameraPosition,
 			cutsceneState,
@@ -25,6 +26,7 @@ namespace PS1::ApeEscape
 			Fn_drawLayer2,
 			Fn_drawText,
 			Fn_inGameLoop,
+			Fn_initRotationMatrix,
 			Fn_padStatus,
 			Fn_setViewMatrix,
 			Fn_updateAdditional,
