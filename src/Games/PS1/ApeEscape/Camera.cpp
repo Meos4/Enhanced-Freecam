@@ -260,7 +260,6 @@ namespace PS1::ApeEscape
 		case State::StageSelect:
 			ram.read(0x001FFF90, &m_position); break;
 		case State::SkiKidzRacing:
-			extractPosition(true); break;
 		case State::SpecterBoxing:
 			extractPosition(true); break;
 		}
