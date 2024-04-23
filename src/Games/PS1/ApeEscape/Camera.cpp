@@ -20,6 +20,33 @@ namespace PS1::ApeEscape
 		fovMin{ 0.20f },
 		fovMax{ 4.f };
 
+	u32 Camera::vmPtr(s32 state, bool read) const
+	{
+		u32 skrShift,
+			sbShift;
+
+		if (m_game->version() == Version::NtscU)
+		{
+			skrShift = 0x42B40;
+			sbShift = 0x35D38;
+		}
+		else
+		{
+			skrShift = 0x427B8;
+			sbShift = 0x36208;
+		}
+
+		const auto& offset{ m_game->offset() };
+
+		switch (state)
+		{
+		case State::Ingame: return read ? offset.viewMatrix : CustomCode::viewMatrixOffset(*m_game);
+		case State::SkiKidzRacing: return offset.minigame + skrShift;
+		case State::SpecterBoxing: return offset.minigame + sbShift;
+		default: return offset.viewMatrix;
+		}
+	}
+
 	void Camera::writeProjectionMatrix(s16 x, s16 y)
 	{
 		libgte::MATRIX p{};
@@ -156,49 +183,29 @@ namespace PS1::ApeEscape
 
 		u32 cShift,
 			csShift,
-			tpShift,
-			skrShift,
-			sbShift;
+			tpShift;
 
 		if (version == Version::NtscU)
 		{
 			cShift = 0x59A8;
 			csShift = 0x3B30;
 			tpShift = 0x2CB0;
-			skrShift = 0x42B40;
-			sbShift = 0x35D38;
 		}
 		else if (version == Version::NtscJ)
 		{
 			cShift = 0x5A18;
 			csShift = 0x3BF0;
 			tpShift = 0x2CB0;
-			skrShift = 0x427B8;
-			sbShift = 0x36208;
 		}
 		else
 		{
 			cShift = 0x5A68;
 			csShift = 0x3C40;
 			tpShift = 0x2CF0;
-			skrShift = 0x427B8;
-			sbShift = 0x36208;
 		}
 
 		libgte::MATRIX view;
-
-		if (state == State::SkiKidzRacing)
-		{
-			ram.read(offset.minigame + skrShift, &view);
-		}
-		else if (state == State::SpecterBoxing)
-		{
-			ram.read(offset.minigame + sbShift, &view);
-		}
-		else
-		{
-			ram.read(offset.viewMatrix, &view);
-		}
+		ram.read(vmPtr(state, true), &view);
 
 		for (s32 i{}; i < 3; ++i)
 		{
@@ -329,22 +336,14 @@ namespace PS1::ApeEscape
 		}
 
 		const auto& ram{ m_game->ram() };
-		const auto& offset{ m_game->offset() };
 
 		if (state == State::SkiKidzRacing)
 		{
 			auto* const v{ (s16*)&view.m };
-
 			for (s32 i{}; i < 9; ++i)
 			{
 				v[i] *= 2;
 			}
-
-			ram.write(offset.minigame + (m_game->version() == Version::NtscU ? 0x42B40 : 0x427B8), view);
-		}
-		else if (state == State::SpecterBoxing)
-		{
-			ram.write(offset.minigame + (m_game->version() == Version::NtscU ? 0x35D38 : 0x36208), view);
 		}
 		else
 		{
@@ -356,19 +355,11 @@ namespace PS1::ApeEscape
 			billb.m[2][2] = cy;
 
 			libgte::MulMatrix0(&view, &billb, &billb);
-
-			if (state == State::Ingame)
-			{
-				ram.write(CustomCode::viewMatrixOffset(*m_game), view);
-			}
-			else
-			{
-				ram.write(offset.viewMatrix, view);
-			}
-
-			ram.write(offset.billboardMatrix, billb.m);
+			ram.write(m_game->offset().billboardMatrix, billb.m);
 			writeProjectionMatrix(xFov, yFov);
 		}
+
+		ram.write(vmPtr(state, false), view);
 	}
 
 	void Camera::enableGameCamera(bool enable)

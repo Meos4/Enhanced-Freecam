@@ -13,6 +13,7 @@ namespace PS1::ApeEscape
 	public:
 		Camera(Game* game);
 
+		u32 vmPtr(s32 state, bool read) const;
 		void writeProjectionMatrix(s16 x, s16 y);
 		void draw();
 		void update();
