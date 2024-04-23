@@ -461,7 +461,7 @@ namespace PS1::ApeEscape
 		{
 			ram.writeConditional(enable,
 				offset.overlay, std::array<Mips_t, 2>{ 0x27BDFF88, 0xAFB10064 }, Mips::jrRaNop(), 
-				offset.overlay + tpShift, std::array<Mips_t, 2>{ 0x27BDFF88, 0x240408C8}, Mips::jrRaNop()
+				offset.overlay + tpShift, std::array<Mips_t, 2>{ 0x27BDFF88, 0x240408C8 }, Mips::jrRaNop()
 			);
 		}
 		else if (state == State::SkiKidzRacing)
