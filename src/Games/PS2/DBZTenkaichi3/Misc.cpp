@@ -71,8 +71,6 @@ namespace PS2::DBZTenkaichi3
 			offset.Fn_battleDrawHud, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFF0, 0xFFBF0000 },
 			offset.Fn_drawSprite, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFF0, 0xFFB00000 }
 		);
-
-		ram.write(offset.Fn_battleDrawHud, state != State::None && m_isHudHidden ? Mips::jrRaNop() : std::array<Mips_t, 2>{ 0x27BDFFF0, 0xFFBF0000 });
 	}
 
 	void Misc::enable(bool enable)
