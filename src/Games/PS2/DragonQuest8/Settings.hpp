@@ -9,6 +9,7 @@ namespace PS2::DragonQuest8
 	{
 		bool resetMovementSpeed{ g_settings.gameSettings.resetMovementSpeed };
 		bool resetRotationSpeed{ g_settings.gameSettings.resetRotationSpeed };
+		bool resetFovSpeed{ g_settings.gameSettings.resetFovSpeed };
 		bool disableButton{ g_settings.gameSettings.disableButton };
 		bool disableJoystick{ g_settings.gameSettings.disableJoystick };
 		bool pauseGame{ g_settings.gameSettings.pauseGame };

@@ -14,6 +14,7 @@ namespace PS1::DinoCrisis
 		Ui::separatorText("When Enabling Freecam");
 		Ui::checkbox(Ui::lol("Reset Movement Speed"), &resetMovementSpeed);
 		Ui::checkbox(Ui::lol("Reset Rotation Speed"), &resetRotationSpeed);
+		Ui::checkbox(Ui::lol("Reset Fov Speed"), &resetFovSpeed);
 		Ui::checkbox(Ui::lol("Disable Button"), &disableButton);
 		Ui::checkbox(Ui::lol("Pause Game"), &pauseGame);
 	}
@@ -27,6 +28,7 @@ namespace PS1::DinoCrisis
 				const auto& j{ json[_Settings] };
 				JSON_GET(j, resetMovementSpeed);
 				JSON_GET(j, resetRotationSpeed);
+				JSON_GET(j, resetFovSpeed);
 				JSON_GET(j, disableButton);
 				JSON_GET(j, pauseGame);
 			}
@@ -42,6 +44,7 @@ namespace PS1::DinoCrisis
 		auto* const j{ &(*json)[_Settings] };
 		JSON_SET(j, resetMovementSpeed);
 		JSON_SET(j, resetRotationSpeed);
+		JSON_SET(j, resetFovSpeed);
 		JSON_SET(j, disableButton);
 		JSON_SET(j, pauseGame);
 	}

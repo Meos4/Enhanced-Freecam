@@ -69,17 +69,8 @@ namespace PS2::DBZTenkaichi3
 
 		if (enable)
 		{
-			auto* const settings{ m_game->settings() };
-
-			if (settings->resetMovementSpeed)
-			{
-				g_settings.movementSpeed = g_settings.movementSpeedDefault;
-			}
-			if (settings->resetRotationSpeed)
-			{
-				g_settings.rotationSpeed = g_settings.rotationSpeedDefault;
-			}
-
+			auto* const s{ m_game->settings() };
+			FreecamModel::resetSpeed(s->resetMovementSpeed, s->resetRotationSpeed, false);
 			m_controls.resetVelocity();
 		}
 	}

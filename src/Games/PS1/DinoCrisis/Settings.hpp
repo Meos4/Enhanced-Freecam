@@ -9,6 +9,7 @@ namespace PS1::DinoCrisis
 	{
 		bool resetMovementSpeed{ g_settings.gameSettings.resetMovementSpeed };
 		bool resetRotationSpeed{ g_settings.gameSettings.resetRotationSpeed };
+		bool resetFovSpeed{ g_settings.gameSettings.resetFovSpeed };
 		bool disableButton{ g_settings.gameSettings.disableButton };
 		bool pauseGame{ g_settings.gameSettings.pauseGame };
 

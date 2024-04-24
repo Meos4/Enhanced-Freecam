@@ -9,6 +9,7 @@ namespace PS2::HauntingGround
 	{
 		bool resetMovementSpeed{ g_settings.gameSettings.resetMovementSpeed };
 		bool resetRotationSpeed{ g_settings.gameSettings.resetRotationSpeed };
+		bool resetFovSpeed{ g_settings.gameSettings.resetFovSpeed };
 		bool disableButton{ g_settings.gameSettings.disableButton };
 		bool disableLJoystick{ g_settings.gameSettings.disableJoystick };
 		bool disableRJoystick{ g_settings.gameSettings.disableJoystick };

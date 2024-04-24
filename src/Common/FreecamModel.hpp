@@ -25,6 +25,7 @@ namespace FreecamModel
 	void decreaseFovSpeed(InputWrapper* input, s32 id);
 	void update3DSettings(InputWrapper* input, s32 im, s32 dm, s32 ir, s32 dr, s32 ifo, s32 df);
 	void update3DSettingsNoFov(InputWrapper* input, s32 im, s32 dm, s32 ir, s32 dr);
+	void resetSpeed(bool movement, bool rotation, bool fov);
 	float velocityInterpolation(float vel, float target, float dt);
 	float movementVelocity(InputWrapper* input, s32 pos, s32 neg, float* velocity, float dt);
 	float rotationVelocity(InputWrapper* input, s32 pos, s32 neg, float dt);

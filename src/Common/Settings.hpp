@@ -91,6 +91,7 @@ struct Settings
 	{
 		bool resetMovementSpeed{ true };
 		bool resetRotationSpeed{};
+		bool resetFovSpeed{};
 		bool resetRollRotation{};
 		bool disableButton{ true };
 		bool disableJoystick{ true };

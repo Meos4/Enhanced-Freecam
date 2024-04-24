@@ -142,6 +142,23 @@ namespace FreecamModel
 		FreecamModel::decreaseRotationSpeed(input, dr);
 	}
 
+	void resetSpeed(bool movement, bool rotation, bool fov)
+	{
+		auto* const s{ &g_settings };
+		if (movement)
+		{
+			s->movementSpeed = s->movementSpeedDefault;
+		}
+		if (rotation)
+		{
+			s->rotationSpeed = s->rotationSpeedDefault;
+		}
+		if (fov)
+		{
+			s->fovSpeed = s->fovSpeedDefault;
+		}
+	}
+
 	float velocityInterpolation(float vel, float target, float dt)
 	{
 		static constexpr auto
