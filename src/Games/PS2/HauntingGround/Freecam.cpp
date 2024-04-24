@@ -52,8 +52,6 @@ namespace PS2::HauntingGround
 				Input::RotationSpeedPos, Input::RotationSpeedNeg,
 				Input::FovSpeedPos, Input::FovSpeedNeg);
 
-			const auto dt{ Renderer::deltaTime() };
-
 			m_camera.moveForward(m_controls.forwardVelocity(Input::MoveForward, Input::MoveBackward));
 			m_camera.moveRight(m_controls.rightVelocity(Input::MoveRight, Input::MoveLeft));
 			m_camera.moveUp(m_controls.upVelocity(Input::MoveUp, Input::MoveDown));
