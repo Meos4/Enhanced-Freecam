@@ -38,6 +38,8 @@ namespace PS1::DinoCrisis
 			MovementSpeedNeg,
 			RotationSpeedPos,
 			RotationSpeedNeg,
+			FovSpeedPos,
+			FovSpeedNeg,
 			PauseGame,
 			Count
 		};

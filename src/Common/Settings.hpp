@@ -80,6 +80,11 @@ struct Settings
 	float rotationSpeedMin{ 0.01f };
 	float rotationSpeedMax{ 5.f };
 	float rotationSpeedScalar{ 1.25f };
+	float fovSpeedDefault{ 1.f };
+	float fovSpeed{ fovSpeedDefault };
+	float fovSpeedMin{ 0.01f };
+	float fovSpeedMax{ 5.f };
+	float fovSpeedScalar{ 1.25f };
 	s32 freecamSettingsFloatDecimals{ 2 };
 
 	struct
@@ -115,6 +120,8 @@ struct Settings
 			movementSpeedNeg{ InputWrapper::GamepadActionId{ Gamepad::Action::Cross, 0 } },
 			rotationSpeedPos{},
 			rotationSpeedNeg{},
+			fovSpeedPos{},
+			fovSpeedNeg{},
 			pauseGame{ InputWrapper::GamepadActionId{ Gamepad::Action::Start, 0 }, Keyboard::Key::P },
 			hideHud{ InputWrapper::GamepadActionId{ Gamepad::Action::Select, 0 }, Keyboard::Key::H },
 			timescalePos{ InputWrapper::GamepadActionId{ Gamepad::Action::Square, 0 } },

@@ -58,6 +58,16 @@ namespace FreecamModel
 		const auto format{ Ui::arithmeticFormat<float>(s->freecamSettingsFloatDecimals) };
 		Ui::slider(Ui::lol("Movement Speed"), &s->movementSpeed, format.c_str(), ImGuiSliderFlags_AlwaysClamp, s->movementSpeedMin, s->movementSpeedMax);
 		Ui::slider(Ui::lol("Rotation Speed"), &s->rotationSpeed, format.c_str(), ImGuiSliderFlags_AlwaysClamp, s->rotationSpeedMin, s->rotationSpeedMax);
+		Ui::slider(Ui::lol("Fov Speed"), &s->fovSpeed, format.c_str(), ImGuiSliderFlags_AlwaysClamp, s->fovSpeedMin, s->fovSpeedMax);
+	}
+
+	void draw3DSettingsNoFov()
+	{
+		auto* const s{ &g_settings };
+		Ui::separatorText("Settings");
+		const auto format{ Ui::arithmeticFormat<float>(s->freecamSettingsFloatDecimals) };
+		Ui::slider(Ui::lol("Movement Speed"), &s->movementSpeed, format.c_str(), ImGuiSliderFlags_AlwaysClamp, s->movementSpeedMin, s->movementSpeedMax);
+		Ui::slider(Ui::lol("Rotation Speed"), &s->rotationSpeed, format.c_str(), ImGuiSliderFlags_AlwaysClamp, s->rotationSpeedMin, s->rotationSpeedMax);
 	}
 
 	void increaseMovementSpeed(InputWrapper* input, s32 id)
@@ -96,7 +106,35 @@ namespace FreecamModel
 		}
 	}
 
-	void update3DSettings(InputWrapper* input, s32 im, s32 dm, s32 ir, s32 dr)
+	void increaseFovSpeed(InputWrapper* input, s32 id)
+	{
+		if (input->isPressed(id))
+		{
+			auto* const s{ &g_settings };
+			s->fovSpeed = std::clamp(s->fovSpeed *= s->fovSpeedScalar, s->fovSpeedMin, s->fovSpeedMax);
+		}
+	}
+
+	void decreaseFovSpeed(InputWrapper* input, s32 id)
+	{
+		if (input->isPressed(id))
+		{
+			auto* const s{ &g_settings };
+			s->fovSpeed = std::clamp(s->fovSpeed /= s->fovSpeedScalar, s->fovSpeedMin, s->fovSpeedMax);
+		}
+	}
+
+	void update3DSettings(InputWrapper* input, s32 im, s32 dm, s32 ir, s32 dr, s32 ifo, s32 df)
+	{
+		FreecamModel::increaseMovementSpeed(input, im);
+		FreecamModel::decreaseMovementSpeed(input, dm);
+		FreecamModel::increaseRotationSpeed(input, ir);
+		FreecamModel::decreaseRotationSpeed(input, dr);
+		FreecamModel::increaseFovSpeed(input, ifo);
+		FreecamModel::decreaseFovSpeed(input, df);
+	}
+
+	void update3DSettingsNoFov(InputWrapper* input, s32 im, s32 dm, s32 ir, s32 dr)
 	{
 		FreecamModel::increaseMovementSpeed(input, im);
 		FreecamModel::decreaseMovementSpeed(input, dm);
@@ -152,5 +190,11 @@ namespace FreecamModel
 	{
 		const auto vel{ input->sensitivity(pos) + -input->sensitivity(neg) };
 		return vel * g_settings.rotationSpeed * g_settings.deltaTimeScalar * dt;
+	}
+
+	float fovVelocity(InputWrapper* input, s32 pos, s32 neg, float dt)
+	{
+		const auto vel{ input->sensitivity(pos) + -input->sensitivity(neg) };
+		return vel * g_settings.fovSpeed * g_settings.deltaTimeScalar * dt;
 	}
 }

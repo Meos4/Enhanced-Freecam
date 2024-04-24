@@ -38,6 +38,8 @@ namespace PS1::ApeEscape
 			MovementSpeedNeg,
 			RotationSpeedPos,
 			RotationSpeedNeg,
+			FovSpeedPos,
+			FovSpeedNeg,
 			PauseGame,
 			HideHud,
 			Count

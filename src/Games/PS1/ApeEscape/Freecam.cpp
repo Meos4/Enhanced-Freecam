@@ -49,7 +49,8 @@ namespace PS1::ApeEscape
 		{
 			FreecamModel::update3DSettings(input, 
 				Input::MovementSpeedPos, Input::MovementSpeedNeg,
-				Input::RotationSpeedPos, Input::RotationSpeedNeg);
+				Input::RotationSpeedPos, Input::RotationSpeedNeg,
+				Input::FovSpeedPos, Input::FovSpeedNeg);
 
 			m_camera.moveForward(m_controls.forwardVelocity(Input::MoveForward, Input::MoveBackward));
 			m_camera.moveRight(m_controls.rightVelocity(Input::MoveRight, Input::MoveLeft));

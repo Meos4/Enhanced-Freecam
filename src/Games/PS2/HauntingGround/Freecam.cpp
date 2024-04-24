@@ -49,7 +49,8 @@ namespace PS2::HauntingGround
 		{
 			FreecamModel::update3DSettings(input, 
 				Input::MovementSpeedPos, Input::MovementSpeedNeg,
-				Input::RotationSpeedPos, Input::RotationSpeedNeg);
+				Input::RotationSpeedPos, Input::RotationSpeedNeg,
+				Input::FovSpeedPos, Input::FovSpeedNeg);
 
 			const auto dt{ Renderer::deltaTime() };
 

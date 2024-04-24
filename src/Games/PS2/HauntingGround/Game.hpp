@@ -40,6 +40,8 @@ namespace PS2::HauntingGround
 			MovementSpeedNeg,
 			RotationSpeedPos,
 			RotationSpeedNeg,
+			FovSpeedPos,
+			FovSpeedNeg,
 			PauseGame,
 			Count
 		};

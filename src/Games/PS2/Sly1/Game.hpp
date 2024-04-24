@@ -40,6 +40,8 @@ namespace PS2::Sly1
 			MovementSpeedNeg,
 			RotationSpeedPos,
 			RotationSpeedNeg,
+			FovSpeedPos,
+			FovSpeedNeg,
 			PauseGame,
 			HideHud,
 			Count

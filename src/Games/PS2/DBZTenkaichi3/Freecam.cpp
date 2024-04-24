@@ -29,7 +29,7 @@ namespace PS2::DBZTenkaichi3
 		FreecamModel::drawSeparatorOthers();
 		m_misc.draw();
 		m_controller.draw();
-		FreecamModel::draw3DSettings();
+		FreecamModel::draw3DSettingsNoFov();
 	}
 
 	void Freecam::update()
@@ -47,7 +47,7 @@ namespace PS2::DBZTenkaichi3
 
 		if (m_isEnabled)
 		{
-			FreecamModel::update3DSettings(input, 
+			FreecamModel::update3DSettingsNoFov(input, 
 				Input::MovementSpeedPos, Input::MovementSpeedNeg,
 				Input::RotationSpeedPos, Input::RotationSpeedNeg);
 

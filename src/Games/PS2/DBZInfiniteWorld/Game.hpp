@@ -40,6 +40,8 @@ namespace PS2::DBZInfiniteWorld
 			MovementSpeedNeg,
 			RotationSpeedPos,
 			RotationSpeedNeg,
+			FovSpeedPos,
+			FovSpeedNeg,
 			PauseGame,
 			HideHud,
 			TimescalePos,

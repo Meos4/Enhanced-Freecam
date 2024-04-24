@@ -42,8 +42,7 @@ float Camera3DControls::yawVelocity(s32 pos, s32 neg)
 
 float Camera3DControls::fovVelocity(s32 pos, s32 neg)
 {
-	const auto vel{ m_input->sensitivity(pos) + -m_input->sensitivity(neg) };
-	return vel * g_settings.deltaTimeScalar * Renderer::deltaTime();
+	return FreecamModel::fovVelocity(m_input, pos, neg, Renderer::deltaTime());
 }
 
 void Camera3DControls::resetVelocity()
