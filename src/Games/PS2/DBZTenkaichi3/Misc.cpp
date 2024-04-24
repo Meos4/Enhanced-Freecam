@@ -61,7 +61,7 @@ namespace PS2::DBZTenkaichi3
 			offset.Fn_updateCharVisibility2 + 0x30, std::array<Mips_t, 2>{ 0x00000000, 0x00000000 }, std::array<Mips_t, 2>{ 0x54600035, 0xDFB00000 }
 		);
 
-		if (m_game->version() != Version::NtscJ)
+		if (version != Version::NtscJ)
 		{
 			const auto usIntr{ version == Version::Pal ? 0x1460001D : 0x1460001F };
 			ram.write(offset.Fn_updateShenron + 0x68, state != State::None && m_isGamePaused ? 0x00000000 : usIntr);
