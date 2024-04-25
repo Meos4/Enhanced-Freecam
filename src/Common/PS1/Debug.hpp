@@ -20,7 +20,7 @@ namespace PS1::Debug
 	{
 		ImGui::Begin(PS1::settingsName);
 
-		Ui::setXSpacingNoMin(Ui::xSpacingStr("Mips Call"));
+		Ui::setXSpacingNoMin(Ui::xSpacingStr("Write Analyzer"));
 
 		const auto& ram{ game->ram() };
 		const auto ptrFormat{ ram.process().architecture() == Process::Architecture::x86 ? "{:08X}" : "{:016X}" };
@@ -50,6 +50,12 @@ namespace PS1::Debug
 		{
 			const auto& offsets{ game->offset() };
 			::Debug::Ui::offsetWindow((u32*)&offsets, sizeof(offsets) / sizeof(u32), ram, &isOffsetOpen);
+		}
+
+		static bool isWAOpen{};
+		if (isOpenWindowButton("Write Analyzer", &isWAOpen))
+		{
+			::Debug::WriteAnalyzer::drawWindow(&isWAOpen);
 		}
 
 		ImGui::End();

@@ -29,7 +29,7 @@ namespace PS2::Debug
 
 		const auto& ram{ game->ram() };
 		const bool isPcsx2{ Util::isProcessName(ram.process(), "pcsx2") };
-		Ui::setXSpacingStr(isPcsx2 ? "Pnach Force Jit" : "Mips Call");
+		Ui::setXSpacingStr(isPcsx2 ? "Pnach Force Jit" : "Write Analyzer");
 
 		const auto ptrFormat{ ram.process().architecture() == Process::Architecture::x86 ? "{:08X}" : "{:016X}" };
 		const auto ptrFormatted{ std::vformat(ptrFormat, std::make_format_args(ram.begin())) };
@@ -58,6 +58,12 @@ namespace PS2::Debug
 		{
 			const auto& offsets{ game->offset() };
 			::Debug::Ui::offsetWindow((u32*)&offsets, sizeof(offsets) / sizeof(u32), ram, &isOffsetOpen);
+		}
+
+		static bool isWAOpen{};
+		if (isOpenWindowButton("Write Analyzer", &isWAOpen))
+		{
+			::Debug::WriteAnalyzer::drawWindow(&isWAOpen);
 		}
 
 		if (isPcsx2)

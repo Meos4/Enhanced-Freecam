@@ -3,4 +3,6 @@ target_sources(${PROJECT_NAME} PRIVATE
 	Performance.hpp
 	Ui.cpp
 	Ui.hpp
+	WriteAnalyzer.cpp
+	WriteAnalyzer.hpp
 )

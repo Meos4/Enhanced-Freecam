@@ -1,10 +1,8 @@
 #pragma once
 
 #if EF_DEBUG
-#include "Console.hpp"
+#include "Debug/WriteAnalyzer.hpp"
 #endif
-
-#define DISABLED_VERIFICATION 0
 
 #include "Buffer.hpp"
 #include "Process.hpp"
@@ -48,8 +46,8 @@ public:
 			read(offset, bufferPtr, size);
 			if (std::memcmp(&val, bufferPtr, size) != 0)
 			{
-	#if EF_DEBUG && DISABLED_VERIFICATION
-				Console::append(Console::Type::Error, "{:X} wasn't the same (size {})", offset, size);
+	#if EF_DEBUG
+				Debug::WriteAnalyzer::update(*this, offset, (void*)&val, size);
 	#endif
 				(m_process.get()->*m_writeCb)(m_begin + offset, (void*)&val, size);
 			}
