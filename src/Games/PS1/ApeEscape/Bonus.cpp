@@ -1,6 +1,7 @@
 #include "Bonus.hpp"
 
 #include "Common/Console.hpp"
+#include "Common/Mips.hpp"
 #include "Common/Ui.hpp"
 
 #include "Game.hpp"
@@ -35,6 +36,7 @@ namespace PS1::ApeEscape
 
 		Ui::separatorText("Global");
 		Ui::checkbox(Ui::lol("No Fog"), &m_noFog);
+		Ui::checkbox(Ui::lol("No Tv Effect"), &m_noTvEffect);
 
 		Ui::separatorText("Title Screen");
 		Ui::checkbox(Ui::lol("No Timer"), &m_titleScreenNoTimer);
@@ -57,19 +59,35 @@ namespace PS1::ApeEscape
 		const auto& ram{ m_game->ram() };
 		const auto& offset{ m_game->offset() };
 		const auto state{ m_game->state() };
+		const auto version{ m_game->version() };
 
-		u32 tsShift,
+		u32 cShift,
+			tpShift,
+			tsShift,
 			ssShift;
 
-		if (m_game->version() == Version::NtscU)
+		Mips_t tvInstr;
+
+		if (version == Version::NtscU)
 		{
+			cShift = 0x43C4;
+			tpShift = 0x2490;
 			tsShift = 0x1810;
 			ssShift = 0x3BDC;
+			tvInstr = 0x3C031B4E;
 		}
 		else
 		{
+			cShift = 0x44CC;
+			tpShift = 0x2504;
 			tsShift = 0x1820;
 			ssShift = 0x3B10;
+			tvInstr = 0x3C031B4E;
+		}
+
+		if (version == Version::NtscJRev1)
+		{
+			tvInstr = 0x27A50010;
 		}
 
 		ram.writeConditional(m_noFog,
@@ -85,6 +103,14 @@ namespace PS1::ApeEscape
 		if (state == State::TitleScreen)
 		{
 			ram.write(offset.overlay + 0x1DC, m_titleScreenNoTimer ? 0x10000005 : 0x14400005);
+		}
+		else if (state == State::Cutscene)
+		{
+			ram.write(offset.overlay + cShift, m_noTvEffect ? Mips::jrRaNop() : std::array<Mips_t, 2>{ 0x27BDFFB8, tvInstr });
+		}
+		else if (state == State::TrainingPreview)
+		{
+			ram.write(offset.overlay + tpShift, m_noTvEffect ? Mips::jrRaNop() : std::array<Mips_t, 2>{ 0x27BDFFB8, tvInstr });
 		}
 		else if (state == State::StagePreview)
 		{
@@ -126,6 +152,7 @@ namespace PS1::ApeEscape
 			{
 				const auto& j{ json[_Bonus] };
 				JSON_GET(j, m_noFog);
+				JSON_GET(j, m_noTvEffect);
 				JSON_GET(j, m_titleScreenNoTimer);
 				JSON_GET(j, m_stagePreviewNoTimer);
 			}
@@ -140,6 +167,7 @@ namespace PS1::ApeEscape
 	{
 		auto* const j{ &(*json)[_Bonus] };
 		JSON_SET(j, m_noFog);
+		JSON_SET(j, m_noTvEffect);
 		JSON_SET(j, m_titleScreenNoTimer);
 		JSON_SET(j, m_stagePreviewNoTimer);
 	}

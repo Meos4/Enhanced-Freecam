@@ -19,6 +19,7 @@ namespace PS1::ApeEscape
 		Game* m_game;
 		s32 m_titleScreenState{};
 		bool m_noFog{};
+		bool m_noTvEffect{};
 		bool m_titleScreenNoTimer{};
 		bool m_stageSelectSelectMenu{};
 		bool m_stagePreviewNoTimer{};
