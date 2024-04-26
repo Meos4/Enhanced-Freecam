@@ -76,7 +76,6 @@ namespace PS1::ApeEscape
 			gmShift2;
 
 		Mips_t 
-			spInstr,
 			skrInstr,
 			skrInstr2,
 			sbInstr,
@@ -90,8 +89,8 @@ namespace PS1::ApeEscape
 			ssShift2 = 0x1280;
 			smShift = 0x3CF0;
 			smShift2 = 0x9B30;
-			spShift = 0x32F4;
-			spShift2 = 0x3594;
+			spShift = 0x3248;
+			spShift2 = 0x34D0;
 			skrShift = 0x2EEC;
 			skrShift2 = 0x228C8;
 			sbShift = 0x39EC;
@@ -99,7 +98,6 @@ namespace PS1::ApeEscape
 			sbShift3 = 0xEA34;
 			gmShift = 0x2FD4;
 			gmShift2 = 0x7AF0;
-			spInstr = 0x27BDFFD0;
 			skrInstr = 0x0C049FA6;
 			skrInstr2 = 0x0C0427E2;
 			sbInstr = 0x0C047081;
@@ -113,8 +111,8 @@ namespace PS1::ApeEscape
 			ssShift2 = 0x1244;
 			smShift = 0x3CF4;
 			smShift2 = 0x9B40;
-			spShift = 0x2DE0;
-			spShift2 = 0x369C;
+			spShift = 0x3318;
+			spShift2 = 0x35D8;
 			skrShift = 0x2E44;
 			skrShift2 = 0x22834;
 			sbShift = 0x3B1C;
@@ -122,7 +120,6 @@ namespace PS1::ApeEscape
 			sbShift3 = 0xE944;
 			gmShift = 0x2FD4;
 			gmShift2 = 0x7B20;
-			spInstr = 0x27BDFFC8;
 			skrInstr = 0x0C049F81;
 			skrInstr2 = 0x0C0427B8;
 			sbInstr = 0x0C047045;
@@ -183,9 +180,9 @@ namespace PS1::ApeEscape
 		else if (state == State::StagePreview)
 		{
 			ram.writeConditional(m_isHudHidden,
-				offset.overlay + spShift, 0x00000000, 0x10600007, // Map info
-				offset.overlay + spShift2, 0x3C050000, 0x3C050020, // WARNING! Y Size
-				offset.overlay + 0x25B0, Mips::jrRaNop(), std::array<Mips_t, 2>{ spInstr, 0x3C028014 }
+				offset.overlay + spShift, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFD8, 0x3C02800F }, // Map info
+				offset.overlay + spShift2, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x3C03001E, 0x3C02800F }, // Stadium Attack
+				offset.overlay + spShift2 + 0xC4, 0x3C050000, 0x3C050020 // WARNING! Y Size
 			);
 		}
 		else if (state == State::ClearStage)
