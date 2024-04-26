@@ -165,8 +165,8 @@ namespace PS1::ApeEscape
 			ram.writeConditional(m_isHudHidden,
 				offset.overlay + ssShift, 0x24020400, 0x240200CA, // Buttons Text
 				offset.overlay + ssShift + 0x90, 0x24020400, 0x240200BC, // Buttons
-				offset.overlay + ssShift2, 0x240C0400, 0x240C00C0, // LR Greenlines
-				offset.overlay + ssShift2 + 4, 0x240B0400, 0x240B00C1,
+				offset.overlay + ssShift2, 
+					std::array<Mips_t,2>{ 0x240C0400, 0x240B0400 }, std::array<Mips_t,2>{ 0x240C00C0, 0x240B00C1 }, // LR Greenlines
 				offset.overlay + ssShift2 + 0x15E8, 0x24020400, 0x00A01021 // return str middle shift
 			);
 		}
