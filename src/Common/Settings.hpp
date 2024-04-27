@@ -52,7 +52,7 @@ struct Settings
 	GamepadLayout gamepadLayout{ GamepadLayout::Xbox };
 	KeyboardLayout keyboardLayout{ KeyboardLayout::Qwerty };
 	SearchMode processSearchMode{ SearchMode::Auto };
-	Font font{ Font::RobotoMedium13 };
+	Font font{ Font::RobotoMedium14 };
 	std::array<ImFont*, static_cast<std::size_t>(Font::Count)> imFonts;
 	bool smoothCamera{ true };
 	bool isMultiViewports{ true };

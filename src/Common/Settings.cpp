@@ -47,6 +47,8 @@ void Settings::init()
 		const auto size{ fontSizeFloatMin + static_cast<float>(i) };
 		imFonts[i] = io->Fonts->AddFontFromMemoryCompressedTTF(Roboto_Medium_compressed_data, Roboto_Medium_compressed_size, size);
 	}
+
+	updateFont();
 }
 
 void Settings::drawWindow()
