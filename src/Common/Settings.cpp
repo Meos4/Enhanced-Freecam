@@ -171,7 +171,7 @@ void Settings::drawWindow()
 			pcsx2.cheatsPath.resize(pathMaxSize);
 			ImGui::SameLine();
 			ImGui::BeginDisabled(!pcsx2.useDifferentCheatsPath);
-			ImGui::SetNextItemWidth(ImGui::CalcItemWidth() + 64.f);
+			ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
 			ImGui::InputText("##PCSX2CheatsPath", pcsx2.cheatsPath.data(), pathMaxSize);
 			ImGui::EndDisabled();
 			ImGui::EndTabItem();
