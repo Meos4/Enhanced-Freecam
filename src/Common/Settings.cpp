@@ -40,7 +40,7 @@ void Settings::init()
 	auto* const io{ &ImGui::GetIO() };
 	io->IniFilename = NULL;
 	io->ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-	const auto fontSizeFloatMin{ static_cast<float>(fontSizeMin) };
+	static constexpr auto fontSizeFloatMin{ static_cast<float>(fontSizeMin) };
 
 	for (std::size_t i{}; i < static_cast<std::size_t>(Font::Count); ++i)
 	{
