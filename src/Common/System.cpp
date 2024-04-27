@@ -164,8 +164,8 @@ namespace System
 		};
 
 		Dockspace dockspace{ !std::filesystem::exists(Path::imguiIni()) };
-		dockspace.dock("State", ImGuiDir_Up, 0.17f);
-		dockspace.dock(gameWindowsName, ImGuiDir_Left, 0.4f);
+		dockspace.dock("State", ImGuiDir_Up, 0.175f);
+		dockspace.dock(gameWindowsName, ImGuiDir_Left, 0.406f);
 		dockspace.dock("Console", ImGuiDir_Down, 0.53f);
 		dockspace.dock(_System, ImGuiDir_Right, 0.f);
 
