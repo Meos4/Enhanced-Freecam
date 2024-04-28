@@ -80,6 +80,6 @@ namespace PS2
 			return PCSX2::eememAGS(process, running, op);
 		}
 
-		return AsyncGameSearcher::commonSearcher(process, running, op);
+		return AsyncGameSearcher::emulatorSearcher(process, running, op, PS2::memSize);
 	}
 }

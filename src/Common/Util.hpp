@@ -10,6 +10,7 @@
 #include <limits>
 #include <span>
 #include <string>
+#include <vector>
 
 namespace Util
 {
@@ -22,6 +23,7 @@ namespace Util
 	void toLower(std::string* str);
 	bool isValidProcessPatternOffset(const Process& process, std::uintptr_t offset, std::span<const u8> pattern);
 	bool isProcessName(const Process& process, const char* name);
+	std::vector<Process::VirtualMemoryPage> createContiguousVmp(const std::vector<Process::VirtualMemoryPage>& vmp, std::size_t pageSizeMin);
 
 	constexpr std::size_t cstrSize(const char* str)
 	{

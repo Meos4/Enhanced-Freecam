@@ -66,6 +66,6 @@ namespace PS1
 			return DuckStation::ramAGS(process, running, op);
 		}
 
-		return AsyncGameSearcher::commonSearcher(process, running, op);
+		return AsyncGameSearcher::emulatorSearcher(process, running, op, PS1::memSize);
 	}
 }

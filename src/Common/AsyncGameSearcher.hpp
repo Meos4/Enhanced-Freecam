@@ -19,6 +19,8 @@ public:
 	~AsyncGameSearcher();
 
 	static std::uintptr_t commonSearcher(const Process& process, const std::atomic<bool>& running, const OffsetPattern& op);
+	static std::uintptr_t emulatorSearcher
+		(const Process& process, const std::atomic<bool>& running, const OffsetPattern& op, std::size_t pageSizeMin);
 
 	std::optional<std::uintptr_t> get();
 	void stop();

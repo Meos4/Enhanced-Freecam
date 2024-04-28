@@ -46,6 +46,35 @@ std::uintptr_t AsyncGameSearcher::commonSearcher(const Process& process, const s
 	}
 }
 
+std::uintptr_t AsyncGameSearcher::emulatorSearcher
+	(const Process& process, const std::atomic<bool>& running, const OffsetPattern& op, std::size_t pageSizeMin)
+{
+	Buffer buffer;
+
+	while (1)
+	{
+		for (const auto& [begin, size] : Util::createContiguousVmp(process.virtualMemoryPages(), pageSizeMin))
+		{
+			if (!running)
+			{
+				return AsyncGameSearcher::exitValue;
+			}
+
+			const auto offset{ begin + op.offset };
+			const auto bufferSize{ size - op.offset };
+			buffer.resize(bufferSize);
+			process.read(offset, buffer.data(), bufferSize);
+			const auto it{ Util::findBufferPatternIterator(buffer, op.pattern) };
+
+			if (it != buffer.end())
+			{
+				const auto distance{ std::distance(static_cast<Buffer::const_iterator>(buffer.begin()), it) };
+				return offset + distance - op.offset;
+			}
+		}
+	}
+}
+
 std::optional<std::uintptr_t> AsyncGameSearcher::get()
 {
 	if (m_future.wait_for(std::chrono::milliseconds{ 0 }) == std::future_status::ready)
