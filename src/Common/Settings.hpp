@@ -6,6 +6,7 @@
 #include "Math.hpp"
 
 #include <array>
+#include <chrono>
 #include <string>
 
 enum class Theme
@@ -60,6 +61,7 @@ struct Settings
 	bool isWelcomeModalOpen{ true };
 	float invalidGameDelay{ 1.f };
 	float searchProcessDelay{ 1.f };
+	std::chrono::milliseconds searchGameThreadSleepDelay{ 10 };
 
 	float deltaTimeScalar{ 60.f };
 	float dragRadiansSpeed{ 0.002f };

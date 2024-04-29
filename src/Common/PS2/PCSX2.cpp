@@ -13,6 +13,7 @@
 
 #include <format>
 #include <fstream>
+#include <thread>
 
 namespace PS2::PCSX2
 {
@@ -243,6 +244,7 @@ namespace PS2::PCSX2
 					}
 				}
 			}
+			std::this_thread::sleep_for(g_settings.searchGameThreadSleepDelay);
 		}
 
 		return AsyncGameSearcher::exitValue;
@@ -262,6 +264,7 @@ namespace PS2::PCSX2
 			{
 				return begin;
 			}
+			std::this_thread::sleep_for(g_settings.searchGameThreadSleepDelay);
 		}
 
 		return AsyncGameSearcher::exitValue;

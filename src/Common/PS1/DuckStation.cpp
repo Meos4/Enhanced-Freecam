@@ -2,7 +2,10 @@
 
 #include "Common/AsyncGameSearcher.hpp"
 #include "Common/Buffer.hpp"
+#include "Common/Settings.hpp"
 #include "Common/Util.hpp"
+
+#include <thread>
 
 namespace PS1::DuckStation
 {
@@ -59,6 +62,7 @@ namespace PS1::DuckStation
 					return ramVal;
 				}
 			}
+			std::this_thread::sleep_for(g_settings.searchGameThreadSleepDelay);
 		}
 
 		return AsyncGameSearcher::exitValue;
