@@ -223,27 +223,27 @@ namespace PS2::PCSX2
 	{
 		// from PCSX2
 		// https://github.com/PCSX2/pcsx2/blob/master/pcsx2/vtlb.h
-		static constexpr u32 VTLB_PAGE_MASK = 4095;
 		static constexpr u32 VTLB_PAGE_SIZE = 4096;
 		
-		const auto offsetMask{ op.offset & VTLB_PAGE_MASK };
 		const auto bufferSize{ op.pattern.size() };
 		Buffer buffer(bufferSize);
 		auto* const bufferPtr{ buffer.data() };
+		auto* const patternPtr{ op.pattern.data() };
 
 		while (running)
 		{
-			for (const auto& [begin, size] : process.virtualMemoryPages())
+			auto vmp{ process.virtualMemoryPages() };
+			std::erase_if(vmp, [](const Process::VirtualMemoryPage& vmp) { return vmp.size != VTLB_PAGE_SIZE; });
+
+			for (const auto& [begin, size] : Util::createContiguousVmp(vmp, PS2::memSize))
 			{
-				if (size == VTLB_PAGE_SIZE)
+				process.read(begin + op.offset, bufferPtr, bufferSize);
+				if (std::memcmp(bufferPtr, patternPtr, bufferSize) == 0)
 				{
-					process.read(begin + offsetMask, bufferPtr, bufferSize);
-					if (Util::findBufferPatternIterator(buffer, op.pattern) != buffer.end())
-					{
-						return begin + offsetMask - op.offset;
-					}
+					return begin;
 				}
 			}
+
 			std::this_thread::sleep_for(g_settings.searchGameThreadSleepDelay);
 		}
 
