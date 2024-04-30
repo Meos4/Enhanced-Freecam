@@ -5,6 +5,7 @@
 #include "Common/Settings.hpp"
 #include "Common/Util.hpp"
 
+#include <cstring>
 #include <thread>
 
 namespace PS1::DuckStation
@@ -49,6 +50,7 @@ namespace PS1::DuckStation
 		const auto bufferSize{ op.pattern.size() };
 		Buffer buffer(bufferSize);
 		auto* const bufferPtr{ buffer.data() };
+		auto* const patternPtr{ op.pattern.data() };
 
 		while (running)
 		{
@@ -57,7 +59,7 @@ namespace PS1::DuckStation
 			if (ramVal)
 			{
 				process.read(ramVal + op.offset, bufferPtr, bufferSize);
-				if (Util::findBufferPatternIterator(buffer, op.pattern) != buffer.end())
+				if (std::memcmp(bufferPtr, patternPtr, bufferSize) == 0)
 				{
 					return ramVal;
 				}

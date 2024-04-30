@@ -256,12 +256,13 @@ namespace PS2::PCSX2
 		const auto bufferSize{ op.pattern.size() };
 		Buffer buffer(bufferSize);
 		auto* const bufferPtr{ buffer.data() };
+		auto* const patternPtr{ op.pattern.data() };
 
 		while (running)
 		{
 			static constexpr u32 begin{ 0x20000000 };
 			process.read(begin + op.offset, bufferPtr, bufferSize);
-			if (Util::findBufferPatternIterator(buffer, op.pattern) != buffer.end())
+			if (std::memcmp(bufferPtr, patternPtr, bufferSize) == 0)
 			{
 				return begin;
 			}
