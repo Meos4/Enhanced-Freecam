@@ -61,7 +61,7 @@ struct Settings
 	bool isWelcomeModalOpen{ true };
 	float invalidGameDelay{ 1.f };
 	float searchProcessDelay{ 1.f };
-	std::chrono::milliseconds searchGameThreadSleepDelay{ 10 };
+	std::chrono::milliseconds searchGameThreadSleepDelay{ 200 };
 
 	float deltaTimeScalar{ 60.f };
 	float dragRadiansSpeed{ 0.002f };
