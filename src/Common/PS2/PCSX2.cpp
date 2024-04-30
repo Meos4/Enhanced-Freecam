@@ -11,6 +11,7 @@
 
 #include "PS2.hpp"
 
+#include <cstring>
 #include <format>
 #include <fstream>
 #include <thread>
