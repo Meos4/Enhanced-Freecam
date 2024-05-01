@@ -7,6 +7,7 @@
 #include "Common/Util.hpp"
 
 #include <atomic>
+#include <filesystem>
 #include <optional>
 #include <set>
 
