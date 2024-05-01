@@ -21,6 +21,8 @@ namespace PS2::PCSX2
 		u32 textSectionEnd;
 	};
 
+	bool createPnachForceJit
+		(const std::filesystem::path& path, const Ram& ram, const std::set<u32>& offsets, const char* game, const char* version);
 	std::set<u32> textSectionOffsets(u32* offset, std::size_t size, u32 textSectionBegin, u32 textSectionEnd);
 	void drawCreatePnachTextSectionWindow(const Ram& ram, const std::set<u32>& offsets, const char* crc, const char* name, const char* version);
 	std::optional<std::uintptr_t> eememPtr(const Process& process);

@@ -18,26 +18,6 @@
 
 namespace PS2::PCSX2
 {
-	static bool createPnachForceJit(const std::filesystem::path& path, const Ram& ram,
-		const std::set<u32>& offsets, const char* game, const char* version)
-	{
-		std::ofstream pnach{ path };
-
-		if (!pnach.is_open())
-		{
-			return false;
-		}
-
-		pnach << "gametitle=" << game << " " << version;
-		pnach << "\ncomment=" << Software::name << " " << Software::version << '\n';
-		for (auto offset : offsets)
-		{
-			pnach << "\npatch=1,EE," << std::hex << offset << ",extended," << std::uppercase << +ram.read<u8>(offset);
-		}
-
-		return true;
-	}
-
 	static bool isPnachSameSoftwareVersion(const std::filesystem::path& path)
 	{
 		std::ifstream pnach{ path };
@@ -59,6 +39,26 @@ namespace PS2::PCSX2
 		}
 
 		return false;
+	}
+
+	bool createPnachForceJit
+		(const std::filesystem::path& path, const Ram& ram,const std::set<u32>& offsets, const char* game, const char* version)
+	{
+		std::ofstream pnach{ path };
+
+		if (!pnach.is_open())
+		{
+			return false;
+		}
+
+		pnach << "gametitle=" << game << " " << version;
+		pnach << "\ncomment=" << Software::name << " " << Software::version << '\n';
+		for (auto offset : offsets)
+		{
+			pnach << "\npatch=1,EE," << std::hex << offset << ",extended," << std::uppercase << +ram.read<u8>(offset);
+		}
+
+		return true;
 	}
 
 	std::set<u32> textSectionOffsets(u32* offset, std::size_t size, u32 textSectionBegin, u32 textSectionEnd)
