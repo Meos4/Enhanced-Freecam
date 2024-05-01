@@ -39,6 +39,7 @@ set(SOURCES_IMGUI
 
 add_executable(${PROJECT_NAME} ${SOURCES_IMGUI})
 add_subdirectory(${PROJECT_SOURCE_DIR}/src)
+set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME Enhanced-Freecam)
 
 if (WIN32)
 	# Keep TTY in debug
