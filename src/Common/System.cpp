@@ -1,6 +1,7 @@
 ﻿#include "System.hpp"
 
 #include "Debug/Performance.hpp"
+#include "Debug/Sandbox.hpp"
 #include "Debug/Ui.hpp"
 
 #if _WIN32
@@ -134,6 +135,13 @@ namespace System
 		Ui::labelXSpacing("Pattern");
 		Debug::Ui::patternTextBoxTTY();
 
+		static bool isSandboxOpen{};
+		Ui::labelXSpacing("Sandbox");
+		if (Ui::buttonItemWidth("Open"))
+		{
+			isSandboxOpen = !isSandboxOpen;
+		}
+
 		if (std::filesystem::is_directory(Path::settingsDirectory))
 		{
 			Ui::labelXSpacing(Path::settingsDirectory);
@@ -148,6 +156,10 @@ namespace System
 		if (isDemoOpen)
 		{
 			ImGui::ShowDemoWindow(&isDemoOpen);
+		}
+		if (isSandboxOpen)
+		{
+			Debug::Sandbox::drawWindow(&isSandboxOpen);
 		}
 #endif
 	}
