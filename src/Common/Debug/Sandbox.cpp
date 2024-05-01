@@ -9,6 +9,7 @@
 #include "Common/Ram.hpp"
 #include "Common/Types.hpp"
 #include "Common/Ui.hpp"
+#include "Common/Util.hpp"
 
 #include <array>
 #include <limits>
@@ -39,6 +40,33 @@ namespace Debug::Sandbox
 	static void update()
 	{
 
+	}
+
+	static void setRamBeginFromProcess()
+	{
+		if (process)
+		{
+			if (mode == MODE_PS1)
+			{
+				// NO$PSX 2.0
+				if (Util::isProcessName(*process, "no$psx"))
+				{
+					u32 ps1Begin{};
+					process->read(0x00491C80, &ps1Begin, sizeof(ps1Begin));
+					if (ps1Begin)
+					{
+						ramBegin = ps1Begin;
+					}
+				}
+			}
+			else if (mode == MODE_PS2)
+			{
+				if (process->architecture() == Process::Architecture::x86 && Util::isProcessName(*process, "pcsx2"))
+				{
+					ramBegin = 0x20000000;
+				}
+			}
+		}
 	}
 
 	void drawWindow(bool* isOpen)
@@ -94,6 +122,7 @@ namespace Debug::Sandbox
 				if (ImGui::Selectable(processInfoFormatted(*p).c_str()) && !(process && process->pId() == p->pId()))
 				{
 					process = std::move(p);
+					Sandbox::setRamBeginFromProcess();
 					break;
 				}
 			}
