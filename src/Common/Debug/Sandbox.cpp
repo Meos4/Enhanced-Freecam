@@ -45,7 +45,10 @@ namespace Debug::Sandbox
 	{
 		ImGui::Begin("Sandbox", isOpen);
 
-		const auto modeButtonSize{ (ImGui::GetContentRegionAvail().x - ImGui::GetStyle().ItemSpacing.x * (MODE_COUNT - 1)) / MODE_COUNT };
+		const auto modeButtonSize
+		{ 
+			(ImGui::GetContentRegionAvail().x - ImGui::GetStyle().ItemSpacing.x * (MODE_COUNT - 1)) / static_cast<float>(MODE_COUNT) 
+		};
 		for (std::size_t i{}; i < MODE_COUNT; ++i)
 		{	
 			const bool colored{ mode == i };
