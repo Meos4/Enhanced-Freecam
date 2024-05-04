@@ -2,16 +2,23 @@
 
 #if EF_DEBUG
 #include "Common/Debug/Ui.hpp"
+#include "Common/PS2/PCSX2.hpp"
 #include "Common/PS1/PS1.hpp"
 #include "Common/PS2/PS2.hpp"
 
+#include "Common/Console.hpp"
 #include "Common/Process.hpp"
 #include "Common/Ram.hpp"
+#include "Common/Settings.hpp"
 #include "Common/Types.hpp"
 #include "Common/Ui.hpp"
 #include "Common/Util.hpp"
 
+#include <algorithm>
 #include <array>
+#include <filesystem>
+#include <format>
+#include <fstream>
 #include <limits>
 #include <memory>
 
@@ -36,6 +43,12 @@ namespace Debug::Sandbox
 	static std::uintptr_t ramBegin{};
 	static std::unique_ptr<Ram> ram;
 	static s32 mode{ MODE_UNKNOWN };
+	static struct
+	{
+		std::array<char, 9> crc;
+		u32 textSectionBegin;
+		u32 textSectionEnd;
+	} pcsx2{};
 
 	static void update()
 	{
@@ -78,7 +91,7 @@ namespace Debug::Sandbox
 			(ImGui::GetContentRegionAvail().x - ImGui::GetStyle().ItemSpacing.x * (MODE_COUNT - 1)) / static_cast<float>(MODE_COUNT) 
 		};
 		for (std::size_t i{}; i < MODE_COUNT; ++i)
-		{	
+		{
 			const bool colored{ mode == i };
 			if (colored)
 			{
@@ -140,7 +153,7 @@ namespace Debug::Sandbox
 				case MODE_UNKNOWN:
 				{
 					const auto ramSize
-					{ 
+					{
 						process->architecture() == Process::Architecture::x86 ? 
 							std::numeric_limits<u32>::max() : std::numeric_limits<u64>::max() 
 					};
@@ -196,6 +209,65 @@ namespace Debug::Sandbox
 				{
 					Debug::Ui::mipsCallWindow(*ram, &isMipsCallOpen);
 				}
+			}
+
+			if (mode == MODE_PS2 && Util::isProcessName(ram->process(), "pcsx2"))
+			{
+				const bool crcContainsNull{ std::any_of(pcsx2.crc.begin(), pcsx2.crc.end() - 1, [](auto ch){ return ch == '\0'; }) };
+				ImGui::BeginDisabled(pcsx2.textSectionBegin >= pcsx2.textSectionEnd || crcContainsNull);
+				if (::Ui::button("Create Pnach##Sandbox"))
+				{
+					std::filesystem::path path;
+
+					if (g_settings.pcsx2.useDifferentCheatsPath)
+					{
+						path = g_settings.pcsx2.cheatsPath;
+					}
+					else
+					{
+						path = ram->process().path();
+						path.remove_filename();
+						path = std::format("{}/cheats", path.string().c_str());
+					}
+
+					if (std::filesystem::is_directory(path))
+					{
+						path = std::format("{}/{} force jit.pnach", path.string().c_str(), pcsx2.crc.data());
+						std::ofstream pnach{ path };
+						const auto iteration{ ((pcsx2.textSectionEnd & ~0xFFF) / 0x1000) - ((pcsx2.textSectionBegin & ~0xFFF) / 0x1000) + 1 };
+
+						for (u32 i{}; i < iteration; ++i)
+						{
+							const auto offset{ pcsx2.textSectionBegin + (i * 0x1000) };
+							pnach << "patch=1,EE," << std::hex << offset << ",extended," << std::uppercase << +ram->read<u8>(offset) << '\n';
+						}
+
+						Console::append(Console::Type::Success, "{} created", path.string().c_str());
+					}
+					else
+					{
+						Console::append(Console::Type::Error, "{} doesn't exist", path.string().c_str());
+					}
+				}
+				ImGui::EndDisabled();
+
+				ImGui::SameLine();
+				const auto widgetSize{ (ImGui::GetContentRegionAvail().x - ImGui::GetStyle().ItemSpacing.x * 2.f) / 3.f };
+				ImGui::SetNextItemWidth(widgetSize);
+				ImGui::InputText("##Sandbox Crc", pcsx2.crc.data(), pcsx2.crc.size() , ImGuiInputTextFlags_CharsUppercase);
+
+				auto dragTextSection = [](const char* label, u32* val)
+				{
+					::Ui::drag(label, val, 4.f, "%X", ImGuiSliderFlags_AlwaysClamp, u32(0), PS2::memSize);
+				};
+
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(widgetSize);
+				dragTextSection("##Sandbox Text Section Begin", &pcsx2.textSectionBegin);
+				
+				ImGui::SameLine();
+				ImGui::SetNextItemWidth(widgetSize);
+				dragTextSection("##Sandbox Text Section End", &pcsx2.textSectionEnd);
 			}
 
 			::Ui::separatorText("Update");
