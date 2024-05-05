@@ -1,7 +1,6 @@
 #include "Camera.hpp"
 
 #include "Common/CameraModel.hpp"
-#include "Common/Math.hpp"
 #include "Common/Mips.hpp"
 #include "Common/Settings.hpp"
 
@@ -41,15 +40,6 @@ namespace PS2::DBZBudokai3
 
 	void Camera::enable(bool enable)
 	{
-		if (!enable && m_game->state() == State::Battle)
-		{
-			const auto& ram{ m_game->ram() };
-			const auto offsetBCC{ m_game->offset().battleCommonCamera };
-			static constexpr auto fovDefault{ Math::pi / 4.f };
-			ram.write(offsetBCC - 0xC, fovDefault); // Cutscene
-			ram.write(offsetBCC + 0x34, fovDefault);
-		}
-
 		m_isEnabled = enable;
 	}
 
