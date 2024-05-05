@@ -36,16 +36,16 @@ namespace PS2::DBZBudokai3
 			RotateZNeg,
 			FovPos,
 			FovNeg,
+			PauseGame,
+			HideHud,
+			TimescalePos,
+			TimescaleNeg,
 			MovementSpeedPos,
 			MovementSpeedNeg,
 			RotationSpeedPos,
 			RotationSpeedNeg,
 			FovSpeedPos,
 			FovSpeedNeg,
-			PauseGame,
-			HideHud,
-			TimescalePos,
-			TimescaleNeg,
 			Count
 		};
 	};
