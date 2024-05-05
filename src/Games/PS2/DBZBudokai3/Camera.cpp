@@ -40,6 +40,11 @@ namespace PS2::DBZBudokai3
 
 	void Camera::enable(bool enable)
 	{
+		if (enable && m_game->settings()->resetZRotation)
+		{
+			m_euler.roll = 0.f;
+		}
+
 		m_isEnabled = enable;
 	}
 
