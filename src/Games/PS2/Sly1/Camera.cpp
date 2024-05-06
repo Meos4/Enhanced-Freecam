@@ -45,7 +45,7 @@ namespace PS2::Sly1
 	void Camera::draw()
 	{
 		CameraModel::drawPosition(&m_position, g_settings.dragFloatSpeed * posMultiplyScalar, !m_isEnabled);
-		CameraModel::drawRotation(&m_euler.roll, &m_euler.pitch, &m_euler.yaw, !m_isEnabled);
+		CameraModel::drawRotation(&m_rotation.x, &m_rotation.y, &m_rotation.z, !m_isEnabled);
 		CameraModel::drawFovDegrees(&m_fov, !m_isEnabled);
 	}
 
@@ -73,10 +73,10 @@ namespace PS2::Sly1
 	void Camera::moveForward(float amount)
 	{
 		const auto
-			sy{ std::sin(m_euler.pitch) },
-			cy{ std::cos(m_euler.pitch) },
-			sz{ std::sin(m_euler.yaw) },
-			cz{ std::cos(m_euler.yaw) };
+			sy{ std::sin(m_rotation.y) },
+			cy{ std::cos(m_rotation.y) },
+			sz{ std::sin(m_rotation.z) },
+			cz{ std::cos(m_rotation.z) };
 
 		amount *= posMultiplyScalar;
 
@@ -88,12 +88,12 @@ namespace PS2::Sly1
 	void Camera::moveRight(float amount)
 	{
 		const auto
-			sx{ std::sin(m_euler.roll) },
-			cx{ std::cos(m_euler.roll) },
-			sy{ std::sin(m_euler.pitch) },
-			cy{ std::cos(m_euler.pitch) },
-			sz{ std::sin(m_euler.yaw) },
-			cz{ std::cos(m_euler.yaw) },
+			sx{ std::sin(m_rotation.x) },
+			cx{ std::cos(m_rotation.x) },
+			sy{ std::sin(m_rotation.y) },
+			cy{ std::cos(m_rotation.y) },
+			sz{ std::sin(m_rotation.z) },
+			cz{ std::cos(m_rotation.z) },
 			ss{ sx * sy };
 
 		amount *= posMultiplyScalar;
@@ -106,12 +106,12 @@ namespace PS2::Sly1
 	void Camera::moveUp(float amount)
 	{
 		const auto
-			sx{ std::sin(m_euler.roll) },
-			cx{ std::cos(m_euler.roll) },
-			sy{ std::sin(m_euler.pitch) },
-			cy{ std::cos(m_euler.pitch) },
-			sz{ std::sin(m_euler.yaw) },
-			cz{ std::cos(m_euler.yaw) },
+			sx{ std::sin(m_rotation.x) },
+			cx{ std::cos(m_rotation.x) },
+			sy{ std::sin(m_rotation.y) },
+			cy{ std::cos(m_rotation.y) },
+			sz{ std::sin(m_rotation.z) },
+			cz{ std::cos(m_rotation.z) },
 			cs{ cx * sy };
 
 		amount *= posMultiplyScalar;
@@ -123,17 +123,17 @@ namespace PS2::Sly1
 
 	void Camera::rotateX(float amount)
 	{
-		CameraModel::rotateRoll(&m_euler.roll, amount);
+		CameraModel::rotateRoll(&m_rotation.x, amount);
 	}
 
 	void Camera::rotateY(float amount)
 	{
-		CameraModel::rotatePitch(&m_euler.pitch, m_fov, amount);
+		CameraModel::rotatePitch(&m_rotation.y, m_fov, amount);
 	}
 
 	void Camera::rotateZ(float amount)
 	{
-		CameraModel::rotateYaw(&m_euler.yaw, m_fov, amount);
+		CameraModel::rotateYaw(&m_rotation.z, m_fov, amount);
 	}
 
 	void Camera::increaseFov(float amount)
@@ -155,9 +155,9 @@ namespace PS2::Sly1
 		ram.read(cameraPtr + 0x40, &m_position);
 		ram.read(cameraPtr + 0x80, &rot);
 		ram.read(cameraPtr + 0x1C4, &m_fov);
-		m_euler.roll = std::atan2(-rot[1][2], rot[2][2]);
-		m_euler.pitch = std::asin(rot[0][2]);
-		m_euler.yaw = std::atan2(-rot[0][1], rot[0][0]);
+		m_rotation.x = std::atan2(-rot[1][2], rot[2][2]);
+		m_rotation.y = std::asin(rot[0][2]);
+		m_rotation.z = std::atan2(-rot[0][1], rot[0][0]);
 	}
 
 	void Camera::write()
@@ -171,12 +171,12 @@ namespace PS2::Sly1
 		}
 
 		const auto
-			sx{ std::sin(m_euler.roll) },
-			cx{ std::cos(m_euler.roll) },
-			sy{ std::sin(m_euler.pitch) },
-			cy{ std::cos(m_euler.pitch) },
-			sz{ std::sin(m_euler.yaw) },
-			cz{ std::cos(m_euler.yaw) },
+			sx{ std::sin(m_rotation.x) },
+			cx{ std::cos(m_rotation.x) },
+			sy{ std::sin(m_rotation.y) },
+			cy{ std::cos(m_rotation.y) },
+			sz{ std::sin(m_rotation.z) },
+			cz{ std::cos(m_rotation.z) },
 			cc{ cx * cz },
 			cs{ cx * sz },
 			sc{ sx * cz },

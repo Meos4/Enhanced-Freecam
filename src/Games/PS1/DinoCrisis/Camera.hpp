@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Common/EulerAngles.hpp"
 #include "Common/Types.hpp"
 #include "Common/Vec3.hpp"
 
@@ -30,7 +29,7 @@ namespace PS1::DinoCrisis
 		Game* m_game;
 		Vec3<s16> m_position{};
 		Vec3<float> m_positionFp{};
-		EulerAngles m_euler{};
+		Vec3<float> m_rotation{};
 		float m_fov{};
 		bool m_isEnabled{};
 	};

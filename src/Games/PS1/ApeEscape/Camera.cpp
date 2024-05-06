@@ -64,7 +64,7 @@ namespace PS1::ApeEscape
 	void Camera::draw()
 	{
 		CameraModel::drawPosition(&m_position, g_settings.dragFloatSpeed * posMultiplyScalar, !m_isEnabled);
-		CameraModel::drawRotation(&m_euler.pitch, &m_euler.yaw, &m_euler.roll, !m_isEnabled);
+		CameraModel::drawRotation(&m_rotation.x, &m_rotation.y, &m_rotation.z, !m_isEnabled);
 		CameraModel::drawFov(&m_fov, !m_isEnabled, fovMin, fovMax);
 	}
 
@@ -96,10 +96,10 @@ namespace PS1::ApeEscape
 	void Camera::moveForward(float amount)
 	{
 		const auto
-			sx{ std::sin(m_euler.pitch) },
-			cx{ std::cos(m_euler.pitch) },
-			sy{ std::sin(m_euler.yaw) },
-			cy{ std::cos(m_euler.yaw) };
+			sx{ std::sin(m_rotation.x) },
+			cx{ std::cos(m_rotation.x) },
+			sy{ std::sin(m_rotation.y) },
+			cy{ std::cos(m_rotation.y) };
 
 		amount *= posMultiplyScalar;
 
@@ -111,12 +111,12 @@ namespace PS1::ApeEscape
 	void Camera::moveRight(float amount)
 	{
 		const auto
-			sx{ std::sin(m_euler.pitch) },
-			cx{ std::cos(m_euler.pitch) },
-			sy{ std::sin(m_euler.yaw) },
-			cy{ std::cos(m_euler.yaw) },
-			sz{ std::sin(m_euler.roll) },
-			cz{ std::cos(m_euler.roll) },
+			sx{ std::sin(m_rotation.x) },
+			cx{ std::cos(m_rotation.x) },
+			sy{ std::sin(m_rotation.y) },
+			cy{ std::cos(m_rotation.y) },
+			sz{ std::sin(m_rotation.z) },
+			cz{ std::cos(m_rotation.z) },
 			ss{ sz * sx };
 
 		amount *= posMultiplyScalar;
@@ -129,12 +129,12 @@ namespace PS1::ApeEscape
 	void Camera::moveUp(float amount)
 	{
 		const auto
-			sx{ std::sin(m_euler.pitch) },
-			cx{ std::cos(m_euler.pitch) },
-			sy{ std::sin(m_euler.yaw) },
-			cy{ std::cos(m_euler.yaw) },
-			sz{ std::sin(m_euler.roll) },
-			cz{ std::cos(m_euler.roll) },
+			sx{ std::sin(m_rotation.x) },
+			cx{ std::cos(m_rotation.x) },
+			sy{ std::sin(m_rotation.y) },
+			cy{ std::cos(m_rotation.y) },
+			sz{ std::sin(m_rotation.z) },
+			cz{ std::cos(m_rotation.z) },
 			cs{ cz * sx };
 
 		amount *= posMultiplyScalar;
@@ -146,17 +146,17 @@ namespace PS1::ApeEscape
 
 	void Camera::rotateX(float amount)
 	{
-		CameraModel::rotatePitch(&m_euler.pitch, amount);
+		CameraModel::rotatePitch(&m_rotation.x, amount);
 	}
 
 	void Camera::rotateY(float amount)
 	{
-		CameraModel::rotateYaw(&m_euler.yaw, amount);
+		CameraModel::rotateYaw(&m_rotation.y, amount);
 	}
 
 	void Camera::rotateZ(float amount)
 	{
-		CameraModel::rotateRoll(&m_euler.roll, amount);
+		CameraModel::rotateRoll(&m_rotation.z, amount);
 	}
 
 	void Camera::increaseFov(float amount)
@@ -173,7 +173,7 @@ namespace PS1::ApeEscape
 		if (state == State::SpaceMenu)
 		{
 			m_position = {};
-			m_euler = {};
+			m_rotation = {};
 			return;
 		}
 
@@ -213,9 +213,9 @@ namespace PS1::ApeEscape
 			libgte::VectorNormalSS(vec, vec);
 		}
 
-		m_euler.roll = std::atan2(fixedToFloat(-view.m[0][1]), fixedToFloat(view.m[1][1]));
-		m_euler.pitch = std::asin(fixedToFloat(view.m[2][1]));
-		m_euler.yaw = std::atan2(fixedToFloat(-view.m[2][0]), fixedToFloat(view.m[2][2]));
+		m_rotation.x = std::asin(fixedToFloat(view.m[2][1]));
+		m_rotation.y = std::atan2(fixedToFloat(-view.m[2][0]), fixedToFloat(view.m[2][2]));
+		m_rotation.z = std::atan2(fixedToFloat(-view.m[0][1]), fixedToFloat(view.m[1][1]));
 
 		auto extractPosition = [&](bool minigame)
 		{
@@ -281,12 +281,12 @@ namespace PS1::ApeEscape
 		m_position += decFp;
 
 		const auto
-			sx{ static_cast<s16>(floatToFixed(std::sin(m_euler.pitch))) },
-			cx{ static_cast<s16>(floatToFixed(std::cos(m_euler.pitch))) },
-			sy{ static_cast<s16>(floatToFixed(std::sin(m_euler.yaw))) },
-			cy{ static_cast<s16>(floatToFixed(std::cos(m_euler.yaw))) },
-			sz{ static_cast<s16>(floatToFixed(std::sin(m_euler.roll))) },
-			cz{ static_cast<s16>(floatToFixed(std::cos(m_euler.roll))) },
+			sx{ static_cast<s16>(floatToFixed(std::sin(m_rotation.x))) },
+			cx{ static_cast<s16>(floatToFixed(std::cos(m_rotation.x))) },
+			sy{ static_cast<s16>(floatToFixed(std::sin(m_rotation.y))) },
+			cy{ static_cast<s16>(floatToFixed(std::cos(m_rotation.y))) },
+			sz{ static_cast<s16>(floatToFixed(std::sin(m_rotation.z))) },
+			cz{ static_cast<s16>(floatToFixed(std::cos(m_rotation.z))) },
 			cc{ static_cast<s16>((cz * cy) >> 12) },
 			cs{ static_cast<s16>((cz * sy) >> 12) },
 			sc{ static_cast<s16>((sz * cy) >> 12) },

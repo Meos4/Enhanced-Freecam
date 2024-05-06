@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Common/EulerAngles.hpp"
 #include "Common/Vec3.hpp"
 
 #include <utility>
@@ -30,7 +29,7 @@ namespace PS2::DBZTenkaichi3
 	private:
 		Game* m_game;
 		Vec3<float> m_position{};
-		EulerAngles m_euler{};
+		Vec3<float> m_rotation{};
 		bool m_isEnabled{};
 	};
 }

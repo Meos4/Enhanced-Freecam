@@ -57,7 +57,7 @@ namespace PS2::DBZTenkaichi3
 	void Camera::draw()
 	{
 		CameraModel::drawPosition(&m_position, g_settings.dragFloatSpeed, !m_isEnabled);
-		CameraModel::drawRotation(&m_euler.pitch, &m_euler.yaw, &m_euler.roll, !m_isEnabled);
+		CameraModel::drawRotation(&m_rotation.x, &m_rotation.y, &m_rotation.z, !m_isEnabled);
 	}
 
 	void Camera::update()
@@ -70,7 +70,7 @@ namespace PS2::DBZTenkaichi3
 	{
 		if (enable && m_game->settings()->resetZRotation)
 		{
-			m_euler.roll = 0.f;
+			m_rotation.z = 0.f;
 		}
 
 		m_isEnabled = enable;
@@ -79,10 +79,10 @@ namespace PS2::DBZTenkaichi3
 	void Camera::moveForward(float amount)
 	{
 		const auto
-			sx{ std::sin(m_euler.pitch) },
-			cx{ std::cos(m_euler.pitch) },
-			sy{ std::sin(m_euler.yaw) },
-			cy{ std::cos(m_euler.yaw) };
+			sx{ std::sin(m_rotation.x) },
+			cx{ std::cos(m_rotation.x) },
+			sy{ std::sin(m_rotation.y) },
+			cy{ std::cos(m_rotation.y) };
 
 		m_position.x += cx * sy * amount;
 		m_position.y += -sx * amount;
@@ -92,12 +92,12 @@ namespace PS2::DBZTenkaichi3
 	void Camera::moveRight(float amount)
 	{
 		const auto
-			sx{ std::sin(m_euler.pitch) },
-			cx{ std::cos(m_euler.pitch) },
-			sy{ std::sin(m_euler.yaw) },
-			cy{ std::cos(m_euler.yaw) },
-			sz{ std::sin(m_euler.roll) },
-			cz{ std::cos(m_euler.roll) },
+			sx{ std::sin(m_rotation.x) },
+			cx{ std::cos(m_rotation.x) },
+			sy{ std::sin(m_rotation.y) },
+			cy{ std::cos(m_rotation.y) },
+			sz{ std::sin(m_rotation.z) },
+			cz{ std::cos(m_rotation.z) },
 			ss{ sx * sz };
 
 		m_position.x += (cy * cz + ss * sy) * amount;
@@ -108,12 +108,12 @@ namespace PS2::DBZTenkaichi3
 	void Camera::moveUp(float amount)
 	{
 		const auto
-			sx{ std::sin(m_euler.pitch) },
-			cx{ std::cos(m_euler.pitch) },
-			sy{ std::sin(m_euler.yaw) },
-			cy{ std::cos(m_euler.yaw) },
-			sz{ std::sin(m_euler.roll) },
-			cz{ std::cos(m_euler.roll) },
+			sx{ std::sin(m_rotation.x) },
+			cx{ std::cos(m_rotation.x) },
+			sy{ std::sin(m_rotation.y) },
+			cy{ std::cos(m_rotation.y) },
+			sz{ std::sin(m_rotation.z) },
+			cz{ std::cos(m_rotation.z) },
 			cs{ cz * sx };
 
 		m_position.x -= (cs * sy - cy * sz) * amount;
@@ -123,17 +123,17 @@ namespace PS2::DBZTenkaichi3
 
 	void Camera::rotateX(float amount)
 	{
-		CameraModel::rotatePitch(&m_euler.pitch, amount);
+		CameraModel::rotatePitch(&m_rotation.x, amount);
 	}
 
 	void Camera::rotateY(float amount)
 	{
-		CameraModel::rotateYaw(&m_euler.yaw, amount);
+		CameraModel::rotateYaw(&m_rotation.y, amount);
 	}
 
 	void Camera::rotateZ(float amount)
 	{
-		CameraModel::rotateRoll(&m_euler.roll, amount);
+		CameraModel::rotateRoll(&m_rotation.z, amount);
 	}
 
 	void Camera::read()
@@ -152,9 +152,9 @@ namespace PS2::DBZTenkaichi3
 		ram.read(vmPtr, &vm);
 		ram.read(posPtr, &m_position);
 
-		m_euler.roll = std::atan2(vm[1][0], vm[1][1]);
-		m_euler.pitch = std::asin(-vm[1][2]);
-		m_euler.yaw = std::atan2(vm[0][2], vm[2][2]);
+		m_rotation.x = std::asin(-vm[1][2]);
+		m_rotation.y = std::atan2(vm[0][2], vm[2][2]);
+		m_rotation.z = std::atan2(vm[1][0], vm[1][1]);
 
 		if (state == State::BattleCutscene)
 		{
@@ -178,12 +178,12 @@ namespace PS2::DBZTenkaichi3
 	void Camera::write()
 	{
 		const auto
-			sx{ std::sin(m_euler.pitch) },
-			cx{ std::cos(m_euler.pitch) },
-			sy{ std::sin(m_euler.yaw) },
-			cy{ std::cos(m_euler.yaw) },
-			sz{ std::sin(m_euler.roll) },
-			cz{ std::cos(m_euler.roll) },
+			sx{ std::sin(m_rotation.x) },
+			cx{ std::cos(m_rotation.x) },
+			sy{ std::sin(m_rotation.y) },
+			cy{ std::cos(m_rotation.y) },
+			sz{ std::sin(m_rotation.z) },
+			cz{ std::cos(m_rotation.z) },
 			cc{ cy * cz },
 			cs{ cy * sz },
 			sc{ sy * cz },

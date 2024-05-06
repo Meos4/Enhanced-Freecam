@@ -18,7 +18,7 @@ namespace PS2::HauntingGround
 	void Camera::draw()
 	{
 		CameraModel::drawPosition(&m_position, g_settings.dragFloatSpeed, !m_isEnabled);
-		CameraModel::drawRotation(&m_euler.pitch, &m_euler.yaw, &m_euler.roll, !m_isEnabled);
+		CameraModel::drawRotation(&m_rotation.x, &m_rotation.y, &m_rotation.z, !m_isEnabled);
 		CameraModel::drawFovDegrees(&m_fov, !m_isEnabled);
 	}
 
@@ -40,10 +40,10 @@ namespace PS2::HauntingGround
 	void Camera::moveForward(float amount)
 	{
 		const auto
-			sx{ std::sin(m_euler.pitch) },
-			cx{ std::cos(m_euler.pitch) },
-			sy{ std::sin(m_euler.yaw) },
-			cy{ std::cos(m_euler.yaw) };
+			sx{ std::sin(m_rotation.x) },
+			cx{ std::cos(m_rotation.x) },
+			sy{ std::sin(m_rotation.y) },
+			cy{ std::cos(m_rotation.y) };
 
 		m_position.x += cx * sy * amount;
 		m_position.y += -sx * amount;
@@ -53,12 +53,12 @@ namespace PS2::HauntingGround
 	void Camera::moveRight(float amount)
 	{
 		const auto
-			sx{ std::sin(m_euler.pitch) },
-			cx{ std::cos(m_euler.pitch) },
-			sy{ std::sin(m_euler.yaw) },
-			cy{ std::cos(m_euler.yaw) },
-			sz{ std::sin(m_euler.roll) },
-			cz{ std::cos(m_euler.roll) },
+			sx{ std::sin(m_rotation.x) },
+			cx{ std::cos(m_rotation.x) },
+			sy{ std::sin(m_rotation.y) },
+			cy{ std::cos(m_rotation.y) },
+			sz{ std::sin(m_rotation.z) },
+			cz{ std::cos(m_rotation.z) },
 			ss{ sx * sz };
 
 		m_position.x += (cy * cz + ss * sy) * amount;
@@ -69,12 +69,12 @@ namespace PS2::HauntingGround
 	void Camera::moveUp(float amount)
 	{
 		const auto
-			sx{ std::sin(m_euler.pitch) },
-			cx{ std::cos(m_euler.pitch) },
-			sy{ std::sin(m_euler.yaw) },
-			cy{ std::cos(m_euler.yaw) },
-			sz{ std::sin(m_euler.roll) },
-			cz{ std::cos(m_euler.roll) },
+			sx{ std::sin(m_rotation.x) },
+			cx{ std::cos(m_rotation.x) },
+			sy{ std::sin(m_rotation.y) },
+			cy{ std::cos(m_rotation.y) },
+			sz{ std::sin(m_rotation.z) },
+			cz{ std::cos(m_rotation.z) },
 			cs{ cz * sx };
 
 		m_position.x -= (cs * sy - cy * sz) * amount;
@@ -84,17 +84,17 @@ namespace PS2::HauntingGround
 
 	void Camera::rotateX(float amount)
 	{
-		CameraModel::rotatePitch(&m_euler.pitch, m_fov, amount);
+		CameraModel::rotatePitch(&m_rotation.x, m_fov, amount);
 	}
 
 	void Camera::rotateY(float amount)
 	{
-		CameraModel::rotateYaw(&m_euler.yaw, m_fov, amount);
+		CameraModel::rotateYaw(&m_rotation.y, m_fov, amount);
 	}
 
 	void Camera::rotateZ(float amount)
 	{
-		CameraModel::rotateRoll(&m_euler.roll, amount);
+		CameraModel::rotateRoll(&m_rotation.z, amount);
 	}
 
 	void Camera::increaseFov(float amount)
@@ -116,9 +116,9 @@ namespace PS2::HauntingGround
 		ram.read(cameraPtr + 0x60, &m_position);
 		ram.read(cameraPtr + 0xD0, &vm);
 		ram.read(cameraPtr + 0x14, &m_fov);
-		m_euler.roll = std::atan2(vm[1][0], vm[1][1]);
-		m_euler.pitch = std::asin(-vm[1][2]);
-		m_euler.yaw = std::atan2(vm[0][2], vm[2][2]);
+		m_rotation.x = std::asin(-vm[1][2]);
+		m_rotation.y = std::atan2(vm[0][2], vm[2][2]);
+		m_rotation.z = std::atan2(vm[1][0], vm[1][1]);
 	}
 
 	void Camera::write()
@@ -133,12 +133,12 @@ namespace PS2::HauntingGround
 		}
 
 		const auto
-			sx{ std::sin(m_euler.pitch) },
-			cx{ std::cos(m_euler.pitch) },
-			sy{ std::sin(m_euler.yaw) },
-			cy{ std::cos(m_euler.yaw) },
-			sz{ std::sin(m_euler.roll) },
-			cz{ std::cos(m_euler.roll) },
+			sx{ std::sin(m_rotation.x) },
+			cx{ std::cos(m_rotation.x) },
+			sy{ std::sin(m_rotation.y) },
+			cy{ std::cos(m_rotation.y) },
+			sz{ std::sin(m_rotation.z) },
+			cz{ std::cos(m_rotation.z) },
 			cc{ cy * cz },
 			cs{ cy * sz },
 			sc{ sy * cz },

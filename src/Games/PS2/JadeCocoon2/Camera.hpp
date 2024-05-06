@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Common/EulerAngles.hpp"
 #include "Common/Types.hpp"
 #include "Common/Vec3.hpp"
 
@@ -30,7 +29,7 @@ namespace PS2::JadeCocoon2
 	private:
 		Game* m_game;
 		Vec3<float> m_position{};
-		EulerAngles m_euler{};
+		Vec3<float> m_rotation{};
 		float m_fov{};
 		bool m_isEnabled{};
 	};
