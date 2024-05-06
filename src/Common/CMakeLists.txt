@@ -19,7 +19,6 @@ target_sources(${PROJECT_NAME} PRIVATE AsyncGameSearcher.cpp
 	Dockspace.cpp
 	Dockspace.hpp 
 	EfException.hpp
-	EulerAngles.hpp
 	FreecamModel.cpp
 	FreecamModel.hpp
 	GameInfo.hpp
