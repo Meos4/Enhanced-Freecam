@@ -34,14 +34,14 @@ namespace PS1::ApeEscape
 			RotateZNeg,
 			FovPos,
 			FovNeg,
+			PauseGame,
+			HideHud,
 			MovementSpeedPos,
 			MovementSpeedNeg,
 			RotationSpeedPos,
 			RotationSpeedNeg,
 			FovSpeedPos,
 			FovSpeedNeg,
-			PauseGame,
-			HideHud,
 			Count
 		};
 	};

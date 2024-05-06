@@ -36,14 +36,14 @@ namespace PS2::JadeCocoon2
 			RotateZNeg,
 			FovPos,
 			FovNeg,
+			PauseGame,
+			HideHud,
 			MovementSpeedPos,
 			MovementSpeedNeg,
 			RotationSpeedPos,
 			RotationSpeedNeg,
 			FovSpeedPos,
 			FovSpeedNeg,
-			PauseGame,
-			HideHud,
 			Count
 		};
 	};

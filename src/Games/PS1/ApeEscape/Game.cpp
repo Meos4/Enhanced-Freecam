@@ -65,14 +65,14 @@ namespace PS1::ApeEscape
 			{ "Rotate Z-", i.rotateClockwise },
 			{ "Fov+", i.fovDecrease },
 			{ "Fov-", i.fovIncrease },
+			{ "Pause Game", i.pauseGame },
+			{ "Hide Hud", i.hideHud },
 			{ "Movement Speed+", i.movementSpeedPos },
 			{ "Movement Speed-", i.movementSpeedNeg },
 			{ "Rotation Speed+", i.rotationSpeedPos },
 			{ "Rotation Speed-", i.rotationSpeedNeg },
 			{ "Fov Speed+", i.fovSpeedPos },
-			{ "Fov Speed-", i.fovSpeedNeg },
-			{ "Pause Game", i.pauseGame },
-			{ "Hide Hud", i.hideHud }
+			{ "Fov Speed-", i.fovSpeedNeg }
 		};
 	}
 

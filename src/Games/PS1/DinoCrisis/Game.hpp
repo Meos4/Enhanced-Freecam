@@ -34,13 +34,13 @@ namespace PS1::DinoCrisis
 			RotateZNeg,
 			FovPos,
 			FovNeg,
+			PauseGame,
 			MovementSpeedPos,
 			MovementSpeedNeg,
 			RotationSpeedPos,
 			RotationSpeedNeg,
 			FovSpeedPos,
 			FovSpeedNeg,
-			PauseGame,
 			Count
 		};
 	};

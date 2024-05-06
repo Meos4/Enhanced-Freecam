@@ -65,16 +65,16 @@ namespace PS2::DBZInfiniteWorld
 			{ "Rotate Z-", i.rotateClockwise },
 			{ "Fov+", i.fovIncrease },
 			{ "Fov-", i.fovDecrease },
+			{ "Pause Game", i.pauseGame },
+			{ "Hide Hud", i.hideHud },
+			{ "Timescale+", i.timescalePos },
+			{ "Timescale-", i.timescaleNeg },
 			{ "Movement Speed+", i.movementSpeedPos },
 			{ "Movement Speed-", i.movementSpeedNeg },
 			{ "Rotation Speed+", i.rotationSpeedPos },
 			{ "Rotation Speed-", i.rotationSpeedNeg },
 			{ "Fov Speed+", i.fovSpeedPos },
-			{ "Fov Speed-", i.fovSpeedNeg },
-			{ "Pause Game", i.pauseGame },
-			{ "Hide Hud", i.hideHud },
-			{ "Timescale+", i.timescalePos },
-			{ "Timescale-", i.timescaleNeg }
+			{ "Fov Speed-", i.fovSpeedNeg }
 		};
 	}
 

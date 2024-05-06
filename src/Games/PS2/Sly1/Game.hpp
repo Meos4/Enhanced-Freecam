@@ -36,14 +36,14 @@ namespace PS2::Sly1
 			RotateZNeg,
 			FovPos,
 			FovNeg,
+			PauseGame,
+			HideHud,
 			MovementSpeedPos,
 			MovementSpeedNeg,
 			RotationSpeedPos,
 			RotationSpeedNeg,
 			FovSpeedPos,
 			FovSpeedNeg,
-			PauseGame,
-			HideHud,
 			Count
 		};
 	};

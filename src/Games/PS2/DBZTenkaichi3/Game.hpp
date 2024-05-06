@@ -34,12 +34,12 @@ namespace PS2::DBZTenkaichi3
 			RotateYNeg,
 			RotateZPos,
 			RotateZNeg,
+			PauseGame,
+			HideHud,
 			MovementSpeedPos,
 			MovementSpeedNeg,
 			RotationSpeedPos,
 			RotationSpeedNeg,
-			PauseGame,
-			HideHud,
 			Count
 		};
 	};
