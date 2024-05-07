@@ -40,6 +40,11 @@ namespace PS2::DBZInfiniteWorld
 
 	void Camera::enable(bool enable)
 	{
+		if (enable && m_game->settings()->resetZRotation)
+		{
+			m_rotation.z = 0.f;
+		}
+
 		m_isEnabled = enable;
 	}
 
