@@ -42,16 +42,25 @@ namespace PS2::JadeCocoon2
 
 		const auto& ram{ m_game->ram() };
 		const auto& offset{ m_game->offset() };
+		const auto version{ m_game->version() };
 
 		std::array<Mips_t, 2> sdseInstr;
+		Mips_t sdiInstr;
 
-		if (m_game->version() == Version::NtscJ)
+		if (version == Version::Pal)
 		{
-			sdseInstr = { 0x27BDFEE0, 0x7FBF0040 };
+			sdseInstr = { 0x27BDFF10, 0x7FBF0010 };
+			sdiInstr = 0x27BDFF60; 
+		}
+		else if (version == Version::NtscU)
+		{
+			sdseInstr = { 0x27BDFF10, 0x7FBF0010 };
+			sdiInstr = 0x27BDFF70;
 		}
 		else
 		{
-			sdseInstr = { 0x27BDFF10, 0x7FBF0010 };
+			sdseInstr = { 0x27BDFEE0, 0x7FBF0040 };
+			sdiInstr = 0x27BDFF70;
 		}
 
 		ram.write<s32>(offset.newPause, m_isGamePaused ? 1 : 0);
@@ -61,7 +70,8 @@ namespace PS2::JadeCocoon2
 			offset.Fn_m2Fix_SjisDispValue, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFE0, 0x7FBF0000 },
 			offset.Fn_m2Fix_SjisDispStringEx, Mips::jrRaNop(), sdseInstr,
 			offset.Fn_m2Window_DispWindow, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFE0, 0x7FBF0000 },
-			offset.Fn_M2AutoMap_Draw, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFD10, 0x7FBF0090 }
+			offset.Fn_M2AutoMap_Draw, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFD10, 0x7FBF0090 },
+			offset.Fn_m2Selector_DispIcon, Mips::jrRaNop(), std::array<Mips_t, 2>{ sdiInstr, 0x7FBF0030 }
 		);
 	}
 

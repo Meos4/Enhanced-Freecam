@@ -22,6 +22,7 @@ namespace PS2::JadeCocoon2
 			Fn_m2Fix_SjisDispStringEx,
 			Fn_m2Fix_SjisDispValue,
 			Fn_m2MapCamera,
+			Fn_m2Selector_DispIcon,
 			Fn_m2Sprite_Disp,
 			Fn_m2Window_DispWindow,
 			Fn_memcpy,
