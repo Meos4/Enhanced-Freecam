@@ -34,7 +34,8 @@ namespace PS2::DBZTenkaichi3
 		if (state == State::Battle)
 		{
 			const auto player1Ptr{ ram.read<u32>(offset.battlePlayerPtr) + 4 };
-			return get(ram.read<u32>(offset.battlePlayerPtr + 0xBC), 0x40, ram.read<u32>(player1Ptr), 0x430);
+			const auto posShift{ ram.read<s32>(player1Ptr + 0x130) == 0 ? 0x430 : 0x1A30 };
+			return get(ram.read<u32>(offset.battlePlayerPtr + 0xBC), 0x40, ram.read<u32>(player1Ptr), posShift);
 		}
 		else if (state == State::BattleCutscene || state == State::ShenronCutscene)
 		{
