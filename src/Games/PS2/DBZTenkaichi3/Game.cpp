@@ -105,7 +105,7 @@ namespace PS2::DBZTenkaichi3
 
 		if (PS2::isValidMemoryRange(m_ram.read<u32>(m_offset.battlePlayerPtr)))
 		{
-			if (m_ram.read<s32>(m_offset.splitscreen) == 0)
+			if (m_ram.read<s32>(m_offset.splitscreen) == 0 || m_ram.read<s32>(m_offset.replayMode) == 1)
 			{
 				m_state = State::Battle;
 

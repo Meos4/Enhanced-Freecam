@@ -13,6 +13,7 @@ namespace PS2::DBZTenkaichi3
 			battlePlayerPtr,
 			flags,
 			progressionPtr,
+			replayMode,
 			splitscreen,
 			viewModelPtr,
 			Fn_battleDrawHud,
