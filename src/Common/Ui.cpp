@@ -158,19 +158,17 @@ namespace Ui
 		return changed;
 	}
 
-	bool dragEulerAnglesDegrees(const char* label, Vec3<float>* rotation, float speed, s32 decimals, ImGuiSliderFlags flags)
+	bool dragVec3Degrees(const char* label, Vec3<float>* vec, float speed, const char* format, ImGuiSliderFlags flags, float min, float max)
 	{
-		rotation->x = Math::toDegrees(rotation->x);
-		rotation->y = Math::toDegrees(rotation->y);
-		rotation->z = Math::toDegrees(rotation->z);
+		vec->x = Math::toDegrees(vec->x);
+		vec->y = Math::toDegrees(vec->y);
+		vec->z = Math::toDegrees(vec->z);
 
-		const auto min{ Math::toDegrees(-Math::pi) }, max{ Math::toDegrees(Math::pi) };
-		const auto format{ Ui::arithmeticFormat<float>(decimals) };
-		const bool isValueChanged{ Ui::dragVec3(label, rotation, Math::toDegrees(speed), format.c_str(), flags, min, max) };
+		const bool isValueChanged{ Ui::dragVec3(label, vec, speed, format, flags, min, max) };
 
-		rotation->x = Math::toRadians(rotation->x);
-		rotation->y = Math::toRadians(rotation->y);
-		rotation->z = Math::toRadians(rotation->z);
+		vec->x = Math::toRadians(vec->x);
+		vec->y = Math::toRadians(vec->y);
+		vec->z = Math::toRadians(vec->z);
 
 		return isValueChanged;
 	}

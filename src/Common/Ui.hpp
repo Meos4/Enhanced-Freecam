@@ -55,7 +55,7 @@ namespace Ui
 	void hoveredTooltip(const char* text);
 	void buttonsFlags(std::span<const Ui::LabelFlag> buttons, bool readOnly);
 	bool sliderDegrees(const char* label, float* radians, const char* format, ImGuiSliderFlags flags = ImGuiSliderFlags_None, float min = -Math::pi, float max = Math::pi);
-	bool dragEulerAnglesDegrees(const char* label, Vec3<float>* rotation, float speed, s32 decimals, ImGuiSliderFlags flags = ImGuiSliderFlags_None);
+	bool dragVec3Degrees(const char* label, Vec3<float>* vec, float speed, const char* format, ImGuiSliderFlags flags, float min, float max);
 	void separatorText(const char* label);
 	bool checkbox(const char* label, bool* flag);
 	bool button(const char* label, const ImVec2& size = ImVec2(0, 0));

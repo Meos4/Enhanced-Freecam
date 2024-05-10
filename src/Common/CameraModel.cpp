@@ -7,7 +7,9 @@ namespace CameraModel
 	void drawRotation(Vec3<float>* rotation, bool readOnly)
 	{
 		const auto flags{ (readOnly ? ImGuiSliderFlags_ReadOnly : ImGuiSliderFlags_None) | ImGuiSliderFlags_AlwaysClamp };
-		Ui::dragEulerAnglesDegrees(Ui::lol("Rotation"), rotation, g_settings.dragRadiansSpeed, g_settings.rotationFloatDecimals, flags);
+		const auto max{ Math::toDegrees(Math::pi) };
+		const auto format{ Ui::arithmeticFormat<float>(g_settings.rotationFloatDecimals) };
+		Ui::dragVec3Degrees(Ui::lol("Rotation"), rotation, Math::toDegrees(g_settings.dragRadiansSpeed), format.c_str(), flags, -max, max);
 	}
 
 	void drawFovDegrees(float* radians, bool readOnly)
