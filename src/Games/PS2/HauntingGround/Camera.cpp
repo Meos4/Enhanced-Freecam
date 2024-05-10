@@ -146,7 +146,7 @@ namespace PS2::HauntingGround
 
 		const auto px{ -m_position.x }, py{ -m_position.y }, pz{ -m_position.z };
 
-		libvu0::sceVu0FMATRIX vm;
+		float vm[4][4];
 		vm[0][0] = cc + ss * sx;
 		vm[0][1] = sc * sx - cs;
 		vm[0][2] = cx * sy;

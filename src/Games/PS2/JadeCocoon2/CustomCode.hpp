@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Common/PS2/libvu0.hpp"
-
 #include "Common/Types.hpp"
 
 namespace PS2::JadeCocoon2
@@ -10,7 +8,7 @@ namespace PS2::JadeCocoon2
 
 	namespace CustomCode
 	{
-		inline constexpr auto viewMatrixSize{ sizeof(libvu0::sceVu0FMATRIX) - sizeof(float) };
+		inline constexpr auto viewMatrixSize{ sizeof(float[4][4]) - sizeof(float) };
 
 		void update(const Game& game);
 		bool isApplied(const Game& game);

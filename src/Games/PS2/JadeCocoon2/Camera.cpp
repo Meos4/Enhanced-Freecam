@@ -1,6 +1,5 @@
 #include "Camera.hpp"
 
-#include "Common/PS2/libvu0.hpp"
 #include "Common/PS2/PS2.hpp"
 
 #include "Common/CameraModel.hpp"
@@ -234,7 +233,7 @@ namespace PS2::JadeCocoon2
 
 		const auto px{ -m_position.x }, py{ -m_position.y }, pz{ -m_position.z };
 
-		libvu0::sceVu0FMATRIX vm;
+		float vm[4][4];
 		vm[0][0] = cc + ss * sx;
 		vm[0][1] = sc * sx - cs;
 		vm[0][2] = cx * sy;
