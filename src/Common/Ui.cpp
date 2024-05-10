@@ -158,11 +158,11 @@ namespace Ui
 		return changed;
 	}
 
-	bool dragEulerAnglesDegrees(const char* label, float* x, float* y, float* z, float speed, s32 decimals, ImGuiSliderFlags flags)
+	bool dragEulerAnglesDegrees(const char* label, Vec3<float>* rotation, float speed, s32 decimals, ImGuiSliderFlags flags)
 	{
-		*x = Math::toDegrees(*x);
-		*y = Math::toDegrees(*y);
-		*z = Math::toDegrees(*z);
+		rotation->x = Math::toDegrees(rotation->x);
+		rotation->y = Math::toDegrees(rotation->y);
+		rotation->z = Math::toDegrees(rotation->z);
 
 		bool isValueChanged{};
 		const auto buttonOneLetterSize{ Ui::buttonOneLetterSize() };
@@ -182,17 +182,17 @@ namespace Ui
 		ImGui::PushID(label);
 		ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth() - ((2.f + buttonOneLetterSize.x) * 3.f));
 
-		mono(x, Ui::color(Ui::Color::RedX), "X", "##X");
+		mono(&rotation->x, Ui::color(Ui::Color::RedX), "X", "##X");
 		ImGui::SameLine(0.f, itemInnerSpacingX);
-		mono(y, Ui::color(Ui::Color::GreenY), "Y", "##Y");
+		mono(&rotation->y, Ui::color(Ui::Color::GreenY), "Y", "##Y");
 		ImGui::SameLine(0.f, itemInnerSpacingX);
-		mono(z, Ui::color(Ui::Color::BlueZ), "Z", std::format("{}##Z", label).c_str());
+		mono(&rotation->z, Ui::color(Ui::Color::BlueZ), "Z", std::format("{}##Z", label).c_str());
 
 		ImGui::PopID();
 
-		*x = Math::toRadians(*x);
-		*y = Math::toRadians(*y);
-		*z = Math::toRadians(*z);
+		rotation->x = Math::toRadians(rotation->x);
+		rotation->y = Math::toRadians(rotation->y);
+		rotation->z = Math::toRadians(rotation->z);
 
 		return isValueChanged;
 	}

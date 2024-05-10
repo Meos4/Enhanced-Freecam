@@ -58,7 +58,7 @@ namespace PS2::DBZTenkaichi3
 	void Camera::draw()
 	{
 		CameraModel::drawPosition(&m_position, g_settings.dragFloatSpeed, !m_isEnabled);
-		CameraModel::drawRotation(&m_rotation.x, &m_rotation.y, &m_rotation.z, !m_isEnabled);
+		CameraModel::drawRotation(&m_rotation, !m_isEnabled);
 	}
 
 	void Camera::update()

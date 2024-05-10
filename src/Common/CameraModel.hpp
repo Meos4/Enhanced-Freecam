@@ -9,7 +9,7 @@
 
 namespace CameraModel
 {
-	void drawRotation(float* x, float* y, float* z, bool readOnly);
+	void drawRotation(Vec3<float>* rotation, bool readOnly);
 	void drawFovDegrees(float* radians, bool readOnly);
 	void rotateRoll(float* roll, float amount);
 	void rotatePitch(float* pitch, float fovRadians, float amount);

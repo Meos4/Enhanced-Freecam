@@ -4,10 +4,10 @@
 
 namespace CameraModel
 {
-	void drawRotation(float* x, float* y, float* z, bool readOnly)
+	void drawRotation(Vec3<float>* rotation, bool readOnly)
 	{
 		const auto flags{ (readOnly ? ImGuiSliderFlags_ReadOnly : ImGuiSliderFlags_None) | ImGuiSliderFlags_AlwaysClamp };
-		Ui::dragEulerAnglesDegrees(Ui::lol("Rotation"), x, y, z, g_settings.dragRadiansSpeed, g_settings.rotationFloatDecimals, flags);
+		Ui::dragEulerAnglesDegrees(Ui::lol("Rotation"), rotation, g_settings.dragRadiansSpeed, g_settings.rotationFloatDecimals, flags);
 	}
 
 	void drawFovDegrees(float* radians, bool readOnly)

@@ -27,7 +27,7 @@ namespace PS1::DinoCrisis
 	void Camera::draw()
 	{
 		CameraModel::drawPosition(&m_position, g_settings.dragFloatSpeed * posMultiplyScalar, !m_isEnabled);
-		CameraModel::drawRotation(&m_rotation.x, &m_rotation.y, &m_rotation.z, !m_isEnabled);
+		CameraModel::drawRotation(&m_rotation, !m_isEnabled);
 		CameraModel::drawFov(&m_fov, !m_isEnabled, fovMin, fovMax);
 	}
 

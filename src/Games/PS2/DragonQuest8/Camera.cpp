@@ -37,7 +37,7 @@ namespace PS2::DragonQuest8
 	void Camera::draw()
 	{
 		CameraModel::drawPosition(&m_position, g_settings.dragFloatSpeed, !m_isEnabled);
-		CameraModel::drawRotation(&m_rotation.x, &m_rotation.y, &m_rotation.z, !m_isEnabled);
+		CameraModel::drawRotation(&m_rotation, !m_isEnabled);
 		CameraModel::drawFovDegrees(&m_fov, !m_isEnabled);
 	}
 

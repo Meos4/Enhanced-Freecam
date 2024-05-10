@@ -28,7 +28,7 @@ namespace PS2::DBZBudokai3
 		}
 
 		CameraModel::drawPosition(&m_position, posSpeed, !m_isEnabled);
-		CameraModel::drawRotation(&m_rotation.x, &m_rotation.y, &m_rotation.z, !m_isEnabled);
+		CameraModel::drawRotation(&m_rotation, !m_isEnabled);
 		CameraModel::drawFovDegrees(&m_fov, !m_isEnabled);
 	}
 
