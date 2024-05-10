@@ -164,31 +164,9 @@ namespace Ui
 		rotation->y = Math::toDegrees(rotation->y);
 		rotation->z = Math::toDegrees(rotation->z);
 
-		bool isValueChanged{};
-		const auto buttonOneLetterSize{ Ui::buttonOneLetterSize() };
-		const auto itemInnerSpacingX{ GImGui->Style.ItemInnerSpacing.x };
+		const auto min{ Math::toDegrees(-Math::pi) }, max{ Math::toDegrees(Math::pi) };
 		const auto format{ Ui::arithmeticFormat<float>(decimals) };
-
-		auto mono = [&](float* val, u32 color, const char* letter, const char* dragName)
-		{
-			Ui::pushStyleColor(color, ImGuiCol_Border, ImGuiCol_Button, ImGuiCol_ButtonHovered, ImGuiCol_ButtonActive);
-			Ui::button(letter, buttonOneLetterSize);
-			ImGui::PopStyleColor(4);
-			ImGui::SameLine(0.f, 2.f);
-			isValueChanged |= Ui::dragWrap(dragName, val, Math::toDegrees(speed), format.c_str(), flags, Math::toDegrees(-Math::pi), Math::toDegrees(Math::pi));
-			ImGui::PopItemWidth();
-		};
-
-		ImGui::PushID(label);
-		ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth() - ((2.f + buttonOneLetterSize.x) * 3.f));
-
-		mono(&rotation->x, Ui::color(Ui::Color::RedX), "X", "##X");
-		ImGui::SameLine(0.f, itemInnerSpacingX);
-		mono(&rotation->y, Ui::color(Ui::Color::GreenY), "Y", "##Y");
-		ImGui::SameLine(0.f, itemInnerSpacingX);
-		mono(&rotation->z, Ui::color(Ui::Color::BlueZ), "Z", std::format("{}##Z", label).c_str());
-
-		ImGui::PopID();
+		const bool isValueChanged{ Ui::dragVec3(label, rotation, Math::toDegrees(speed), format.c_str(), flags, min, max) };
 
 		rotation->x = Math::toRadians(rotation->x);
 		rotation->y = Math::toRadians(rotation->y);
