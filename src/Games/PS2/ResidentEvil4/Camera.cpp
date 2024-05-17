@@ -108,6 +108,47 @@ namespace PS2::ResidentEvil4
 
 	void Camera::enable(bool enable)
 	{
+		if (!enable)
+		{
+			const auto& ram{ m_game->ram() };
+			const auto& offset{ m_game->offset() };
+			const auto cameraPtr{ ram.read<u32>(offset.cameraPtr) };
+
+			if (cameraPtr)
+			{
+				const auto entranceMenu{ ram.read<s32>(offset.menuStruct + 0x2C) };
+
+				if (entranceMenu != 0)
+				{
+					const bool isInventoryOpen{ entranceMenu == 1 };
+					const bool isShopOpen{ entranceMenu == 0x10 };
+					const bool isRadioOpen{ entranceMenu == 0x20 };
+					const bool isFileOpen{ entranceMenu == 0x40 };
+					const auto id{ ram.read<s8>(offset.menuStruct + 0x2D4) };
+
+					// Keys Treasures | Weapons Recovery | Files
+					if ((isInventoryOpen && (id == 0 || id == 1 || id == 3)) || isShopOpen || isFileOpen)
+					{
+						m_position = { 0.f, 0.f, 5000.f };
+						m_rotation = { 0.f, 0.f, Math::toRadians(180.f) };
+						m_fov = Math::toRadians(20.f);
+					}
+					else if (isRadioOpen)
+					{
+						m_position = { 0.f, 0.f, 2000.f };
+						m_rotation = { 0.f, 0.f, Math::toRadians(180.f) };
+						m_fov = Math::toRadians(50.f);
+					}
+
+					write();
+					const auto p{ createPacket() };
+					ram.write(cameraPtr + 0x80, p, 0x80);
+					ram.write(cameraPtr + 0x140, *((u8*)&p + 0x80), 0x50);
+					ram.write(cameraPtr + 0x1A4, Math::toDegrees(m_fov));
+				}
+			}
+		}
+
 		m_isEnabled = enable;
 	}
 
