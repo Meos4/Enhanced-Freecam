@@ -16,12 +16,29 @@ namespace PS2::ResidentEvil4
 
 	void Bonus::draw()
 	{
-		
+		Ui::setXSpacingStr("Unlock All");
+
+		Ui::separatorText("Cheats");
+		Ui::labelXSpacing("Unlock All");
+		if (Ui::buttonItemWidth("Set"))
+		{
+			m_unlockAll = true;
+		}
 	}
 
 	void Bonus::update()
 	{
+		const auto& ram{ m_game->ram() };
+		const auto& offset{ m_game->offset() };
 
+		if (m_unlockAll)
+		{
+			const auto current{ ram.read<s32>(offset.progression) };
+			ram.write(offset.progression, current | 0xFF'DD'00'0F);
+			ram.write(offset.progression + 9, u8(4)); // Ada's report
+			Console::append(Console::Type::Success, "All unlocked successfully");
+			m_unlockAll = false;
+		}
 	}
 
 	void Bonus::readSettings(const Json::Read& json)

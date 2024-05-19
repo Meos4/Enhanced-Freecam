@@ -17,5 +17,6 @@ namespace PS2::ResidentEvil4
 		void writeSettings(Json::Write* json);
 	private:
 		Game* m_game;
+		bool m_unlockAll{};
 	};
 }
