@@ -1,8 +1,6 @@
 #include "Freecam.hpp"
 
 #include "Common/FreecamModel.hpp"
-#include "Common/Renderer.hpp"
-#include "Common/Settings.hpp"
 #include "Common/Ui.hpp"
 
 #include "Game.hpp"
