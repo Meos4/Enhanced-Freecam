@@ -26,6 +26,7 @@ namespace PS2::ResidentEvil4
 		.Fn_updateItems = 0x002240F8,
 		.Fn_updateNpc = 0x001BB778,
 		.Fn_updatePlayer = 0x001674D8,
+		.Fn_updatePlayerCollisions = 0x001A20D8,
 		.Fn_updateSfx = 0x001F6C30,
 		.Fn_updateSfx2 = 0x001EAA88,
 		.Fn_updateTimer = 0x001AE3A8

@@ -25,6 +25,7 @@ namespace PS2::ResidentEvil4
 			Fn_updateItems,
 			Fn_updateNpc,
 			Fn_updatePlayer,
+			Fn_updatePlayerCollisions,
 			Fn_updateSfx,
 			Fn_updateSfx2,
 			Fn_updateTimer;

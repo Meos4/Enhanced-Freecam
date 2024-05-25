@@ -1,6 +1,7 @@
 #include "Bonus.hpp"
 
 #include "Common/Console.hpp"
+#include "Common/Mips.hpp"
 #include "Common/Ui.hpp"
 
 #include "Game.hpp"
@@ -19,6 +20,7 @@ namespace PS2::ResidentEvil4
 		Ui::setXSpacingStr("Unlock All");
 
 		Ui::separatorText("Cheats");
+		Ui::checkbox(Ui::lol("No Collisions"), &m_noCollisions);
 		Ui::labelXSpacing("Unlock All");
 		if (Ui::buttonItemWidth("Set"))
 		{
@@ -30,6 +32,8 @@ namespace PS2::ResidentEvil4
 	{
 		const auto& ram{ m_game->ram() };
 		const auto& offset{ m_game->offset() };
+
+		ram.write(offset.Fn_updatePlayer + 0x4B0, m_noCollisions ? 0x00000000 : Mips::jal(offset.Fn_updatePlayerCollisions));
 
 		if (m_unlockAll)
 		{
@@ -48,7 +52,7 @@ namespace PS2::ResidentEvil4
 			if (json.contains(_Bonus))
 			{
 				const auto& j{ json[_Bonus] };
-				
+				JSON_GET(j, m_noCollisions);
 			}
 		}
 		catch (const Json::Exception& e)
@@ -60,6 +64,6 @@ namespace PS2::ResidentEvil4
 	void Bonus::writeSettings(Json::Write* json)
 	{
 		auto* const j{ &(*json)[_Bonus] };
-		
+		JSON_SET(j, m_noCollisions);
 	}
 }
