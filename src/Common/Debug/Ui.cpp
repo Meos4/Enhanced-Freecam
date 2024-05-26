@@ -1,7 +1,6 @@
 #include "Ui.hpp"
 
 #if EF_DEBUG
-#include "Common/Buffer.hpp"
 #include "Common/Mips.hpp"
 #include "Common/Util.hpp"
 

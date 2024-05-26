@@ -5,7 +5,6 @@
 #include "Loop.hpp"
 
 #include <array>
-#include <cstring>
 #include <type_traits>
 
 namespace PS1::ApeEscape

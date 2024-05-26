@@ -1,7 +1,5 @@
 #include "Game.hpp"
 
-#include "Common/PS2/PS2.hpp"
-
 #include "Common/Settings.hpp"
 
 #include "Loop.hpp"

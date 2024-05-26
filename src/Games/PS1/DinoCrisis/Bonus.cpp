@@ -1,7 +1,6 @@
 #include "Bonus.hpp"
 
 #include "Common/Console.hpp"
-#include "Common/Mips.hpp"
 #include "Common/Ui.hpp"
 
 #include "Game.hpp"

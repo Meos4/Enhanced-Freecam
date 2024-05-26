@@ -3,7 +3,6 @@
 #include "Common/AsyncGameSearcher.hpp"
 #include "Common/Buffer.hpp"
 #include "Common/Settings.hpp"
-#include "Common/Util.hpp"
 
 #include <cstring>
 #include <thread>

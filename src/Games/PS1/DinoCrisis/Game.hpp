@@ -10,7 +10,6 @@
 #include "Settings.hpp"
 
 #include <memory>
-#include <span>
 #include <vector>
 
 namespace PS1::DinoCrisis

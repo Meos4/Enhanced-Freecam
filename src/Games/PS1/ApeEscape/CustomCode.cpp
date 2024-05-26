@@ -1,6 +1,10 @@
 #include "CustomCode.hpp"
 
+#include "Common/Mips.hpp"
+
 #include "Game.hpp"
+
+#include <array>
 
 namespace PS1::ApeEscape::CustomCode
 {

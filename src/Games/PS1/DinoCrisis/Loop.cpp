@@ -3,7 +3,6 @@
 #include "Common/PS1/Debug.hpp"
 #include "Common/PS1/PS1.hpp"
 
-#include "Common/Console.hpp"
 #include "Common/Json.hpp"
 
 namespace PS1::DinoCrisis

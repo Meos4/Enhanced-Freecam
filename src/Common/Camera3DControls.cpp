@@ -3,7 +3,6 @@
 #include "FreecamModel.hpp"
 #include "InputWrapper.hpp"
 #include "Renderer.hpp"
-#include "Settings.hpp"
 
 Camera3DControls::Camera3DControls(InputWrapper* input)
 	: m_input(input)

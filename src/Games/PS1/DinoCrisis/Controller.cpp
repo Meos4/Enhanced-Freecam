@@ -5,8 +5,6 @@
 
 #include "Game.hpp"
 
-#include <array>
-
 namespace PS1::DinoCrisis
 {
 	Controller::Controller(Game* game)

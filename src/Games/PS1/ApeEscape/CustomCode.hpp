@@ -1,9 +1,6 @@
 #pragma once
 
-#include "Common/Mips.hpp"
 #include "Common/Types.hpp"
-
-#include <array>
 
 namespace PS1::ApeEscape
 {

@@ -12,7 +12,6 @@
 #include "Settings.hpp"
 
 #include <memory>
-#include <span>
 #include <vector>
 
 namespace PS2::HauntingGround
