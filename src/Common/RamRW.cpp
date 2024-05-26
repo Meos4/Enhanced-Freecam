@@ -5,12 +5,12 @@ RamRWEmulator::RamRWEmulator(Process* process, std::uintptr_t begin, bool writeN
 {
 }
 
-void RamRWEmulator::read(std::uintptr_t offset, void* val, std::size_t size) const
+void RamRWEmulator::read(std::uintptr_t offset, void* val, std::size_t size)
 {
 	m_process->read(m_begin + offset, val, size);
 }
 
-void RamRWEmulator::write(std::uintptr_t offset, void* val, std::size_t size) const
+void RamRWEmulator::write(std::uintptr_t offset, void* val, std::size_t size)
 {
 	(m_process->*m_writeCb)(m_begin + offset, val, size);
 }
