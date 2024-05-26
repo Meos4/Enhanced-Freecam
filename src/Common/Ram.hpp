@@ -6,6 +6,7 @@
 
 #include "Buffer.hpp"
 #include "Process.hpp"
+#include "RamRW.hpp"
 #include "Types.hpp"
 
 #include <cstring>
@@ -16,7 +17,7 @@
 class Ram final
 {
 public:
-	Ram(std::shared_ptr<Process> process, std::uintptr_t begin, std::size_t size, bool writeNoProtect);
+	Ram(std::shared_ptr<Process> process, std::unique_ptr<RamRW> rw, std::size_t size);
 
 	bool isPatternValid(std::uintptr_t offset, std::span<const u8> pattern) const;
 
@@ -28,14 +29,14 @@ public:
 	T read(std::uintptr_t offset, std::size_t size = sizeof(T)) const
 	{
 		T val;
-		m_process->read(m_begin + offset, &val, size);
+		read(offset, &val, size);
 		return val;
 	}
 
 	template <typename T>
 	void read(std::uintptr_t offset, T* val, std::size_t size = sizeof(T)) const
 	{
-		m_process->read(m_begin + offset, val, size);
+		m_rw->read(offset, val, size);
 	}
 
 	template <typename T>
@@ -49,7 +50,7 @@ public:
 	#if EF_DEBUG
 				Debug::WriteAnalyzer::update(*this, offset, (void*)&val, size);
 	#endif
-				(m_process.get()->*m_writeCb)(m_begin + offset, (void*)&val, size);
+				m_rw->write(offset, (void*)&val, size);
 			}
 		};
 
@@ -83,7 +84,6 @@ public:
 	}
 private:
 	std::shared_ptr<Process> m_process;
-	std::uintptr_t m_begin;
+	std::unique_ptr<RamRW> m_rw;
 	std::size_t m_size;
-	void (Process::*m_writeCb)(std::uintptr_t, void*, std::size_t) const;
 };

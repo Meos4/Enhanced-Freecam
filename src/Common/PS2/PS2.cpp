@@ -11,6 +11,7 @@
 
 #include "Common/AsyncGameSearcher.hpp"
 #include "Common/Path.hpp"
+#include "Common/RamRW.hpp"
 #include "Common/Util.hpp"
 
 #include "PCSX2.hpp"
@@ -68,7 +69,7 @@ namespace PS2
 			noProtect = true;
 		}
 
-		return Ram{ process, begin, PS2::memSize, noProtect };
+		return Ram{ process, std::make_unique<RamRWEmulator>(process.get(), begin, noProtect), PS2::memSize };
 	}
 
 	std::uintptr_t asyncGameSearcher(const Process& process, const std::atomic<bool>& running, const OffsetPattern& op)

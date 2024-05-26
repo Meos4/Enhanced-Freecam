@@ -157,7 +157,7 @@ namespace Debug::Sandbox
 						process->architecture() == Process::Architecture::x86 ? 
 							std::numeric_limits<u32>::max() : std::numeric_limits<u64>::max() 
 					};
-					ram = std::make_unique<Ram>(process, ramBegin, ramSize, true);
+					ram = std::make_unique<Ram>(process, std::make_unique<RamRWEmulator>(process.get(), ramBegin, true), ramSize);
 					break;
 				}
 				case MODE_PS1:

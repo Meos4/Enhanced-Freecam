@@ -46,6 +46,8 @@ target_sources(${PROJECT_NAME} PRIVATE AsyncGameSearcher.cpp
 	Process.hpp
 	Ram.cpp
 	Ram.hpp
+	RamRW.cpp
+	RamRW.hpp
 	Renderer.cpp
 	Renderer.hpp
 	Settings.cpp
