@@ -10,8 +10,8 @@
 
 namespace PS2::HauntingGround
 {
-	Loop::Loop(Game game)
-		: m_game(game), m_freecam(&m_game), m_bonus(&m_game)
+	Loop::Loop(Game&& game)
+		: m_game(std::move(game)), m_freecam(&m_game), m_bonus(&m_game)
 	{
 		const auto jsonRead{ Json::read(PS2::settingsFilePath(Game::name)) };
 		if (jsonRead.has_value())

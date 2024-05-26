@@ -9,8 +9,8 @@
 
 namespace PS1::ApeEscape
 {
-	Game::Game(Ram ram, s32 version)
-		: m_ram(ram), m_version(version), m_offset(Offset::create(version)), m_input(&Game::baseInputs)
+	Game::Game(Ram&& ram, s32 version)
+		: m_ram(std::move(ram)), m_version(version), m_offset(Offset::create(version)), m_input(&Game::baseInputs)
 	{
 	}
 
@@ -38,9 +38,9 @@ namespace PS1::ApeEscape
 		return { vOp[version].offset, vOp[version].pattern };
 	}
 
-	std::unique_ptr<GameLoop> Game::createLoop(Ram ram, s32 version)
+	std::unique_ptr<GameLoop> Game::createLoop(Ram&& ram, s32 version)
 	{
-		return std::make_unique<Loop>(Game{ ram, version });
+		return std::make_unique<Loop>(Game{ std::move(ram), version });
 	}
 
 	std::vector<InputWrapper::NameInputs> Game::baseInputs()

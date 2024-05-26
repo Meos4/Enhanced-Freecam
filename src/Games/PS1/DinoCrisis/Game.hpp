@@ -58,13 +58,13 @@ namespace PS1::DinoCrisis
 	class Game final
 	{
 	public:
-		Game(Ram ram, s32 version);
+		Game(Ram&& ram, s32 version);
 
 		static constexpr auto name{ "Dino Crisis" };
 
 		static const char* versionText(s32 version);
 		static OffsetPattern offsetPattern(s32 version);
-		static std::unique_ptr<GameLoop> createLoop(Ram ram, s32 version);
+		static std::unique_ptr<GameLoop> createLoop(Ram&& ram, s32 version);
 		static std::vector<InputWrapper::NameInputs> baseInputs();
 
 		void readSettings(const Json::Read& json);

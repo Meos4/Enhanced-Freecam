@@ -77,13 +77,13 @@ namespace PS2::DBZBudokai3
 	class Game final
 	{
 	public:
-		Game(Ram ram, s32 version);
+		Game(Ram&& ram, s32 version);
 
 		static constexpr auto name{ "Dragon Ball Z - Budokai 3" };
 
 		static const char* versionText(s32 version);
 		static OffsetPattern offsetPattern(s32 version);
-		static std::unique_ptr<GameLoop> createLoop(Ram ram, s32 version);
+		static std::unique_ptr<GameLoop> createLoop(Ram&& ram, s32 version);
 		static std::vector<InputWrapper::NameInputs> baseInputs();
 		static std::span<const char* const> stateNames();
 

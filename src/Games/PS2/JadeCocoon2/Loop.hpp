@@ -10,7 +10,7 @@ namespace PS2::JadeCocoon2
 	class Loop final : public GameLoop
 	{
 	public:
-		Loop(Game game);
+		Loop(Game&& game);
 		~Loop();
 
 		void draw() override;

@@ -11,7 +11,7 @@ namespace PS2::ResidentEvil4
 	class Loop final : public GameLoop
 	{
 	public:
-		Loop(Game game);
+		Loop(Game&& game);
 		~Loop();
 
 		void draw() override;

@@ -61,13 +61,13 @@ namespace PS2::Sly1
 	class Game final
 	{
 	public:
-		Game(Ram ram, s32 version);
+		Game(Ram&& ram, s32 version);
 
 		static constexpr auto name{ "Sly Cooper and the Thievius Raccoonus" };
 
 		static const char* versionText(s32 version);
 		static OffsetPattern offsetPattern(s32 version);
-		static std::unique_ptr<GameLoop> createLoop(Ram ram, s32 version);
+		static std::unique_ptr<GameLoop> createLoop(Ram&& ram, s32 version);
 		static std::vector<InputWrapper::NameInputs> baseInputs();
 
 		const PCSX2::PnachInfo& pnachInfo() const;

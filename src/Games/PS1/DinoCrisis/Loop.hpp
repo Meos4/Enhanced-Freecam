@@ -11,7 +11,7 @@ namespace PS1::DinoCrisis
 	class Loop final : public GameLoop
 	{
 	public:
-		Loop(Game game);
+		Loop(Game&& game);
 		~Loop();
 
 		void draw() override;

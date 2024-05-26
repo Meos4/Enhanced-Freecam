@@ -52,7 +52,7 @@ struct GameInfo
 	s32 count;
 	const char* (*versionText)(s32);
 	OffsetPattern (*offsetPattern)(s32);
-	std::unique_ptr<GameLoop> (*createLoop)(Ram, s32);
+	std::unique_ptr<GameLoop> (*createLoop)(Ram&&, s32);
 };
 
 struct EmulatorInfo
