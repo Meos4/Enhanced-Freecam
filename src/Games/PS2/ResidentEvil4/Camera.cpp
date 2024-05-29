@@ -148,6 +148,10 @@ namespace PS2::ResidentEvil4
 				}
 			}
 		}
+		else if (m_game->settings()->resetZRotation)
+		{
+			m_rotation.z = Math::toRadians(180.f);
+		}
 
 		m_isEnabled = enable;
 	}
