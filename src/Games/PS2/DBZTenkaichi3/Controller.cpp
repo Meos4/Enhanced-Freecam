@@ -1,11 +1,8 @@
 #include "Controller.hpp"
 
 #include "Common/MiscModel.hpp"
-#include "Common/Ui.hpp"
 
 #include "Game.hpp"
-
-#include <array>
 
 namespace PS2::DBZTenkaichi3
 {
@@ -16,13 +13,7 @@ namespace PS2::DBZTenkaichi3
 
 	void Controller::draw()
 	{
-		const std::array<Ui::LabelFlag, 2> lf
-		{
-			"Button", &m_isButtonEnabled,
-			"Joystick", &m_isJoystickEnabled
-		};
-
-		MiscModel::drawFlags("Controller", lf, !m_isEnabled);
+		MiscModel::drawControllerButtonJoystick(&m_isButtonEnabled, &m_isJoystickEnabled, !m_isEnabled);
 	}
 
 	void Controller::update()

@@ -2,7 +2,6 @@
 
 #include "Common/Mips.hpp"
 #include "Common/MiscModel.hpp"
-#include "Common/Ui.hpp"
 
 #include "Game.hpp"
 
@@ -17,14 +16,7 @@ namespace PS1::ApeEscape
 
 	void Controller::draw()
 	{
-		const std::array<Ui::LabelFlag, 3> lf
-		{
-			"Button", &m_isButtonEnabled,
-			"L Joystick", &m_isLJoystickEnabled,
-			"R Joystick", &m_isRJoystickEnabled
-		};
-
-		MiscModel::drawFlags("Controller", lf, !m_isEnabled);
+		MiscModel::drawControllerButtonLRJoystick(&m_isButtonEnabled, &m_isLJoystickEnabled, &m_isRJoystickEnabled, !m_isEnabled);
 	}
 
 	void Controller::update()

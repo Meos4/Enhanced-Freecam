@@ -1,7 +1,6 @@
 #include "Controller.hpp"
 
 #include "Common/MiscModel.hpp"
-#include "Common/Ui.hpp"
 
 #include "Game.hpp"
 
@@ -14,8 +13,7 @@ namespace PS1::DinoCrisis
 
 	void Controller::draw()
 	{
-		const Ui::LabelFlag lf{ "Button", &m_isButtonEnabled };
-		MiscModel::drawFlags("Controller", { &lf, 1 }, !m_isEnabled);
+		MiscModel::drawControllerButton(&m_isButtonEnabled, !m_isEnabled);
 	}
 
 	void Controller::update()
