@@ -12,6 +12,7 @@ namespace PS2::ResidentEvil4
 			cameraPtr,
 			menuStruct,
 			progression,
+			Fn_drawFog,
 			Fn_drawHud,
 			Fn_drawText,
 			Fn_padStatus,

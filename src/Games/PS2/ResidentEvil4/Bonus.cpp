@@ -6,6 +6,8 @@
 
 #include "Game.hpp"
 
+#include <array>
+
 namespace PS2::ResidentEvil4
 {
 	static constexpr auto _Bonus{ "Bonus" };
@@ -19,6 +21,7 @@ namespace PS2::ResidentEvil4
 	{
 		Ui::setXSpacingStr("Unlock All");
 
+		Ui::checkbox(Ui::lol("No Fog"), &m_noFog);
 		Ui::checkbox(Ui::lol("No Game Over"), &m_noGameOver);
 
 		Ui::separatorText("Cheats");
@@ -35,6 +38,7 @@ namespace PS2::ResidentEvil4
 		const auto& ram{ m_game->ram() };
 		const auto& offset{ m_game->offset() };
 
+		ram.write(offset.Fn_drawFog, m_noFog ? Mips::jrRaNop() : std::array<Mips_t, 2>{ 0x27BDFF30, 0x7FB000C0 });
 		ram.write(offset.Fn_updateGameOver + 0x70, m_noGameOver ? 0x00009021 : 0x0062900A);
 		ram.write(offset.Fn_updatePlayer + 0x4B0, m_noCollisions ? 0x00000000 : Mips::jal(offset.Fn_updatePlayerCollisions));
 
@@ -55,6 +59,7 @@ namespace PS2::ResidentEvil4
 			if (json.contains(_Bonus))
 			{
 				const auto& j{ json[_Bonus] };
+				JSON_GET(j, m_noFog);
 				JSON_GET(j, m_noGameOver);
 				JSON_GET(j, m_noCollisions);
 			}
@@ -68,6 +73,7 @@ namespace PS2::ResidentEvil4
 	void Bonus::writeSettings(Json::Write* json)
 	{
 		auto* const j{ &(*json)[_Bonus] };
+		JSON_SET(j, m_noFog);
 		JSON_SET(j, m_noGameOver);
 		JSON_SET(j, m_noCollisions);
 	}
