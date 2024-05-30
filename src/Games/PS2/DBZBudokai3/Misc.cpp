@@ -2,7 +2,6 @@
 
 #include "Common/Mips.hpp"
 #include "Common/MiscModel.hpp"
-#include "Common/Ui.hpp"
 
 #include "Game.hpp"
 
@@ -24,20 +23,13 @@ namespace PS2::DBZBudokai3
 	{
 		if (m_game->state() == State::DragonUniverse)
 		{
-			Ui::LabelFlag lf{ "Hide Hud", &m_isHudHidden };
-			MiscModel::drawFlags("Misc", { &lf, 1 }, !m_isEnabled);
+			MiscModel::drawMiscHideHud(&m_isHudHidden, !m_isEnabled);
 		}
 		else
 		{
-			const std::array<Ui::LabelFlag, 2> lf
-			{
-				"Pause Game", &m_isGamePaused,
-				"Hide Hud", &m_isHudHidden
-			};
-
 			const auto base{ timescaleBase(m_game->version()) };
 			MiscModel::drawTimescale(&m_timescale, timescaleMin * base, timescaleMax * base, !m_isEnabled);
-			MiscModel::drawFlags("Misc", lf, !m_isEnabled);
+			MiscModel::drawMiscPauseGameHideHud(&m_isGamePaused, &m_isHudHidden, !m_isEnabled);
 		}
 	}
 

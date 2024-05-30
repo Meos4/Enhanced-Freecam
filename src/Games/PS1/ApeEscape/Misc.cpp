@@ -2,7 +2,6 @@
 
 #include "Common/Mips.hpp"
 #include "Common/MiscModel.hpp"
-#include "Common/Ui.hpp"
 
 #include "Game.hpp"
 
@@ -17,18 +16,11 @@ namespace PS1::ApeEscape
 	{
 		if (m_game->state() == State::Ingame)
 		{
-			const std::array<Ui::LabelFlag, 2> lf
-			{
-				"Pause Game", &m_isGamePaused,
-				"Hide Hud", &m_isHudHidden
-			};
-
-			MiscModel::drawFlags("Misc", lf, !m_isEnabled);
+			MiscModel::drawMiscPauseGameHideHud(&m_isGamePaused, &m_isHudHidden, !m_isEnabled);
 		}
 		else
 		{
-			const Ui::LabelFlag lf{ "Hide Hud", &m_isHudHidden };
-			MiscModel::drawFlags("Misc", { &lf, 1 }, !m_isEnabled);
+			MiscModel::drawMiscHideHud(&m_isHudHidden, !m_isEnabled);
 		}
 	}
 

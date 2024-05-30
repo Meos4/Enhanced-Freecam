@@ -2,7 +2,6 @@
 
 #include "Common/Mips.hpp"
 #include "Common/MiscModel.hpp"
-#include "Common/Ui.hpp"
 
 #include "Game.hpp"
 
@@ -15,13 +14,7 @@ namespace PS2::DragonQuest8
 
 	void Misc::draw()
 	{
-		const std::array<Ui::LabelFlag, 2> lf
-		{
-			"Pause Game", &m_isGamePaused,
-			"Hide Hud", &m_isHudHidden
-		};
-
-		MiscModel::drawFlags("Misc", lf, !m_isEnabled);
+		MiscModel::drawMiscPauseGameHideHud(&m_isGamePaused, &m_isHudHidden, !m_isEnabled);
 	}
 
 	void Misc::update()

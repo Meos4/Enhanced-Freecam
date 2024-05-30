@@ -1,7 +1,6 @@
 #include "Misc.hpp"
 
 #include "Common/MiscModel.hpp"
-#include "Common/Ui.hpp"
 
 #include "Game.hpp"
 
@@ -14,8 +13,7 @@ namespace PS2::HauntingGround
 
 	void Misc::draw()
 	{
-		const Ui::LabelFlag lf{ "Pause Game", &m_isGamePaused };
-		MiscModel::drawFlags("Misc", { &lf, 1}, !m_isEnabled);
+		MiscModel::drawMiscPauseGame(&m_isGamePaused, !m_isEnabled);
 	}
 
 	void Misc::update()

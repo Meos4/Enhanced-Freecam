@@ -13,6 +13,29 @@ namespace MiscModel
 		Ui::buttonsFlags(lf, readOnly);
 	}
 
+	void drawMiscPauseGame(bool* pauseGame, bool readOnly)
+	{
+		const Ui::LabelFlag lf{ "Pause Game", pauseGame };
+		MiscModel::drawFlags("Misc", { &lf, 1 }, readOnly);
+	}
+
+	void drawMiscHideHud(bool* hideHud, bool readOnly)
+	{
+		const Ui::LabelFlag lf{ "Hide Hud", hideHud };
+		MiscModel::drawFlags("Misc", { &lf, 1 }, readOnly);
+	}
+
+	void drawMiscPauseGameHideHud(bool* pauseGame, bool* hideHud, bool readOnly)
+	{
+		const std::array<Ui::LabelFlag, 2> lf
+		{
+			"Pause Game", pauseGame,
+			"Hide Hud", hideHud
+		};
+
+		MiscModel::drawFlags("Misc", lf, readOnly);
+	}
+
 	void drawControllerButton(bool* button, bool readOnly)
 	{
 		const Ui::LabelFlag lf{ "Button", button };
