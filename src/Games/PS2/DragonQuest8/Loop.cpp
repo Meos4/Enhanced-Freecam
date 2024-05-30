@@ -50,7 +50,7 @@ namespace PS2::DragonQuest8
 
 	bool Loop::isValid()
 	{
-		const auto op{ Game::offsetPattern(m_game.version()) };
-		return m_game.ram().isPatternValid(op.offset, op.pattern);
+		const auto [offset, pattern]{ Game::offsetPattern(m_game.version()) };
+		return m_game.ram().isPatternValid(offset, pattern);
 	}
 }
