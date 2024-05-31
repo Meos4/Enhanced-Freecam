@@ -18,6 +18,8 @@ namespace PS2::ResidentEvil4
 		void draw();
 		void update();
 		void enable(bool enable);
+
+		const Camera& camera() const;
 	private:
 		Game* m_game;
 		Camera m_camera;

@@ -27,6 +27,9 @@ namespace PS2::ResidentEvil4
 		void read();
 		void write();
 		void enableGameCamera(bool enable);
+
+		const Vec3<float>& position() const;
+		const Vec3<float>& rotation() const;
 	private:
 		Game* m_game;
 		Vec3<float> m_position{};

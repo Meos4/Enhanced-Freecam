@@ -11,6 +11,7 @@ namespace PS2::ResidentEvil4
 		u32 Fn_memcpy,
 			cameraPtr,
 			menuStruct,
+			playerPtr,
 			progression,
 			Fn_drawFog,
 			Fn_drawHud,

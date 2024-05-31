@@ -266,4 +266,14 @@ namespace PS2::ResidentEvil4
 			);
 		}
 	}
+
+	const Vec3<float>& Camera::position() const
+	{
+		return m_position;
+	}
+
+	const Vec3<float>& Camera::rotation() const
+	{
+		return m_rotation;
+	}
 }

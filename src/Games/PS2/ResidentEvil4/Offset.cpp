@@ -12,6 +12,7 @@ namespace PS2::ResidentEvil4
 		.Fn_memcpy = 0x002AFFAC,
 		.cameraPtr = 0x00325F38,
 		.menuStruct = 0x00418240,
+		.playerPtr = 0x00421090,
 		.progression = 0x00431C24,
 		.Fn_drawFog = 0x002169E0,
 		.Fn_drawHud = 0x0021EDB0,

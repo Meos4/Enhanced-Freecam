@@ -4,6 +4,7 @@
 #include "Common/Mips.hpp"
 #include "Common/Ui.hpp"
 
+#include "Camera.hpp"
 #include "Game.hpp"
 
 #include <array>
@@ -19,7 +20,7 @@ namespace PS2::ResidentEvil4
 
 	void Bonus::draw()
 	{
-		Ui::setXSpacingStr("Unlock All");
+		Ui::setXSpacingStr("Teleport To Camera");
 
 		Ui::checkbox(Ui::lol("No Fog"), &m_noFog);
 		Ui::checkbox(Ui::lol("No Game Over"), &m_noGameOver);
@@ -31,9 +32,14 @@ namespace PS2::ResidentEvil4
 		{
 			m_unlockAll = true;
 		}
+		Ui::labelXSpacing("Teleport To Camera");
+		if (Ui::buttonItemWidth("Set##TTC"))
+		{
+			m_teleportToCamera = true;
+		}
 	}
 
-	void Bonus::update()
+	void Bonus::update(const Camera& camera)
 	{
 		const auto& ram{ m_game->ram() };
 		const auto& offset{ m_game->offset() };
@@ -49,6 +55,34 @@ namespace PS2::ResidentEvil4
 			ram.write(offset.progression + 9, u8(4)); // Ada's report
 			Console::append(Console::Type::Success, "All unlocked successfully");
 			m_unlockAll = false;
+		}
+
+		if (m_teleportToCamera)
+		{
+			const auto playerPtr{ ram.read<u32>(offset.playerPtr) };
+
+			if (playerPtr)
+			{
+				const auto& [px, py, pz]{ camera.position() };
+				const auto& [rx, ry, rz]{ camera.rotation() };
+
+				const auto
+					sx{ std::sin(rx) },
+					cx{ std::cos(rx) },
+					sy{ std::sin(ry) },
+					cy{ std::cos(ry) };
+
+				static constexpr auto forwardAmount{ 1500.f };
+				const Vec3<float> playerPosition
+				{
+					px - cx * sy * forwardAmount, 
+					py - -sx * forwardAmount - 1000.f, 
+					pz - cy * cx * forwardAmount
+				};
+
+				ram.write(playerPtr + 0xC0, playerPosition);
+			}
+			m_teleportToCamera = false;
 		}
 	}
 

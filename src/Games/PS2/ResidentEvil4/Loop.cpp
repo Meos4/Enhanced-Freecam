@@ -47,7 +47,7 @@ namespace PS2::ResidentEvil4
 	{
 		CustomCode::update(m_game);
 		m_freecam.update();
-		m_bonus.update();
+		m_bonus.update(m_freecam.camera());
 	}
 
 	bool Loop::isValid()

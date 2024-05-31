@@ -4,6 +4,7 @@
 
 namespace PS2::ResidentEvil4
 {
+	class Camera;
 	class Game;
 
 	class Bonus final
@@ -12,7 +13,7 @@ namespace PS2::ResidentEvil4
 		Bonus(Game* game);
 
 		void draw();
-		void update();
+		void update(const Camera& camera);
 		void readSettings(const Json::Read& json);
 		void writeSettings(Json::Write* json);
 	private:
@@ -21,5 +22,6 @@ namespace PS2::ResidentEvil4
 		bool m_noGameOver{};
 		bool m_noCollisions{};
 		bool m_unlockAll{};
+		bool m_teleportToCamera{};
 	};
 }

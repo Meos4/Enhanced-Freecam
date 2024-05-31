@@ -74,4 +74,9 @@ namespace PS2::ResidentEvil4
 			m_controls.resetVelocity();
 		}
 	}
+
+	const Camera& Freecam::camera() const
+	{
+		return m_camera;
+	}
 }
