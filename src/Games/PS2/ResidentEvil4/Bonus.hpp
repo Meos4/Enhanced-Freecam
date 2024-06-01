@@ -21,7 +21,7 @@ namespace PS2::ResidentEvil4
 		bool m_noFog{};
 		bool m_noGameOver{};
 		bool m_noCollisions{};
-		bool m_unlockAll{};
 		bool m_teleportToCamera{};
+		bool m_unlockAll{};
 	};
 }
