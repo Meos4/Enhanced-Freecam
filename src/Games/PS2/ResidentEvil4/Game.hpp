@@ -51,6 +51,8 @@ namespace PS2::ResidentEvil4
 	{
 		enum
 		{
+			Pal,
+			NtscU,
 			NtscJ,
 			Count
 		};
