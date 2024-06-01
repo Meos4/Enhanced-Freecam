@@ -44,7 +44,7 @@ namespace PS2::ResidentEvil4
 		const auto& ram{ m_game->ram() };
 		const auto& offset{ m_game->offset() };
 
-		const u32 upShift{ m_game->version() == Version::NtscJ ? 0x4B0 : 0x4AC };
+		const auto upShift{ m_game->version() == Version::NtscJ ? 0x4B0 : 0x4AC };
 
 		ram.write(offset.Fn_drawFog, m_noFog ? Mips::jrRaNop() : std::array<Mips_t, 2>{ 0x27BDFF30, 0x7FB000C0 });
 		ram.write(offset.Fn_updateGameOver + 0x70, m_noGameOver ? 0x00009021 : 0x0062900A);
