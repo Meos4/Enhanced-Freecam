@@ -70,7 +70,8 @@ namespace PS2::ResidentEvil4
 			{ "Rotation Speed+", i.rotationSpeedPos },
 			{ "Rotation Speed-", i.rotationSpeedNeg },
 			{ "Fov Speed+", i.fovSpeedPos },
-			{ "Fov Speed-", i.fovSpeedNeg }
+			{ "Fov Speed-", i.fovSpeedNeg },
+			{ "Teleport To Camera", i.teleportToCamera }
 		};
 	}
 

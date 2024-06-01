@@ -128,7 +128,8 @@ struct Settings
 			pauseGame{ InputWrapper::GamepadActionId{ Gamepad::Action::Start, 0 }, Keyboard::Key::P },
 			hideHud{ InputWrapper::GamepadActionId{ Gamepad::Action::Select, 0 }, Keyboard::Key::H },
 			timescalePos{ InputWrapper::GamepadActionId{ Gamepad::Action::Square, 0 } },
-			timescaleNeg{ InputWrapper::GamepadActionId{ Gamepad::Action::Circle, 0 } };
+			timescaleNeg{ InputWrapper::GamepadActionId{ Gamepad::Action::Circle, 0 } },
+			teleportToCamera{};
 	} input;
 
 	struct

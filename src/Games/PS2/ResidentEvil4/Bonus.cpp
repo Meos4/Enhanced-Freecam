@@ -2,6 +2,7 @@
 
 #include "Common/Console.hpp"
 #include "Common/Mips.hpp"
+#include "Common/MiscModel.hpp"
 #include "Common/Ui.hpp"
 
 #include "Camera.hpp"
@@ -43,6 +44,8 @@ namespace PS2::ResidentEvil4
 	{
 		const auto& ram{ m_game->ram() };
 		const auto& offset{ m_game->offset() };
+
+		MiscModel::teleportToCamera(m_game->input(), Input::TeleportToCamera, &m_teleportToCamera);
 
 		const auto upShift{ m_game->version() == Version::NtscJ ? 0x4B0 : 0x4AC };
 

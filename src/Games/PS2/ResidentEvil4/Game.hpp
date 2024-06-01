@@ -43,6 +43,7 @@ namespace PS2::ResidentEvil4
 			RotationSpeedNeg,
 			FovSpeedPos,
 			FovSpeedNeg,
+			TeleportToCamera,
 			Count
 		};
 	};

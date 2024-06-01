@@ -86,4 +86,12 @@ namespace MiscModel
 			*timescale = std::clamp(*timescale / 1.25f, min, max);
 		}
 	}
+
+	void teleportToCamera(InputWrapper* input, s32 id, bool* flag)
+	{
+		if (input->isHeld(id))
+		{
+			*flag = true;
+		}
+	}
 }
