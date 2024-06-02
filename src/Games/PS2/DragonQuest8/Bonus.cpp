@@ -2,6 +2,7 @@
 
 #include "Common/Console.hpp"
 #include "Common/Mips.hpp"
+#include "Common/MiscModel.hpp"
 #include "Common/Ui.hpp"
 
 #include "Game.hpp"
@@ -44,19 +45,9 @@ namespace PS2::DragonQuest8
 
 		Ui::separatorText("Cheats");
 		Ui::checkbox(Ui::lol("No Random Encounter"), &m_noRandomEncounter);
-
-		Ui::labelXSpacing("Bag items");
-		if (Ui::buttonItemWidth("Unlock all"))
-		{
-			m_shouldGiftItems = true;
-		}
+		MiscModel::drawEnableButton("Bag items", "Unlock all", &m_shouldGiftItems);
 		Ui::hoveredTooltip("Gift all items in the bag in 999 copies");
-
-		Ui::labelXSpacing("Stats");
-		if (Ui::buttonItemWidth("Set max"))
-		{
-			m_shouldStatsMax = true;
-		}
+		MiscModel::drawEnableButton("Stats", "Set max", &m_shouldStatsMax);
 		Ui::hoveredTooltip("Set stats at max for Hero, Yangus, Jessica and Angelo");
 	}
 

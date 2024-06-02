@@ -3,6 +3,7 @@
 #include "Common/Buffer.hpp"
 #include "Common/Console.hpp"
 #include "Common/Mips.hpp"
+#include "Common/MiscModel.hpp"
 #include "Common/Ui.hpp"
 
 #include "Game.hpp"
@@ -30,11 +31,7 @@ namespace PS2::DBZTenkaichi3
 		Ui::slider(Ui::lol("Shaders"), &m_shaders, "%d", ImGuiSliderFlags_AlwaysClamp);
 
 		Ui::separatorText("Cheats");
-		Ui::labelXSpacing("Unlock All");
-		if (Ui::buttonItemWidth("Set"))
-		{
-			m_unlockAll = true;
-		}
+		MiscModel::drawEnableButton("Unlock All", "Set", &m_unlockAll);
 	}
 
 	void Bonus::update()

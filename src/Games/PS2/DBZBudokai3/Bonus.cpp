@@ -2,6 +2,7 @@
 
 #include "Common/Console.hpp"
 #include "Common/Mips.hpp"
+#include "Common/MiscModel.hpp"
 #include "Common/Ui.hpp"
 
 #include "Game.hpp"
@@ -43,11 +44,7 @@ namespace PS2::DBZBudokai3
 		Ui::hoveredTooltip("Remove the far clip limit\n*Showing an important part of the map (Ex: using a high fov) may crash the game");
 
 		Ui::separatorText("Cheats");
-		Ui::labelXSpacing("Unlock All");
-		if (Ui::buttonItemWidth("Set"))
-		{
-			m_unlockAll = true;
-		}
+		MiscModel::drawEnableButton("Unlock All", "Set", &m_unlockAll);
 	}
 
 	void Bonus::update()

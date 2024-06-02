@@ -9,6 +9,7 @@ class InputWrapper;
 
 namespace MiscModel
 {
+	void drawEnableButton(const char* label, const char* button, bool* flag);
 	void drawFlags(const char* label, std::span<const Ui::LabelFlag> lf, bool readOnly);
 	void drawMiscPauseGame(bool* pauseGame, bool readOnly);
 	void drawMiscHideHud(bool* hideHud, bool readOnly);

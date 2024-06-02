@@ -28,16 +28,8 @@ namespace PS2::ResidentEvil4
 
 		Ui::separatorText("Cheats");
 		Ui::checkbox(Ui::lol("No Collisions"), &m_noCollisions);
-		Ui::labelXSpacing("Teleport To Camera");
-		if (Ui::buttonItemWidth("Set##TTC"))
-		{
-			m_teleportToCamera = true;
-		}
-		Ui::labelXSpacing("Unlock All");
-		if (Ui::buttonItemWidth("Set##UA"))
-		{
-			m_unlockAll = true;
-		}
+		MiscModel::drawEnableButton("Teleport To Camera", "Set##TTC", &m_teleportToCamera);
+		MiscModel::drawEnableButton("Unlock All", "Set##UA", &m_unlockAll);
 	}
 
 	void Bonus::update(const Camera& camera)

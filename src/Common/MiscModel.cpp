@@ -7,6 +7,15 @@
 
 namespace MiscModel
 {
+	void drawEnableButton(const char* label, const char* button, bool* flag)
+	{
+		Ui::labelXSpacing(label);
+		if (Ui::buttonItemWidth(button))
+		{
+			*flag = true;
+		}
+	}
+
 	void drawFlags(const char* label, std::span<const Ui::LabelFlag> lf, bool readOnly)
 	{
 		Ui::labelXSpacing(label);

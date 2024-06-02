@@ -2,6 +2,7 @@
 
 #include "Common/Console.hpp"
 #include "Common/Mips.hpp"
+#include "Common/MiscModel.hpp"
 #include "Common/Ui.hpp"
 
 #include "Game.hpp"
@@ -34,11 +35,7 @@ namespace PS2::DBZInfiniteWorld
 		Ui::hoveredTooltip("Hide on screen effects\nEx: white screen/grey lines");
 
 		Ui::separatorText("Cheats");
-		Ui::labelXSpacing("Unlock All");
-		if (Ui::buttonItemWidth("Set"))
-		{
-			m_unlockAll = true;
-		}
+		MiscModel::drawEnableButton("Unlock All", "Set", &m_unlockAll);
 	}
 
 	void Bonus::update()

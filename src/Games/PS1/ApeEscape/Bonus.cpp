@@ -2,6 +2,7 @@
 
 #include "Common/Console.hpp"
 #include "Common/Mips.hpp"
+#include "Common/MiscModel.hpp"
 #include "Common/Ui.hpp"
 
 #include "Game.hpp"
@@ -44,11 +45,7 @@ namespace PS1::ApeEscape
 		Ui::buttonsSetter<s32>(titleScreenChoices, &m_titleScreenState);
 
 		Ui::separatorText("Stage Select");
-		Ui::labelXSpacing("Debug Menu");
-		if (Ui::buttonItemWidth("Select Menu"))
-		{
-			m_stageSelectSelectMenu = true;
-		}
+		MiscModel::drawEnableButton("Debug Menu", "Select Menu", &m_stageSelectSelectMenu);
 
 		Ui::separatorText("Stage Preview");
 		Ui::checkbox(Ui::lol("No Timer##2"), &m_stagePreviewNoTimer);

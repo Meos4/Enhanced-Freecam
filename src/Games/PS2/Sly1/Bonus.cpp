@@ -2,6 +2,7 @@
 
 #include "Common/Buffer.hpp"
 #include "Common/Console.hpp"
+#include "Common/MiscModel.hpp"
 #include "Common/Ui.hpp"
 
 #include "Game.hpp"
@@ -23,18 +24,8 @@ namespace PS2::Sly1
 
 		Ui::separatorText("Cheats");
 		Ui::checkbox(Ui::lol("Invulnerable"), &m_invulnerable);
-
-		Ui::labelXSpacing("Keys");
-		if (Ui::buttonItemWidth("Unlock All##Keys"))
-		{
-			m_shouldUnlockAllKeys = true;
-		}
-
-		Ui::labelXSpacing("Power-ups");
-		if (Ui::buttonItemWidth("Unlock All##Power-ups"))
-		{
-			m_shouldUnlockAllPowerUps = true;
-		}
+		MiscModel::drawEnableButton("Keys", "Unlock All##Keys", &m_shouldUnlockAllKeys);
+		MiscModel::drawEnableButton("Power-ups", "Unlock All##Power-ups", &m_shouldUnlockAllPowerUps);
 	}
 
 	void Bonus::update()

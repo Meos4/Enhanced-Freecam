@@ -2,6 +2,7 @@
 
 #include "Common/Console.hpp"
 #include "Common/Mips.hpp"
+#include "Common/MiscModel.hpp"
 #include "Common/Ui.hpp"
 
 #include "Game.hpp"
@@ -31,11 +32,7 @@ namespace PS2::HauntingGround
 		Ui::hoveredTooltip("Fiona run by default and can walk by holding the running button");
 
 		Ui::separatorText("Cheats");
-		Ui::labelXSpacing("Secret Room");
-		if (Ui::buttonItemWidth("Unlock All"))
-		{
-			m_shouldUnlockAllSecretRoom = true;
-		}
+		MiscModel::drawEnableButton("Secret Room", "Unlock All", &m_shouldUnlockAllSecretRoom);
 	}
 
 	void Bonus::update()
