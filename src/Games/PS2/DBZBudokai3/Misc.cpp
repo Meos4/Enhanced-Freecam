@@ -52,8 +52,7 @@ namespace PS2::DBZBudokai3
 				m_isHudHidden = !m_isHudHidden;
 			}
 
-			MiscModel::increaseTimescale(input, Input::TimescalePos, &m_timescale, timescaleMin * base, timescaleMax * base);
-			MiscModel::decreaseTimescale(input, Input::TimescaleNeg, &m_timescale, timescaleMin * base, timescaleMax * base);
+			MiscModel::updateTimescale(input, Input::TimescalePos, Input::TimescaleNeg, &m_timescale, timescaleMin * base, timescaleMax * base);
 			
 			if (state == State::DragonUniverse)
 			{
