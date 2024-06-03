@@ -15,6 +15,7 @@ namespace PS1::ApeEscape
 		Ui::checkbox(Ui::lol("Reset Movement Speed"), &resetMovementSpeed);
 		Ui::checkbox(Ui::lol("Reset Rotation Speed"), &resetRotationSpeed);
 		Ui::checkbox(Ui::lol("Reset Fov Speed"), &resetFovSpeed);
+		Ui::checkbox(Ui::lol("Reset Z Rotation"), &resetZRotation);
 		Ui::checkbox(Ui::lol("Disable Button"), &disableButton);
 		Ui::checkbox(Ui::lol("Disable Left Joystick"), &disableLJoystick);
 		Ui::checkbox(Ui::lol("Disable Right Joystick"), &disableRJoystick);
@@ -32,6 +33,7 @@ namespace PS1::ApeEscape
 				JSON_GET(j, resetMovementSpeed);
 				JSON_GET(j, resetRotationSpeed);
 				JSON_GET(j, resetFovSpeed);
+				JSON_GET(j, resetZRotation);
 				JSON_GET(j, disableButton);
 				JSON_GET(j, disableLJoystick);
 				JSON_GET(j, disableRJoystick);
@@ -51,6 +53,7 @@ namespace PS1::ApeEscape
 		JSON_SET(j, resetMovementSpeed);
 		JSON_SET(j, resetRotationSpeed);
 		JSON_SET(j, resetFovSpeed);
+		JSON_SET(j, resetZRotation);
 		JSON_SET(j, disableButton);
 		JSON_SET(j, disableLJoystick);
 		JSON_SET(j, disableRJoystick);

@@ -89,6 +89,10 @@ namespace PS1::ApeEscape
 				m_game->ram().write(m_game->offset().viewMatrix, vm);
 			}
 		}
+		else if (m_game->settings()->resetZRotation)
+		{
+			m_rotation.z = 0;
+		}
 
 		m_isEnabled = enable;
 	}

@@ -62,6 +62,10 @@ namespace PS2::DragonQuest8
 				ram.write(offset.projectionStruct + nearShift, 5.f);
 			}
 		}
+		else if (m_game->settings()->resetZRotation)
+		{
+			m_rotation.z = 0.f;
+		}
 		m_isEnabled = enable;
 	}
 

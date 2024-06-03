@@ -66,6 +66,10 @@ namespace PS2::Sly1
 			const auto packet{ ram.read<std::array<float, 2>>(cameraPtr + 0x1E4) };
 			writeProjectionMatrix(cameraPtr, fov, packet[0], packet[1]);
 		}
+		else if (enable && m_game->settings()->resetXRotation)
+		{
+			m_rotation.x = 0.f; 
+		}
 
 		m_isEnabled = enable;
 	}

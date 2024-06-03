@@ -1,6 +1,7 @@
 #include "Camera.hpp"
 
 #include "Common/CameraModel.hpp"
+#include "Common/Math.hpp"
 #include "Common/Mips.hpp"
 
 #include "CustomCode.hpp"
@@ -33,6 +34,10 @@ namespace PS2::HauntingGround
 		if (!enable && m_isEnabled)
 		{
 			m_game->ram().write(m_game->ram().read<u32>(m_game->offset().cameraPtr) + 0xC, 1.0f); // Near
+		}
+		else if (m_game->settings()->resetZRotation)
+		{
+			m_rotation.z = Math::toRadians(180.f);
 		}
 		m_isEnabled = enable;
 	}

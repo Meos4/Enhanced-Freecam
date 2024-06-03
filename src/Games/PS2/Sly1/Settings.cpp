@@ -15,6 +15,7 @@ namespace PS2::Sly1
 		Ui::checkbox(Ui::lol("Reset Movement Speed"), &resetMovementSpeed);
 		Ui::checkbox(Ui::lol("Reset Rotation Speed"), &resetRotationSpeed);
 		Ui::checkbox(Ui::lol("Reset Fov Speed"), &resetFovSpeed);
+		Ui::checkbox(Ui::lol("Reset X Rotation"), &resetXRotation);
 		Ui::checkbox(Ui::lol("Disable Button"), &disableButton);
 		Ui::checkbox(Ui::lol("Disable Joystick"), &disableJoystick);
 		Ui::checkbox(Ui::lol("Pause Game"), &pauseGame);
@@ -31,6 +32,7 @@ namespace PS2::Sly1
 				JSON_GET(j, resetMovementSpeed);
 				JSON_GET(j, resetRotationSpeed);
 				JSON_GET(j, resetFovSpeed);
+				JSON_GET(j, resetXRotation);
 				JSON_GET(j, disableButton);
 				JSON_GET(j, disableJoystick);
 				JSON_GET(j, pauseGame);
@@ -49,6 +51,7 @@ namespace PS2::Sly1
 		JSON_SET(j, resetMovementSpeed);
 		JSON_SET(j, resetRotationSpeed);
 		JSON_SET(j, resetFovSpeed);
+		JSON_SET(j, resetXRotation);
 		JSON_SET(j, disableButton);
 		JSON_SET(j, disableJoystick);
 		JSON_SET(j, pauseGame);
