@@ -18,5 +18,6 @@ namespace PS1::DinoCrisis
 	private:
 		Game* m_game;
 		bool m_noCutsceneBlackBar{};
+		bool m_noGameOverFade{};
 	};
 }
