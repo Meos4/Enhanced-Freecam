@@ -49,7 +49,7 @@ namespace PS2::DragonQuest8
 
 	void Camera::enable(bool enable)
 	{
-		if (!enable && m_isEnabled)
+		if (!enable)
 		{
 			const auto cameraPtr{ ptr() };
 			if (cameraPtr)

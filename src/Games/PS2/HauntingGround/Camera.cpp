@@ -31,7 +31,7 @@ namespace PS2::HauntingGround
 
 	void Camera::enable(bool enable)
 	{
-		if (!enable && m_isEnabled)
+		if (!enable)
 		{
 			m_game->ram().write(m_game->ram().read<u32>(m_game->offset().cameraPtr) + 0xC, 1.0f); // Near
 		}

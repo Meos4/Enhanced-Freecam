@@ -57,16 +57,19 @@ namespace PS2::Sly1
 
 	void Camera::enable(bool enable)
 	{
-		const auto& ram{ m_game->ram() };
-		const auto cameraPtr{ ram.read<u32>(m_game->offset().g_pcm) };
-
-		if (cameraPtr && m_isEnabled)
+		if (!enable)
 		{
-			const auto fov{ ram.read<float>(cameraPtr + 0x1C4) };
-			const auto packet{ ram.read<std::array<float, 2>>(cameraPtr + 0x1E4) };
-			writeProjectionMatrix(cameraPtr, fov, packet[0], packet[1]);
+			const auto& ram{ m_game->ram() };
+			const auto cameraPtr{ ram.read<u32>(m_game->offset().g_pcm) };
+
+			if (cameraPtr)
+			{
+				const auto fov{ ram.read<float>(cameraPtr + 0x1C4) };
+				const auto packet{ ram.read<std::array<float, 2>>(cameraPtr + 0x1E4) };
+				writeProjectionMatrix(cameraPtr, fov, packet[0], packet[1]);
+			}
 		}
-		else if (enable && m_game->settings()->resetXRotation)
+		else if (m_game->settings()->resetXRotation)
 		{
 			m_rotation.x = 0.f; 
 		}
