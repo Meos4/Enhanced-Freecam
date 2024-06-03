@@ -80,15 +80,15 @@ namespace MiscModel
 		Ui::slider(Ui::lol("Timescale"), timescale, "%.2f", flags, min, max);
 	}
 
-	void updateTimescale(InputWrapper* input, s32 it, s32 dt, float* timescale, float min, float max)
+	void updateTimescale(InputWrapper* input, s32 it, s32 dt, float* timescale, float speed, float min, float max)
 	{
 		if (input->isPressed(it))
 		{
-			*timescale = std::clamp(*timescale * 1.25f, min, max);
+			*timescale = std::clamp(*timescale * speed, min, max);
 		}
 		if (input->isPressed(dt))
 		{
-			*timescale = std::clamp(*timescale / 1.25f, min, max);
+			*timescale = std::clamp(*timescale / speed, min, max);
 		}
 	}
 
