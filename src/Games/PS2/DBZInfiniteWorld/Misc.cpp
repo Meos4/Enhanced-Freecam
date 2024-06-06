@@ -42,19 +42,14 @@ namespace PS2::DBZInfiniteWorld
 		{
 			auto* const input{ m_game->input() };
 			const auto base{ timescaleBase(version) };
+			MiscModel::toggle(input, Input::PauseGame, &m_isGamePaused);
+			MiscModel::toggle(input, Input::HideHud, &m_isHudHidden);
 
-			if (input->isPressed(Input::PauseGame))
+			if (state != State::DragonMissionCutscene || state != State::DragonMissionFlying)
 			{
-				m_isGamePaused = !m_isGamePaused;
+				MiscModel::updateTimescale(input, Input::TimescalePos, Input::TimescaleNeg, &m_timescale, 1.25f, timescaleMin * base, timescaleMax * base);
 			}
-			if (input->isPressed(Input::HideHud))
-			{
-				m_isHudHidden = !m_isHudHidden;
-			}
-
-			MiscModel::updateTimescale(input, Input::TimescalePos, Input::TimescaleNeg, &m_timescale, 1.25f, timescaleMin * base, timescaleMax * base);
-
-			if (state == State::DragonMissionCutscene || state == State::DragonMissionFlying)
+			else
 			{
 				m_timescale = base;
 			}

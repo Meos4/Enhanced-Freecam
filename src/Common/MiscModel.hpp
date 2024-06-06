@@ -20,4 +20,5 @@ namespace MiscModel
 	void drawTimescale(float* timescale, float min, float max, bool readOnly);
 	void updateTimescale(InputWrapper* input, s32 it, s32 dt, float* timescale, float speed, float min, float max);
 	void teleportToCamera(InputWrapper* input, s32 id, bool* flag);
+	void toggle(InputWrapper* input, s32 id, bool* flag);
 }

@@ -31,17 +31,13 @@ namespace PS1::ApeEscape
 		if (m_isEnabled)
 		{
 			auto* const input{ m_game->input() };
+			MiscModel::toggle(input, Input::HideHud, &m_isHudHidden);
 
-			if (input->isPressed(Input::PauseGame))
+			if (state == State::Ingame)
 			{
-				m_isGamePaused = !m_isGamePaused;
+				MiscModel::toggle(input, Input::PauseGame, &m_isGamePaused);
 			}
-			if (input->isPressed(Input::HideHud))
-			{
-				m_isHudHidden = !m_isHudHidden;
-			}
-
-			if (state != State::Ingame)
+			else
 			{
 				m_isGamePaused = false;
 			}

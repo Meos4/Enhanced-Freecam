@@ -22,15 +22,8 @@ namespace PS2::JadeCocoon2
 		if (m_isEnabled)
 		{
 			auto* const input{ m_game->input() };
-
-			if (input->isPressed(Input::PauseGame))
-			{
-				m_isGamePaused = !m_isGamePaused;
-			}
-			if (input->isPressed(Input::HideHud))
-			{
-				m_isHudHidden = !m_isHudHidden;
-			}
+			MiscModel::toggle(input, Input::PauseGame, &m_isGamePaused);
+			MiscModel::toggle(input, Input::HideHud, &m_isHudHidden);
 		}
 
 		const auto& ram{ m_game->ram() };

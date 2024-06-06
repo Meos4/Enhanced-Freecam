@@ -20,10 +20,7 @@ namespace PS2::HauntingGround
 	{
 		if (m_isEnabled)
 		{
-			if (m_game->input()->isPressed(Input::PauseGame))
-			{
-				m_isGamePaused = !m_isGamePaused;
-			}
+			MiscModel::toggle(m_game->input(), Input::PauseGame, &m_isGamePaused);
 		}
 
 		const auto& ram{ m_game->ram() };

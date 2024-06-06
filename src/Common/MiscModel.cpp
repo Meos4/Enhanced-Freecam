@@ -99,4 +99,12 @@ namespace MiscModel
 			*flag = true;
 		}
 	}
+
+	void toggle(InputWrapper* input, s32 id, bool* flag)
+	{
+		if (input->isPressed(id))
+		{
+			*flag = !*flag;
+		}
+	}
 }
