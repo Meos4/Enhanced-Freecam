@@ -21,6 +21,13 @@ namespace PS2::Sly1
 		const auto& ram{ m_game->ram() };
 		const auto& offset{ m_game->offset() };
 
+		if (m_isEnabled)
+		{
+			auto* const input{ m_game->input() };
+			MiscModel::toggle(input, Input::Button, &m_isButtonEnabled);
+			MiscModel::toggle(input, Input::Joystick, &m_isJoystickEnabled);
+		}
+
 		ram.write(offset.Fn_FReadJoy__FP3JOY + 0x60, m_isButtonEnabled ? 0xA62200A8 : 0xA62000A8);
 
 		ram.writeConditional(m_isJoystickEnabled,

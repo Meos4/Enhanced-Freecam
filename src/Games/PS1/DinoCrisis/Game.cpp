@@ -64,6 +64,7 @@ namespace PS1::DinoCrisis
 			{ "Fov+", i.fovDecrease },
 			{ "Fov-", i.fovIncrease },
 			{ "Pause Game", i.pauseGame },
+			{ "Button", i.button },
 			{ "Movement Speed+", i.movementSpeedPos },
 			{ "Movement Speed-", i.movementSpeedNeg },
 			{ "Rotation Speed+", i.rotationSpeedPos },

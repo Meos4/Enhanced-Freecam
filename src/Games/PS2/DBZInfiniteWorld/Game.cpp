@@ -69,6 +69,8 @@ namespace PS2::DBZInfiniteWorld
 			{ "Hide Hud", i.hideHud },
 			{ "Timescale+", i.timescalePos },
 			{ "Timescale-", i.timescaleNeg },
+			{ "Button", i.button },
+			{ "Joystick", i.joystick },
 			{ "Movement Speed+", i.movementSpeedPos },
 			{ "Movement Speed-", i.movementSpeedNeg },
 			{ "Rotation Speed+", i.rotationSpeedPos },

@@ -18,6 +18,11 @@ namespace PS1::DinoCrisis
 
 	void Controller::update()
 	{
+		if (m_isEnabled)
+		{
+			MiscModel::toggle(m_game->input(), Input::Button, &m_isButtonEnabled);
+		}
+
 		const auto offsetPS{ m_game->offset().Fn_padStatus };
 		const auto psShift{ m_game->version() == Version::NtscJ ? 0x114 : 0x108 };
 

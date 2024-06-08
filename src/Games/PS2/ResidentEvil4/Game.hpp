@@ -37,6 +37,8 @@ namespace PS2::ResidentEvil4
 			FovNeg,
 			PauseGame,
 			HideHud,
+			Button,
+			Joystick,
 			MovementSpeedPos,
 			MovementSpeedNeg,
 			RotationSpeedPos,

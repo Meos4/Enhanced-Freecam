@@ -65,6 +65,8 @@ namespace PS2::DBZTenkaichi3
 			{ "Rotate Z-", i.rotateCounterclockwise },
 			{ "Pause Game", i.pauseGame },
 			{ "Hide Hud", i.hideHud },
+			{ "Button", i.button },
+			{ "Joystick", i.joystick },
 			{ "Movement Speed+", i.movementSpeedPos },
 			{ "Movement Speed-", i.movementSpeedNeg },
 			{ "Rotation Speed+", i.rotationSpeedPos },

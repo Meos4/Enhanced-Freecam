@@ -26,6 +26,14 @@ namespace PS1::ApeEscape
 		const auto state{ m_game->state() };
 		const auto version{ m_game->version() };
 
+		if (m_isEnabled)
+		{
+			auto* const input{ m_game->input() };
+			MiscModel::toggle(input, Input::Button, &m_isButtonEnabled);
+			MiscModel::toggle(input, Input::LJoystick, &m_isLJoystickEnabled);
+			MiscModel::toggle(input, Input::RJoystick, &m_isRJoystickEnabled);
+		}
+
 		ram.writeConditional(m_isButtonEnabled,
 			offset.Fn_padStatus + 0x1B8, 0xAE240158, 0xAE200158,
 			offset.Fn_padStatus + 0x1C0, 0xAE220160, 0xAE200160

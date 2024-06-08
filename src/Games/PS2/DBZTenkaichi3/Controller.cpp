@@ -21,6 +21,13 @@ namespace PS2::DBZTenkaichi3
 		const auto& ram{ m_game->ram() };
 		const auto& offset{ m_game->offset() };
 
+		if (m_isEnabled)
+		{
+			auto* const input{ m_game->input() };
+			MiscModel::toggle(input, Input::Button, &m_isButtonEnabled);
+			MiscModel::toggle(input, Input::Joystick, &m_isJoystickEnabled);
+		}
+
 		ram.write(offset.Fn_padStatus + 0x2F0, m_isButtonEnabled ? 0xAE300148 : 0xAE200148);
 
 		ram.writeConditional(m_isJoystickEnabled,

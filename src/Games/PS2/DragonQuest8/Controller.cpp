@@ -21,6 +21,13 @@ namespace PS2::DragonQuest8
 		const auto& ram{ m_game->ram() };
 		const auto& offset{ m_game->offset() };
 
+		if (m_isEnabled)
+		{
+			auto* const input{ m_game->input() };
+			MiscModel::toggle(input, Input::Button, &m_isButtonEnabled);
+			MiscModel::toggle(input, Input::Joystick, &m_isJoystickEnabled);
+		}
+
 		if (m_game->version() == Version::Pal)
 		{
 			ram.write(offset.Fn_padStatus + 0xDC, m_isButtonEnabled ? 0x3263FFFF : 0x00001821);

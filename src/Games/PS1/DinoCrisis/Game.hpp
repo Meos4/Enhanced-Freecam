@@ -34,6 +34,7 @@ namespace PS1::DinoCrisis
 			FovPos,
 			FovNeg,
 			PauseGame,
+			Button,
 			MovementSpeedPos,
 			MovementSpeedNeg,
 			RotationSpeedPos,

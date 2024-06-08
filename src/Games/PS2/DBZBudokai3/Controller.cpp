@@ -21,6 +21,13 @@ namespace PS2::DBZBudokai3
 		const auto& ram{ m_game->ram() };
 		const auto& offset{ m_game->offset() };
 
+		if (m_isEnabled)
+		{
+			auto* const input{ m_game->input() };
+			MiscModel::toggle(input, Input::Button, &m_isButtonEnabled);
+			MiscModel::toggle(input, Input::Joystick, &m_isJoystickEnabled);
+		}
+
 		ram.writeConditional(m_isButtonEnabled,
 			offset.Fn_padStatus + 0x60, 0xA623000E, 0xA620000E,
 			offset.Fn_padStatus + 0x70, 0xA624000C, 0xA620000C

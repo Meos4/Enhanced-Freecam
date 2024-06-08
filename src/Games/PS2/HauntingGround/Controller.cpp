@@ -22,6 +22,14 @@ namespace PS2::HauntingGround
 		const auto& ram{ m_game->ram() };
 		const auto& offset{ m_game->offset() };
 
+		if (m_isEnabled)
+		{
+			auto* const input{ m_game->input() };
+			MiscModel::toggle(input, Input::Button, &m_isButtonEnabled);
+			MiscModel::toggle(input, Input::LJoystick, &m_isLJoystickEnabled);
+			MiscModel::toggle(input, Input::RJoystick, &m_isRJoystickEnabled);
+		}
+
 		ram.writeConditional(m_isButtonEnabled,
 			offset.Fn_padStatus + 0xE4, 0xAE270004, 0xAE200004, // Up
 			offset.Fn_padStatus + 0x11C, 0xAE260004, 0xAE200004, // Right

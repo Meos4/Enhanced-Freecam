@@ -37,6 +37,8 @@ namespace PS2::Sly1
 			FovNeg,
 			PauseGame,
 			HideHud,
+			Button,
+			Joystick,
 			MovementSpeedPos,
 			MovementSpeedNeg,
 			RotationSpeedPos,

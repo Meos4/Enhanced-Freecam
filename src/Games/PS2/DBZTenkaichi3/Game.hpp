@@ -36,6 +36,8 @@ namespace PS2::DBZTenkaichi3
 			RotateZNeg,
 			PauseGame,
 			HideHud,
+			Button,
+			Joystick,
 			MovementSpeedPos,
 			MovementSpeedNeg,
 			RotationSpeedPos,

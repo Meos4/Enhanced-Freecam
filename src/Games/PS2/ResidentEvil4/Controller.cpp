@@ -21,6 +21,13 @@ namespace PS2::ResidentEvil4
 		const auto& ram{ m_game->ram() };
 		const auto offsetPS{ m_game->offset().Fn_padStatus };
 
+		if (m_isEnabled)
+		{
+			auto* const input{ m_game->input() };
+			MiscModel::toggle(input, Input::Button, &m_isButtonEnabled);
+			MiscModel::toggle(input, Input::Joystick, &m_isJoystickEnabled);
+		}
+
 		ram.writeConditional(m_isButtonEnabled,
 			offsetPS + 0x178, 0xAE0C0010, 0xAE000010,
 			offsetPS + 0x188, 0xAE020010, 0xAE000010,

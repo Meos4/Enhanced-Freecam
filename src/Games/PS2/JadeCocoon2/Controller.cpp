@@ -21,6 +21,13 @@ namespace PS2::JadeCocoon2
 		const auto& ram{ m_game->ram() };
 		const auto& offset{ m_game->offset() };
 
+		if (m_isEnabled)
+		{
+			auto* const input{ m_game->input() };
+			MiscModel::toggle(input, Input::Button, &m_isButtonEnabled);
+			MiscModel::toggle(input, Input::Joystick, &m_isJoystickEnabled);
+		}
+
 		ram.writeConditional(m_isButtonEnabled,
 			offset.Fn__gnkPadman_StandardStatus + 0x30, 0x8FA40040, 0x00002021,
 			offset.Fn__gnkPadman_StandardStatus + 0x44, 0x8C840000, 0x00002021

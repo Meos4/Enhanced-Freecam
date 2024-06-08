@@ -38,6 +38,8 @@ namespace PS2::DragonQuest8
 			FovNeg,
 			PauseGame,
 			HideHud,
+			Button,
+			Joystick,
 			MovementSpeedPos,
 			MovementSpeedNeg,
 			RotationSpeedPos,

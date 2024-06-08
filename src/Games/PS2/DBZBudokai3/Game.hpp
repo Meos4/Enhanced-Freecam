@@ -40,6 +40,8 @@ namespace PS2::DBZBudokai3
 			HideHud,
 			TimescalePos,
 			TimescaleNeg,
+			Button,
+			Joystick,
 			MovementSpeedPos,
 			MovementSpeedNeg,
 			RotationSpeedPos,
