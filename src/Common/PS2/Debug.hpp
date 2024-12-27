@@ -31,8 +31,9 @@ namespace PS2::Debug
 		const bool isPcsx2{ Util::isProcessName(ram.process(), "pcsx2") };
 		Ui::setXSpacingStr(isPcsx2 ? "Pnach Force Jit" : "Write Analyzer");
 
+		const auto ramBegin{ ram.begin() };
 		const auto ptrFormat{ ram.process().architecture() == Process::Architecture::x86 ? "{:08X}" : "{:016X}" };
-		const auto ptrFormatted{ std::vformat(ptrFormat, std::make_format_args(ram.begin())) };
+		const auto ptrFormatted{ std::vformat(ptrFormat, std::make_format_args(ramBegin)) };
 
 		Ui::labelXSpacing("Begin");
 		ImGui::Text("%s", ptrFormatted.c_str());

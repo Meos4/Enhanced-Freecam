@@ -23,8 +23,9 @@ namespace PS1::Debug
 		Ui::setXSpacingNoMin(Ui::xSpacingStr("Write Analyzer"));
 
 		const auto& ram{ game->ram() };
+		const auto ramBegin{ ram.begin() };
 		const auto ptrFormat{ ram.process().architecture() == Process::Architecture::x86 ? "{:08X}" : "{:016X}" };
-		const auto ptrFormatted{ std::vformat(ptrFormat, std::make_format_args(ram.begin())) };
+		const auto ptrFormatted{ std::vformat(ptrFormat, std::make_format_args(ramBegin)) };
 
 		Ui::labelXSpacing("Begin");
 		ImGui::Text("%s", ptrFormatted.c_str());
