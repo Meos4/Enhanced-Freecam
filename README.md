@@ -19,10 +19,10 @@ Building
 Requirements:
 * CMake
 * C++20
+* SDL2
 * Windows
 
 Dependencies
 -----------
 * [Dear ImGui](https://github.com/ocornut/imgui)
-* [glfw](https://github.com/glfw/glfw)
 * [nlohmann json](https://github.com/nlohmann/json)
