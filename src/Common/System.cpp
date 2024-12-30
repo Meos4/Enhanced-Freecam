@@ -4,6 +4,8 @@
 #include "Debug/Sandbox.hpp"
 #include "Debug/Ui.hpp"
 
+#include "SDL/Event.hpp"
+
 #if _WIN32
 #include "Windows/Dwm.hpp"
 #endif
@@ -184,6 +186,7 @@ namespace System
 		while (!Renderer::shouldClose())
 		{
 			Renderer::beginRender();
+			SDL::Event::update();
 
 			DEBUG_PERFORMANCE_BEGIN(_System);
 			System::platformUpdate();

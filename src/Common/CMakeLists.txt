@@ -3,9 +3,9 @@ if (WIN32)
 endif()
 
 add_subdirectory(${COMMON_DIR}/Debug)
-add_subdirectory(${COMMON_DIR}/GLFW)
 add_subdirectory(${COMMON_DIR}/PS1)
 add_subdirectory(${COMMON_DIR}/PS2)
+add_subdirectory(${COMMON_DIR}/SDL)
 
 target_sources(${PROJECT_NAME} PRIVATE AsyncGameSearcher.cpp
 	AsyncGameSearcher.hpp

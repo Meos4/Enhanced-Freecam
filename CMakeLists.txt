@@ -5,12 +5,8 @@ project(Enhanced_Freecam)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# GLFW
-set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-
-add_subdirectory(${PROJECT_SOURCE_DIR}/dep/glfw)
+# SDL
+find_package(SDL2 REQUIRED)
 
 # OpenGL
 find_package(OpenGL REQUIRED)
@@ -24,11 +20,11 @@ set(SOURCES_IMGUI
 	${IMGUI_DIR}/imgui.h
 	${IMGUI_DIR}/imgui_demo.cpp
 	${IMGUI_DIR}/imgui_draw.cpp
-	${IMGUI_DIR}/imgui_impl_glfw.cpp
-	${IMGUI_DIR}/imgui_impl_glfw.h
 	${IMGUI_DIR}/imgui_impl_opengl3.cpp
 	${IMGUI_DIR}/imgui_impl_opengl3.h
 	${IMGUI_DIR}/imgui_impl_opengl3_loader.h
+	${IMGUI_DIR}/imgui_impl_sdl2.cpp
+	${IMGUI_DIR}/imgui_impl_sdl2.h
 	${IMGUI_DIR}/imgui_internal.h
 	${IMGUI_DIR}/imgui_tables.cpp
 	${IMGUI_DIR}/imgui_widgets.cpp
@@ -97,12 +93,11 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE 
 	${PROJECT_SOURCE_DIR}/src
 	${PROJECT_SOURCE_DIR}/dep/imgui
-	${PROJECT_SOURCE_DIR}/dep/json/include
-	${PROJECT_SOURCE_DIR}/dep/glfw/include)
+	${PROJECT_SOURCE_DIR}/dep/json/include)
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<CONFIG:Debug>:EF_DEBUG>)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-	glfw
+	SDL2::SDL2
 	OpenGL::GL
 )
