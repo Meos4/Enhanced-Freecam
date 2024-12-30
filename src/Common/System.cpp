@@ -94,10 +94,6 @@ namespace System
 		if (Windows::Dwm::isDarkMode() != Windows::Dwm::isDarkModeApplied())
 		{
 			Windows::Dwm::setThemeBasedOnUserMode((HWND)Renderer::platformWindow());
-			// Force title bar refresh
-			const auto dimension{ Renderer::windowDimension() };
-			Renderer::setWindowDimension(dimension.x + 1, dimension.y);
-			Renderer::setWindowDimension(dimension.x, dimension.y);
 		}
 #endif
 	}
