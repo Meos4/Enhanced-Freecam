@@ -1,5 +1,6 @@
 #include "Event.hpp"
 
+#include "Gamepad.hpp"
 #include "Renderer.hpp"
 
 #include "imgui_impl_sdl2.h"
@@ -31,6 +32,36 @@ namespace SDL::Event
 				{
 					SDL::Renderer::setShouldClose();
 				}
+				break;
+			}
+
+			case SDL_CONTROLLERBUTTONDOWN:
+			{
+				SDL::Gamepad::handleButtonDown(event);
+				break;
+			}
+
+			case SDL_CONTROLLERBUTTONUP:
+			{
+				SDL::Gamepad::handleButtonUp(event);
+				break;
+			}
+
+			case SDL_JOYAXISMOTION:
+			{
+				SDL::Gamepad::handleAxisMotion(event);
+				break;
+			}
+
+			case SDL_JOYDEVICEADDED:
+			{
+				SDL::Gamepad::handleConnection(event);
+				break;
+			}
+			
+			case SDL_JOYDEVICEREMOVED:
+			{
+				SDL::Gamepad::handleDisconnect(event);
 				break;
 			}
 			}

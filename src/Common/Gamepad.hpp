@@ -28,6 +28,8 @@ namespace Gamepad
 		RightStickXNeg,
 		RightStickYPos,
 		RightStickYNeg,
+		Misc, // Xbox Series X share button, PS5 microphone button, Nintendo Switch Pro capture button, Amazon Luna microphone button
+		Touchpad,
 		Count,
 	};
 

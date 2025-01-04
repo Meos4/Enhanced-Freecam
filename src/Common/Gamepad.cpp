@@ -13,7 +13,8 @@ namespace Gamepad
 			"Left Shoulder", "Right Shoulder", "Left Trigger", "Right Trigger",
 			"(A)", "(B)", "(X)", "(Y)",
 			"Left Thumb X+", "Left Thumb X-", "Left Thumb Y+", "Left Thumb Y-",
-			"Right Thumb X+", "Right Thumb X-", "Right Thumb Y+", "Right Thumb Y-"
+			"Right Thumb X+", "Right Thumb X-", "Right Thumb Y+", "Right Thumb Y-",
+			"Share", "Touchpad"
 		};
 
 		return names[static_cast<std::size_t>(action)];
@@ -34,6 +35,7 @@ namespace Gamepad
 		case Gamepad::Action::Circle: return "Circle";
 		case Gamepad::Action::Square: return "Square";
 		case Gamepad::Action::Triangle: return "Triangle";
+		case Gamepad::Action::Misc: return "Microphone";
 		}
 
 		return Gamepad::toStringXbox(action);

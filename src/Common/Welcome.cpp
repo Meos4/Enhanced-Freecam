@@ -39,9 +39,6 @@ namespace Welcome
 				ImGui::Text("Requirements any version: Download the pnach file when %s asks for it", Software::name);
 				ImGui::Text("(The \"cheats\" path should be in the PCSX2 directory but it is possible to modify it\nin PCSX2 or in the System \"Advanced\" settings of %s)", Software::name);
 
-				Ui::separatorText("Gamepad");
-				ImGui::TextUnformatted("Requires an Xbox gamepad (XInput), if you want to use another one, you need an external utility (Ex: DS4Windows) to emulate it");
-
 				const auto buttonSize{ 120.f };
 				const auto shift{ (ImGui::GetContentRegionAvail().x - (buttonSize + ImGui::GetStyle().FramePadding.x * 2.0f)) * 0.5f };
 				ImGui::SetCursorPosX(ImGui::GetCursorPosX() + shift);

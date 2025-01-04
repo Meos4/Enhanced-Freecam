@@ -6,6 +6,4 @@ target_sources(${PROJECT_NAME} PRIVATE
 	Keyboard.hpp
 	Process.cpp
 	Process.hpp
-	XInputGamepad.cpp
-	XInputGamepad.hpp
 )

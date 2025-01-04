@@ -128,23 +128,14 @@ void Settings::drawWindow()
 		if (ImGui::BeginTabItem("Input"))
 		{
 			Ui::separatorText("Gamepad");
-			Ui::labelXSpacing("Connected");
-			const auto& itemSpacing{ ImGui::GetStyle().ItemSpacing };
-			ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { itemSpacing.x, itemSpacing.y + 1.f });
 
 			for (u32 i{}; i < GamepadWrapper::gamepadMax; ++i)
 			{
-				ImGui::PushStyleColor(ImGuiCol_Text, Ui::color(GamepadWrapper::isActive(i) ? Ui::Color::Success : Ui::Color::Error));
-				ImGui::Text("Gamepad %d", i + 1);
-				ImGui::PopStyleColor();
-
-				if (i != GamepadWrapper::gamepadMax - 1)
-				{
-					ImGui::SameLine();
-				}
+				auto* const name{ GamepadWrapper::name(i) };
+				ImGui::Text("%d - %s", i + 1, name ? name : "None");
 			}
-
-			ImGui::PopStyleVar();
+			
+			ImGui::Separator();
 
 			auto deadzoneSlider = [](const char* label, float* val)
 			{

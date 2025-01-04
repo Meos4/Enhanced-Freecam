@@ -46,15 +46,6 @@ if (WIN32)
 		LINK_FLAGS_MINSIZEREL "/SUBSYSTEM:windows /ENTRY:mainCRTStartup"
 	)
 
-	# XInput
-	find_library(LIB_XINPUT xinput)
-
-	if (LIB_XINPUT)
-		target_link_libraries(${PROJECT_NAME} PRIVATE ${LIB_XINPUT})
-	else()
-		message(FATAL_ERROR "XInput lib not found")
-	endif()
-
 	# Desktop Window Manager
 	find_library(LIB_DWM dwmapi)
 

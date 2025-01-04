@@ -9,7 +9,7 @@ namespace GamepadWrapper
 	inline constexpr u32 gamepadMax{ 4 };
 
 	void update();
-	bool isActive(u32 id);
+	const char* name(u32 id);
 	bool isPressed(Gamepad::Action action, u32 id);
 	bool isHeld(Gamepad::Action action, u32 id);
 	float sensitivity(Gamepad::Action action, u32 id);
