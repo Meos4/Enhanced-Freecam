@@ -20,6 +20,9 @@ namespace SDL::Gamepad
 		float leftTrigger;
 		float rightTrigger;
 	};
+	
+	static constexpr auto maxBinaryButtons{ sizeof(decltype(SDL::Gamepad::Pad::heldBinaryButtons)) * 8 };
+	static_assert(maxBinaryButtons >= SDL_CONTROLLER_BUTTON_MAX);
 
 	static std::array<SDL::Gamepad::Pad, GamepadWrapper::gamepadMax> gamepads{};
 
