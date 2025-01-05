@@ -303,7 +303,7 @@ std::string InputWrapper::toString(s32 id, std::size_t index) const
 
 	auto gamepadBehavior = [](const InputWrapper::GamepadActionId& ai)
 	{
-		std::string str{ g_settings.gamepadLayout == GamepadLayout::Xbox ? Gamepad::toStringXbox(ai.action) : Gamepad::toStringPlayStation(ai.action) };
+		std::string str{ Gamepad::toString(GamepadWrapper::layout(ai.id), ai.action) };
 		str += std::format(" ({})", ai.id + 1);
 		return str;
 	};

@@ -118,4 +118,9 @@ namespace GamepadWrapper
 
 		return sensitivity;
 	}
+
+	Gamepad::Layout layout(u32 id)
+	{
+		return Gamepad::layoutFromSDLControllerType(SDL::Gamepad::type(id));
+	}
 }

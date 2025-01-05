@@ -19,12 +19,6 @@ enum class Theme
 	Count
 };
 
-enum class GamepadLayout
-{
-	Xbox,
-	PlayStation
-};
-
 enum class KeyboardLayout
 {
 	Qwerty,
@@ -50,7 +44,6 @@ struct ImFont;
 struct Settings
 {
 	Theme theme{ Theme::Dark };
-	GamepadLayout gamepadLayout{ GamepadLayout::Xbox };
 	KeyboardLayout keyboardLayout{ KeyboardLayout::Qwerty };
 	SearchMode processSearchMode{ SearchMode::Auto };
 	Font font{ Font::RobotoMedium14 };

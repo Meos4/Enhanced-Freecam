@@ -1,7 +1,15 @@
 #pragma once
 
+#include <SDL.h>
+
 namespace Gamepad
 {
+	enum class Layout
+	{
+		Xbox,
+		PlayStation
+	};
+
 	enum class Action
 	{
 		Up,
@@ -33,6 +41,6 @@ namespace Gamepad
 		Count,
 	};
 
-	const char* toStringXbox(Gamepad::Action action);
-	const char* toStringPlayStation(Gamepad::Action button);
+	const char* toString(Gamepad::Layout layout, Gamepad::Action action);
+	Gamepad::Layout layoutFromSDLControllerType(SDL_GameControllerType type);
 };

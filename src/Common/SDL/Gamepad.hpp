@@ -20,4 +20,5 @@ namespace SDL::Gamepad
 	float leftTrigger(u32 id);
 	float rightTrigger(u32 id);
 	const char* name(u32 id);
+	SDL_GameControllerType type(u32 id);
 }

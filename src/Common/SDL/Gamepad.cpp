@@ -172,4 +172,14 @@ namespace SDL::Gamepad
 	{
 		return SDL_JoystickName(SDL_JoystickFromInstanceID(gamepads[id].id));
 	}
+
+	SDL_GameControllerType type(u32 id)
+	{
+		if (gamepads[id].controller)
+		{
+			return SDL_GameControllerGetType(gamepads[id].controller);
+		}
+
+		return SDL_CONTROLLER_TYPE_UNKNOWN;
+	}
 }

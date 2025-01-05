@@ -4,7 +4,7 @@
 
 namespace Gamepad
 {
-	const char* Gamepad::toStringXbox(Gamepad::Action action)
+	static const char* toStringXbox(Gamepad::Action action)
 	{
 		static constexpr std::array<const char*, static_cast<std::size_t>(Gamepad::Action::Count)> names
 		{
@@ -20,7 +20,7 @@ namespace Gamepad
 		return names[static_cast<std::size_t>(action)];
 	}
 
-	const char* Gamepad::toStringPlayStation(Gamepad::Action action)
+	static const char* toStringPlayStation(Gamepad::Action action)
 	{
 		switch (action)
 		{
@@ -39,5 +39,26 @@ namespace Gamepad
 		}
 
 		return Gamepad::toStringXbox(action);
+	}
+
+	const char* toString(Gamepad::Layout layout, Gamepad::Action action)
+	{
+		switch (layout)
+		{
+		case Gamepad::Layout::PlayStation: return Gamepad::toStringPlayStation(action);
+		default: return Gamepad::toStringXbox(action);
+		}
+	}
+
+	Gamepad::Layout layoutFromSDLControllerType(SDL_GameControllerType type)
+	{
+		switch (type)
+		{
+		case SDL_CONTROLLER_TYPE_PS3:
+		case SDL_CONTROLLER_TYPE_PS4:
+		case SDL_CONTROLLER_TYPE_PS5:
+			return Gamepad::Layout::PlayStation;
+		default: return Gamepad::Layout::Xbox;
+		}
 	}
 }

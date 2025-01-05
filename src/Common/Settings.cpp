@@ -144,7 +144,6 @@ void Settings::drawWindow()
 
 			deadzoneSlider("Stick Deadzone", &gamepad.stickDeadzone);
 			deadzoneSlider("Trigger Deadzone", &gamepad.triggerDeadzone);
-			radioButtonsChoice("Layout", &gamepadLayout, "Xbox", "PlayStation");
 
 			Ui::separatorText("Keyboard");
 			radioButtonsChoice("Layout", &keyboardLayout, "Qwerty", "Azerty");
@@ -206,7 +205,6 @@ void Settings::readSettings(const Json::Read& json)
 
 			JSON_GET_MIN_MAX(j, gamepad.stickDeadzone, 0.f, 1.f);
 			JSON_GET_MIN_MAX(j, gamepad.triggerDeadzone, 0.f, 1.f);
-			JSON_GET_MIN_MAX(j, gamepadLayout, 0, 1);
 			JSON_GET_MIN_MAX(j, keyboardLayout, 0, 1);
 
 			JSON_GET_MIN_MAX(j, processSearchMode, 0, 1);
@@ -246,7 +244,6 @@ void Settings::writeSettings(Json::Write* json) const
 
 	JSON_SET(j, gamepad.stickDeadzone);
 	JSON_SET(j, gamepad.triggerDeadzone)
-	JSON_SET(j, gamepadLayout);
 	JSON_SET(j, keyboardLayout);
 
 	JSON_SET(j, processSearchMode);

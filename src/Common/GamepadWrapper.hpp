@@ -13,4 +13,5 @@ namespace GamepadWrapper
 	bool isPressed(Gamepad::Action action, u32 id);
 	bool isHeld(Gamepad::Action action, u32 id);
 	float sensitivity(Gamepad::Action action, u32 id);
+	Gamepad::Layout layout(u32 id);
 }
