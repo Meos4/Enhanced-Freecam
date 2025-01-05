@@ -34,6 +34,7 @@ void Settings::init()
 	style->GrabMinSize = 8.f;
 	style->TabBorderSize = 1.f;
 	style->DockingSeparatorSize = 1.f;
+	style->TabBarOverlineSize = 0.f;
 
 	updateTheme();
 
