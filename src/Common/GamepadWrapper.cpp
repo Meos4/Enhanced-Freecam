@@ -102,7 +102,7 @@ namespace GamepadWrapper
 		return false;
 	}
 
-	float GamepadWrapper::sensitivity(Gamepad::Action action, u32 id)
+	float sensitivity(Gamepad::Action action, u32 id)
 	{
 		const auto sensitivity{ GamepadWrapper::toSDLAxisMotion(action, id) };
 
