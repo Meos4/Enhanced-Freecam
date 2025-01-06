@@ -1,5 +1,9 @@
 #include "PCSX2.hpp"
 
+#if _WIN32
+#include "Common/Windows/Util.hpp"
+#endif
+
 #include "Common/AsyncGameSearcher.hpp"
 #include "Common/Buffer.hpp"
 #include "Common/Console.hpp"
@@ -92,18 +96,7 @@ namespace PS2::PCSX2
 	void drawCreatePnachTextSectionWindow(const Ram& ram, const std::set<u32>& offsets, const char* crc, const char* game, const char* version)
 	{
 		static constexpr auto wndName{ "Pnach" };
-		std::filesystem::path path;
-
-		if (g_settings.pcsx2.useDifferentCheatsPath)
-		{
-			path = g_settings.pcsx2.cheatsPath;
-		}
-		else
-		{
-			path = ram.process().path();
-			path.remove_filename();
-			path = std::format("{}cheats", path.string().c_str());
-		}
+		std::filesystem::path path{ g_settings.pcsx2.cheatsPath };
 
 		if (!std::filesystem::is_directory(path))
 		{
@@ -122,18 +115,6 @@ namespace PS2::PCSX2
 
 			ImGui::PushStyleColor(ImGuiCol_Text, color);
 			ImGui::TextUnformatted("Can't find PCSX2 cheats path, you need to set it in System -> Advanced");
-			if (!g_settings.pcsx2.useDifferentCheatsPath)
-			{
-				ImGui::TextUnformatted("or create a cheats directory inside PCSX2 directory and set the path in");
-				if (ram.process().architecture() == Process::Architecture::x86)
-				{
-					ImGui::TextUnformatted("PCSX2 -> Config -> Plugin/BIOS Selector -> Folders -> Cheats:");
-				}
-				else
-				{
-					ImGui::TextUnformatted("PCSX2 -> Settings -> Folders -> Cheats Directory");
-				}
-			}
 			ImGui::PopStyleColor();
 			ImGui::End();
 
@@ -183,6 +164,19 @@ namespace PS2::PCSX2
 			static constexpr auto success{ "Pnach created successfully, be sure to enable cheats in PCSX2 and restart your game" };
 			drawDownloadWindow(label.c_str(), success, "Unable to create pnach");
 		}
+	}
+
+	std::filesystem::path defaultCheatsPath()
+	{
+	#if _WIN32
+		auto path{ Windows::Util::documentsPath() };
+		if (!path.empty())
+		{
+			path += "\\PCSX2\\cheats";
+		}
+	#endif
+
+		return path;
 	}
 
 	std::optional<std::uintptr_t> eememPtr(const Process& process)

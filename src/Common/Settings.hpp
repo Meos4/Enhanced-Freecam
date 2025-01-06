@@ -1,5 +1,7 @@
 #pragma once
 
+#include "PS2/PCSX2.hpp"
+
 #include "Gamepad.hpp"
 #include "InputWrapper.hpp"
 #include "Json.hpp"
@@ -137,15 +139,15 @@ struct Settings
 
 	struct
 	{
-		bool useDifferentCheatsPath{};
 		float pnachVerificationDelay{ 3.f };
 		float pnachVerificationTime{};
-		std::string cheatsPath;
+		std::string cheatsPath{ PS2::PCSX2::defaultCheatsPath().string() };
 	} pcsx2;
 
 	void init();
 	std::array<float, 3> rgbFont() const;
 	void drawWindow();
+	void drawPCSX2CheatsPathInputText();
 	bool isADarkTheme();
 	void readSettings(const Json::Read& json);
 	void writeSettings(Json::Write* json) const;

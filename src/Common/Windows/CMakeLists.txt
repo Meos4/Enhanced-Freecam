@@ -6,4 +6,6 @@ target_sources(${PROJECT_NAME} PRIVATE
 	Keyboard.hpp
 	Process.cpp
 	Process.hpp
+	Util.cpp
+	Util.hpp
 )

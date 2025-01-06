@@ -155,22 +155,22 @@ void Settings::drawWindow()
 		{
 			radioButtonsChoice("Process", &processSearchMode, "Auto", "Manual");
 			Ui::hoveredTooltip("Allow you to choose the process, only use if you know what you are doing");
-
-			Ui::checkbox(Ui::lol("PCSX2 Cheats Path"), &pcsx2.useDifferentCheatsPath);
-			Ui::hoveredTooltip("Use a different PCSX2 cheats path, otherwise it use \"PCSX2 Directory/cheats\" path");
-			static constexpr auto pathMaxSize{ 256 };
-			pcsx2.cheatsPath.resize(pathMaxSize);
-			ImGui::SameLine();
-			ImGui::BeginDisabled(!pcsx2.useDifferentCheatsPath);
-			ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
-			ImGui::InputText("##PCSX2CheatsPath", pcsx2.cheatsPath.data(), pathMaxSize);
-			ImGui::EndDisabled();
+			
+			drawPCSX2CheatsPathInputText();
 			ImGui::EndTabItem();
 		}
 		ImGui::EndTabBar();
 	}
 
 	ImGui::End();
+}
+
+void Settings::drawPCSX2CheatsPathInputText()
+{
+	static constexpr auto pathMaxSize{ 256 };
+	pcsx2.cheatsPath.resize(pathMaxSize);
+	ImGui::InputText(Ui::lol("PCSX2 Cheats Path"), pcsx2.cheatsPath.data(), pathMaxSize);
+	pcsx2.cheatsPath.resize(std::strlen(pcsx2.cheatsPath.c_str()));
 }
 
 bool Settings::isADarkTheme()
@@ -209,7 +209,6 @@ void Settings::readSettings(const Json::Read& json)
 			JSON_GET_MIN_MAX(j, keyboardLayout, 0, 1);
 
 			JSON_GET_MIN_MAX(j, processSearchMode, 0, 1);
-			JSON_GET(j, pcsx2.useDifferentCheatsPath);
 			if (j.contains("pcsx2.cheatsPath"))
 			{
 				pcsx2.cheatsPath = j["pcsx2.cheatsPath"].get<std::string>();
@@ -248,10 +247,7 @@ void Settings::writeSettings(Json::Write* json) const
 	JSON_SET(j, keyboardLayout);
 
 	JSON_SET(j, processSearchMode);
-	JSON_SET(j, pcsx2.useDifferentCheatsPath);
-	auto pcsx2CheatsPathNoZeros{ pcsx2.cheatsPath };
-	pcsx2CheatsPathNoZeros.resize(std::strlen(pcsx2.cheatsPath.c_str()));
-	Json::set(j, "pcsx2.cheatsPath", pcsx2CheatsPathNoZeros);
+	JSON_SET(j, pcsx2.cheatsPath);
 	JSON_SET(j, isWelcomeModalOpen);
 }
 

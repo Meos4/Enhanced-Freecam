@@ -217,18 +217,7 @@ namespace Debug::Sandbox
 				ImGui::BeginDisabled(pcsx2.textSectionBegin >= pcsx2.textSectionEnd || crcContainsNull);
 				if (::Ui::button("Create Pnach##Sandbox"))
 				{
-					std::filesystem::path path;
-
-					if (g_settings.pcsx2.useDifferentCheatsPath)
-					{
-						path = g_settings.pcsx2.cheatsPath;
-					}
-					else
-					{
-						path = ram->process().path();
-						path.remove_filename();
-						path = std::format("{}/cheats", path.string().c_str());
-					}
+					std::filesystem::path path{ g_settings.pcsx2.cheatsPath };
 
 					if (std::filesystem::is_directory(path))
 					{

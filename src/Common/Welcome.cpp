@@ -1,5 +1,6 @@
 #include "Welcome.hpp"
 
+#include "Settings.hpp"
 #include "Software.hpp"
 #include "Ui.hpp"
 
@@ -33,11 +34,12 @@ namespace Welcome
 				ImGui::TextUnformatted("PCSX2");
 				ImGui::PopStyleColor();
 				ImGui::SameLine();
-				ImGui::TextUnformatted("(any version)");
-				ImGui::TextUnformatted("Requirements <= 1.6.0: System -> Enable Cheats");
-				ImGui::TextUnformatted("Requirements >= 1.7.0: Settings -> Emulation -> System Settings | Enable Cheats. Then restart the game");
-				ImGui::Text("Requirements any version: Download the pnach file when %s asks for it", Software::name);
-				ImGui::Text("(The \"cheats\" path should be in the PCSX2 directory but it is possible to modify it\nin PCSX2 or in the System \"Advanced\" settings of %s)", Software::name);
+				ImGui::TextUnformatted("(up to date)");
+				ImGui::Text("Requirements 1: Download the pnach file when %s asks for it", Software::name);
+				ImGui::TextUnformatted("Requirements 2: Settings -> Emulation -> System Settings | Enable Cheats. Then restart the game");
+				
+				Ui::setXSpacingStr("PCSX2 Cheats Path");
+				g_settings.drawPCSX2CheatsPathInputText();
 
 				const auto buttonSize{ 120.f };
 				const auto shift{ (ImGui::GetContentRegionAvail().x - (buttonSize + ImGui::GetStyle().FramePadding.x * 2.0f)) * 0.5f };

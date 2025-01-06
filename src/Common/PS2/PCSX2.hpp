@@ -26,6 +26,7 @@ namespace PS2::PCSX2
 		(const std::filesystem::path& path, const Ram& ram, const std::set<u32>& offsets, const char* game, const char* version);
 	std::set<u32> textSectionOffsets(u32* offset, std::size_t size, u32 textSectionBegin, u32 textSectionEnd);
 	void drawCreatePnachTextSectionWindow(const Ram& ram, const std::set<u32>& offsets, const char* crc, const char* name, const char* version);
+	std::filesystem::path defaultCheatsPath();
 	std::optional<std::uintptr_t> eememPtr(const Process& process);
 	std::optional<std::uintptr_t> eememVal(const Process& process);
 	std::uintptr_t eememAGS(const Process& process, const std::atomic<bool>& running, const OffsetPattern& op);

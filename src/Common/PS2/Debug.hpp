@@ -76,39 +76,14 @@ namespace PS2::Debug
 			static bool isPCSX2CheatsOpen{};
 			if (isOpenWindowButton("Cheats", &isPCSX2CheatsOpen))
 			{
-				std::filesystem::path path;
-
-				if (g_settings.pcsx2.useDifferentCheatsPath)
-				{
-					path = g_settings.pcsx2.cheatsPath;
-					path = std::format("{}/{} ({} - ({}) force jit).pnach", path.string().c_str(), pnachInfo.crc, game->name, game->version());
-				}
-				else
-				{
-					path = ram.process().path();
-					path.remove_filename();
-					path = std::format("{}/cheats", path.string().c_str());
-				}
-
-				PS2::Debug::drawPCSX2CheatsPnachWindow(path, &isPCSX2CheatsOpen);
+				PS2::Debug::drawPCSX2CheatsPnachWindow(g_settings.pcsx2.cheatsPath, &isPCSX2CheatsOpen);
 			}
 
 			Ui::labelXSpacing("Pnach Force Jit");
 
 			if (Ui::buttonItemWidth("Create"))
 			{
-				std::filesystem::path path;
-
-				if (g_settings.pcsx2.useDifferentCheatsPath)
-				{
-					path = g_settings.pcsx2.cheatsPath;
-				}
-				else
-				{
-					path = ram.process().path();
-					path.remove_filename();
-					path = std::format("{}/cheats", path.string().c_str() );
-				}
+				std::filesystem::path path{ g_settings.pcsx2.cheatsPath };
 
 				if (std::filesystem::is_directory(path))
 				{
