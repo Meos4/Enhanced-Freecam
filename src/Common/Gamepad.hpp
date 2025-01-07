@@ -7,7 +7,8 @@ namespace Gamepad
 	enum class Layout
 	{
 		Xbox,
-		PlayStation
+		PlayStation,
+		Nintendo
 	};
 
 	enum class Action

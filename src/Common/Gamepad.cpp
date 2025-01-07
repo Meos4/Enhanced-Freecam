@@ -41,11 +41,26 @@ namespace Gamepad
 		return Gamepad::toStringXbox(action);
 	}
 
+	static const char* toStringNintendo(Gamepad::Action action)
+	{
+		switch (action)
+		{
+		case Gamepad::Action::Cross: return "(B)";
+		case Gamepad::Action::Circle: return "(A)";
+		case Gamepad::Action::Square: return "(Y)";
+		case Gamepad::Action::Triangle: return "(X)";
+		case Gamepad::Action::Misc: return "Capture";
+		}
+
+		return Gamepad::toStringXbox(action);
+	}
+
 	const char* toString(Gamepad::Layout layout, Gamepad::Action action)
 	{
 		switch (layout)
 		{
 		case Gamepad::Layout::PlayStation: return Gamepad::toStringPlayStation(action);
+		case Gamepad::Layout::Nintendo: return Gamepad::toStringNintendo(action);
 		default: return Gamepad::toStringXbox(action);
 		}
 	}
@@ -58,6 +73,11 @@ namespace Gamepad
 		case SDL_CONTROLLER_TYPE_PS4:
 		case SDL_CONTROLLER_TYPE_PS5:
 			return Gamepad::Layout::PlayStation;
+		case SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_LEFT:
+		case SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_RIGHT:
+		case SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_JOYCON_PAIR:
+		case SDL_CONTROLLER_TYPE_NINTENDO_SWITCH_PRO:
+			return Gamepad::Layout::Nintendo;
 		default: return Gamepad::Layout::Xbox;
 		}
 	}
