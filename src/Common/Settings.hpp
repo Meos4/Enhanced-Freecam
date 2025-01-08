@@ -21,12 +21,6 @@ enum class Theme
 	Count
 };
 
-enum class KeyboardLayout
-{
-	Qwerty,
-	Azerty
-};
-
 enum class SearchMode
 {
 	Auto,
@@ -46,7 +40,6 @@ struct ImFont;
 struct Settings
 {
 	Theme theme{ Theme::Dark };
-	KeyboardLayout keyboardLayout{ KeyboardLayout::Qwerty };
 	SearchMode processSearchMode{ SearchMode::Auto };
 	Font font{ Font::RobotoMedium14 };
 	std::array<ImFont*, static_cast<std::size_t>(Font::Count)> imFonts;

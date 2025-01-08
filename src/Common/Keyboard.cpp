@@ -51,33 +51,9 @@ namespace OsKeyboard = Windows::Keyboard;
 namespace Keyboard
 {
 	static std::unordered_set<Keyboard::Key> usedKeys{}, usedKeysWaitingUpdate{};
+	static Keyboard::Layout currentLayout{ Keyboard::Layout::Qwerty };
 
-	void update()
-	{
-		usedKeys = std::move(usedKeysWaitingUpdate);
-		usedKeysWaitingUpdate.clear();
-	}
-
-	bool isPressed(Keyboard::Key key)
-	{
-		if (Keyboard::isHeld(key))
-		{
-			return !usedKeys.contains(key);
-		}
-		return false;
-	}
-
-	bool isHeld(Keyboard::Key key)
-	{
-		if (OsKeyboard::isHeld(platformKeys[static_cast<std::size_t>(key)]))
-		{
-			usedKeysWaitingUpdate.insert(key);
-			return true;
-		}
-		return false;
-	}
-
-	const char* toStringQwerty(Keyboard::Key key)
+	static const char* toStringQwerty(Keyboard::Key key)
 	{
 		static constexpr std::array<const char*, static_cast<std::size_t>(Keyboard::Key::Count)> names
 		{
@@ -117,7 +93,7 @@ namespace Keyboard
 		return names[static_cast<std::size_t>(key)];
 	}
 
-	const char* toStringAzerty(Keyboard::Key key)
+	static const char* toStringAzerty(Keyboard::Key key)
 	{
 		switch (key)
 		{
@@ -130,6 +106,46 @@ namespace Keyboard
 		}
 
 		return Keyboard::toStringQwerty(key);
+	}
+
+	void update()
+	{
+		usedKeys = std::move(usedKeysWaitingUpdate);
+		usedKeysWaitingUpdate.clear();
+		currentLayout = OsKeyboard::layout();
+	}
+
+	bool isPressed(Keyboard::Key key)
+	{
+		if (Keyboard::isHeld(key))
+		{
+			return !usedKeys.contains(key);
+		}
+		return false;
+	}
+
+	bool isHeld(Keyboard::Key key)
+	{
+		if (OsKeyboard::isHeld(platformKeys[static_cast<std::size_t>(key)]))
+		{
+			usedKeysWaitingUpdate.insert(key);
+			return true;
+		}
+		return false;
+	}
+
+	Keyboard::Layout layout()
+	{
+		return currentLayout;
+	}
+
+	const char* toString(Keyboard::Layout layout, Keyboard::Key key)
+	{
+		switch (layout)
+		{
+		case Keyboard::Layout::Azerty: return Keyboard::toStringAzerty(key);
+		default: return Keyboard::toStringQwerty(key);
+		}
 	}
 
 	Keyboard::Key qwertyToAzertyKey(Keyboard::Key key)

@@ -4,8 +4,13 @@
 
 namespace Keyboard
 {
-	using Key_t = u8;
+	enum class Layout
+	{
+		Qwerty,
+		Azerty
+	};
 
+	using Key_t = u8;
 	enum class Key : Key_t
 	{
 		A,
@@ -134,7 +139,7 @@ namespace Keyboard
 	void update();
 	bool isPressed(Keyboard::Key key);
 	bool isHeld(Keyboard::Key key);
-	const char* toStringQwerty(Keyboard::Key key);
-	const char* toStringAzerty(Keyboard::Key key);
+	Keyboard::Layout layout();
+	const char* toString(Keyboard::Layout layout, Keyboard::Key key);
 	Keyboard::Key qwertyToAzertyKey(Keyboard::Key key);
 };

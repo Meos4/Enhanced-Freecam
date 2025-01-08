@@ -13,7 +13,7 @@ static constexpr auto _Input{ "Input" };
 InputWrapper::InputWrapper(InputWrapper::BaseInputsCallback baseInputsCallback)
 	: m_baseInputsCallback(baseInputsCallback), m_nameInputs(baseInputsCallback())
 {
-	if (g_settings.keyboardLayout == KeyboardLayout::Azerty)
+	if (Keyboard::layout() == Keyboard::Layout::Azerty)
 	{
 		convertQwertyToAzertyInputs();
 	}
@@ -42,7 +42,7 @@ void InputWrapper::draw()
 	{
 		m_nameInputs = m_baseInputsCallback();
 
-		if (g_settings.keyboardLayout == KeyboardLayout::Azerty)
+		if (Keyboard::layout() == Keyboard::Layout::Azerty)
 		{
 			convertQwertyToAzertyInputs();
 		}
@@ -296,11 +296,6 @@ float InputWrapper::sensitivity(s32 id)
 
 std::string InputWrapper::toString(s32 id, std::size_t index) const
 {
-	auto keyboardBehavior = [](Keyboard::Key key) -> std::string
-	{
-		return g_settings.keyboardLayout == KeyboardLayout::Qwerty ? Keyboard::toStringQwerty(key) : Keyboard::toStringAzerty(key);
-	};
-
 	auto gamepadBehavior = [](const InputWrapper::GamepadActionId& ai)
 	{
 		std::string str{ Gamepad::toString(GamepadWrapper::layout(ai.id), ai.action) };
@@ -311,7 +306,7 @@ std::string InputWrapper::toString(s32 id, std::size_t index) const
 	return std::visit(Util::Overload
 	{
 		[&]([[maybe_unused]] std::monostate) { return std::string{ "N/A" }; },
-		[&](Keyboard::Key key) { return keyboardBehavior(key); },
+		[&](Keyboard::Key key) { return std::string{ Keyboard::toString(Keyboard::layout(), key) }; },
 		[&](const InputWrapper::GamepadActionId& ai) { return gamepadBehavior(ai); }
 	}, m_nameInputs[id].inputs[index]);
 }
