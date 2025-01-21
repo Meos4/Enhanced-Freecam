@@ -39,6 +39,25 @@ public:
 		m_rw->read(offset, val, size);
 	}
 
+	template <typename... Args>
+	std::tuple<Args...> readPacket(std::uintptr_t offset) const
+	{
+		static constexpr auto size{ (sizeof(Args) + ...) };
+		SBuffer<size> buffer{};
+		auto* bufferPtr{ buffer.data() };
+		read(offset, bufferPtr, size);
+
+		auto impl = [&](auto* v)
+		{
+			std::memcpy(v, bufferPtr, sizeof(*v));
+			bufferPtr += sizeof(*v);
+		};
+
+		std::tuple<Args...> tuple;
+		std::apply([&impl](auto&... args) { (impl(&args), ...); }, tuple);
+		return tuple;
+	}
+
 	template <typename T>
 	void write(std::uintptr_t offset, const T& val, std::size_t size = sizeof(T)) const
 	{
