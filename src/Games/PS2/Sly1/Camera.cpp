@@ -65,8 +65,8 @@ namespace PS2::Sly1
 			if (cameraPtr)
 			{
 				const auto fov{ ram.read<float>(cameraPtr + 0x1C4) };
-				const auto packet{ ram.read<std::array<float, 2>>(cameraPtr + 0x1E4) };
-				writeProjectionMatrix(cameraPtr, fov, packet[0], packet[1]);
+				const auto [nearClip, farClip]{ ram.readPacket<float, float>(cameraPtr + 0x1E4) };
+				writeProjectionMatrix(cameraPtr, fov, nearClip, farClip);
 			}
 		}
 		else if (m_game->settings()->resetXRotation)
