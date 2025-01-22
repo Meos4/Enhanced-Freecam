@@ -4,7 +4,7 @@
 
 namespace Software
 {
-	inline constexpr auto name{ "Enhanced Freecam" }, version{ "1.2.2" };
+	inline constexpr auto name{ "Enhanced Freecam" }, version{ "1.3.0" };
 
 	inline constexpr auto
 		width{ static_cast<s32>(1600.f / 1.5f) },
