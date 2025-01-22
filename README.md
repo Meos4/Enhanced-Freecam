@@ -26,3 +26,11 @@ Dependencies
 -----------
 * [Dear ImGui](https://github.com/ocornut/imgui)
 * [nlohmann json](https://github.com/nlohmann/json)
+
+Screenshots
+-----------
+![Budokai3](https://github.com/user-attachments/assets/66fc975c-c89c-4f27-a2ea-9194e1ac9cb5)
+![ResidentEvil4](https://github.com/user-attachments/assets/a38d7e92-a7bf-4d50-8fdd-b282e97e42ef)
+![Sly](https://github.com/user-attachments/assets/7200bc6a-192a-45df-839c-cff307fd476a)
+
+
