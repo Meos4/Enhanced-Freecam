@@ -19,8 +19,7 @@ namespace SDL::Renderer
 	void endRender(const std::array<float, 3>& rgb, bool viewportsAlwaysOnTop);
 	void destroy();
 	bool shouldClose();
-	s32 nbMonitors();
-	std::optional<s32> refreshRate(s32 monitor);
+	std::optional<s32> refreshRate();
 	float deltaTime();
 	void setWindowDimension(s32 width, s32 height);
 	void setShouldClose();

@@ -130,15 +130,10 @@ namespace SDL::Renderer
 		return v.shouldClose;
 	}
 
-	s32 nbMonitors()
-	{
-		return SDL_GetNumVideoDisplays();
-	}
-
-	std::optional<s32> refreshRate(s32 monitor)
+	std::optional<s32> refreshRate()
 	{
 		SDL_DisplayMode mode;
-		if (SDL_GetCurrentDisplayMode(monitor, &mode) == 0)
+		if (SDL_GetCurrentDisplayMode(SDL_GetWindowDisplayIndex(v.window), &mode) == 0)
 		{
 			return mode.refresh_rate;
 		}

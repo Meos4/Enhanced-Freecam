@@ -5,4 +5,6 @@ target_sources(${PROJECT_NAME} PRIVATE
     Gamepad.hpp
 	Renderer.cpp
 	Renderer.hpp
+    Util.cpp
+    Util.hpp
 )

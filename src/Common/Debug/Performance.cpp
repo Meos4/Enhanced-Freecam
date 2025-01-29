@@ -15,7 +15,7 @@ namespace Debug::Performance
 
 	static auto refreshRate()
 	{
-		const auto rr{ Renderer::refreshRate(0) };
+		const auto rr{ Renderer::refreshRate() };
 		return (rr.has_value() && rr.value() > 0) ? rr.value() : refreshRateDefault;
 	}
 

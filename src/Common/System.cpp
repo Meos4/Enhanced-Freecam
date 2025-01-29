@@ -114,7 +114,7 @@ namespace System
 
 		Ui::setXSpacingNoMin(Ui::xSpacingStr(Path::settingsDirectory));
 		const auto dimension{ Renderer::windowDimension() };
-		const auto refreshRate{ Renderer::refreshRate(0).value_or(1) };
+		const auto refreshRate{ Renderer::refreshRate().value_or(1) };
 		ImGui::Text("%.2f - %.5f - %dHz - %.2fms - %d %d",
 			Renderer::time(),
 			Renderer::deltaTime(),
