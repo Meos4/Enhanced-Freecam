@@ -21,7 +21,7 @@ static constexpr auto
 	fontSizeMin{ 13 }, 
 	fontSizeMax{ fontSizeMin + static_cast<s32>(Font::Count) - 1 };
 
-void Settings::init()
+void Settings::init(Resolution resolution)
 {
 	const auto imguiIniPath{ Path::imguiIni() };
 	ImGui::LoadIniSettingsFromDisk(imguiIniPath.string().c_str());
@@ -47,6 +47,12 @@ void Settings::init()
 	{
 		const auto size{ fontSizeFloatMin + static_cast<float>(i) };
 		imFonts[i] = io->Fonts->AddFontFromMemoryCompressedTTF(Roboto_Medium_compressed_data, Roboto_Medium_compressed_size, size);
+	}
+
+	switch (resolution)
+	{
+	case Resolution::_1080p: font = Font::RobotoMedium14; break;
+	default: font = Font::RobotoMedium15; break;
 	}
 
 	updateFont();
@@ -285,6 +291,34 @@ void Settings::updateMultiViewportsAlwaysOnTop() const
 void Settings::updateFont() const
 {
 	ImGui::GetIO().FontDefault = imFonts[static_cast<std::size_t>(font)];
+}
+
+Resolution Settings::resolution(s32 [[maybe_unused]] w, s32 h)
+{
+	if (h >= 2160)
+	{
+		return Resolution::_4k;
+	}
+	if (h >= 1440)
+	{
+		return Resolution::_1440p;
+	}
+	return Resolution::_1080p;
+}
+
+Vec2<s32> Settings::windowResolution(Resolution resolution)
+{
+	auto get = [](s32 w, s32 h)
+	{
+		return Vec2<s32>{ static_cast<s32>(static_cast<float>(w) / 1.8f), static_cast<s32>(static_cast<float>(h) / 1.8f) };
+	};
+
+	switch (resolution)
+	{
+	case Resolution::_1440p: return get(2560, 1440);
+	case Resolution::_4k: return get(3840, 2160);
+	default: return get(1920, 1080);
+	}
 }
 
 void Settings::setThemeDark()

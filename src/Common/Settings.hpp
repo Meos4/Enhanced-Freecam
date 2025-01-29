@@ -6,6 +6,7 @@
 #include "InputWrapper.hpp"
 #include "Json.hpp"
 #include "Math.hpp"
+#include "Vec2.hpp"
 
 #include <array>
 #include <chrono>
@@ -35,13 +36,20 @@ enum class Font
 	Count
 };
 
+enum class Resolution
+{
+	_1080p,
+	_1440p,
+	_4k
+};
+
 struct ImFont;
 
 struct Settings
 {
 	Theme theme{ Theme::Dark };
 	SearchMode processSearchMode{ SearchMode::Auto };
-	Font font{ Font::RobotoMedium14 };
+	Font font;
 	std::array<ImFont*, static_cast<std::size_t>(Font::Count)> imFonts;
 	bool smoothCamera{ true };
 	bool isMultiViewports{ true };
@@ -137,7 +145,7 @@ struct Settings
 		std::string cheatsPath{ PS2::PCSX2::defaultCheatsPath().string() };
 	} pcsx2;
 
-	void init();
+	void init(Resolution resolution);
 	std::array<float, 3> rgbFont() const;
 	void drawWindow();
 	void drawPCSX2CheatsPathInputText();
@@ -149,6 +157,8 @@ struct Settings
 	void updateMultiViewportsAlwaysOnTop() const;
 	void updateFont() const;
 
+	static Resolution resolution(s32 w, s32 h);
+	static Vec2<s32> windowResolution(Resolution resolution);
 	static void setThemeDark();
 	static void setThemeRuby();
 };

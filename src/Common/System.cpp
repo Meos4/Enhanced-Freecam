@@ -5,6 +5,7 @@
 #include "Debug/Ui.hpp"
 
 #include "SDL/Event.hpp"
+#include "SDL/Util.hpp"
 
 #if _WIN32
 #include "Windows/Dwm.hpp"
@@ -41,7 +42,7 @@ namespace System
 
 		const auto filename{ std::format("{}.json", _System) };
 		const auto jsonRead{ Json::read(Path::settingsFile(filename.c_str())) };
-		s32 width{ Software::width }, height{ Software::height };
+		s32 width{}, height{};
 
 		if (jsonRead.has_value() && jsonRead.value().contains(_Renderer))
 		{
@@ -58,8 +59,23 @@ namespace System
 			}
 		}
 
+		const auto mResolution{ SDL::Util::resolution(0) };
+		const auto resolution
+		{ 
+			mResolution.has_value() ? 
+			Settings::resolution(mResolution.value().x, mResolution.value().y) :
+			Resolution::_1080p
+		};
+
+		if (!width || !height)
+		{
+			const auto [w, h]{ Settings::windowResolution(resolution) };
+			width = w;
+			height = h;
+		}
+
 		Renderer::createWindow(Software::name, width, height);
-		g_settings.init();
+		g_settings.init(resolution);
 
 		if (jsonRead.has_value())
 		{
