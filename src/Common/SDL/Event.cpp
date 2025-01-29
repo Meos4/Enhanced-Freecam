@@ -9,6 +9,11 @@
 
 namespace SDL::Event
 {
+	void init(Init_t v)
+	{
+		SDL_Init(v);
+	}
+
 	void update()
 	{
 		SDL_Event event;

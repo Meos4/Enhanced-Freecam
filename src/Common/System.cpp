@@ -37,6 +37,8 @@ namespace System
 
 	static void init()
 	{
+		SDL::Event::init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER);
+
 		const auto filename{ std::format("{}.json", _System) };
 		const auto jsonRead{ Json::read(Path::settingsFile(filename.c_str())) };
 		s32 width{ Software::width }, height{ Software::height };
