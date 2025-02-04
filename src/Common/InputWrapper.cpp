@@ -55,25 +55,63 @@ void InputWrapper::draw()
 	ImGui::Separator();
 
 	ImGui::BeginChild("Scroll", { 0.f, 0.f }, false, ImGuiWindowFlags_HorizontalScrollbar);
-	s32 buttonID{};
-	const ImVec2 buttonSize{ 120.f, 0.f };
-	const auto buttonOneLetterSize{ Ui::buttonOneLetterSize() };
 
-	auto xStringMaxSize{ 0.f };
+	const auto nameInputsSize{ m_nameInputs.size() };
+	std::vector<std::array<std::string, InputWrapper::nbInputs>> buttonsText(nameInputsSize);
+
+	for (s32 id{}; id < nameInputsSize; ++id)
+	{
+		for (std::size_t index{}; index < InputWrapper::nbInputs; ++index)
+		{
+			buttonsText[id][index] = toString(id, index);
+		}
+	}
+
+	if (m_waitingInput.has_value())
+	{
+		const auto& [id, index]{ m_waitingInput.value() };
+		buttonsText[id][index] = "...";
+	}
+
+	auto calcTextSize = [](const char* text, float* max)
+	{
+		const auto [x, y]{ ImGui::CalcTextSize(text) };
+		if (x > *max)
+		{
+			*max = x;
+		}
+	};
+
+	auto nameMaxSize{ 0.f };
 	for (const auto& [name, inputs] : m_nameInputs)
 	{
-		const auto vec{ ImGui::CalcTextSize(name) };
-		if (vec.x > xStringMaxSize)
+		calcTextSize(name, &nameMaxSize);
+	}
+
+	auto buttonMinSize{ 0.f };
+	for (const auto& texts : buttonsText)
+	{
+		for (const auto& text : texts)
 		{
-			xStringMaxSize = vec.x;
+			calcTextSize(text.c_str(), &buttonMinSize);
 		}
 	}
 
 	const auto& style{ ImGui::GetStyle() };
-	Ui::setXSpacing(xStringMaxSize + style.ItemSpacing.x);
-	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { 4.f, style.ItemSpacing.y });
+	buttonMinSize += style.WindowPadding.x * 2.f;
 
-	for (s32 id{}; id < m_nameInputs.size(); ++id)
+	static constexpr auto itemSpacingXButton{ 4.f };
+	const auto buttonsBegin{ nameMaxSize + style.ItemSpacing.x };
+	const auto regionRemainer{ ImGui::GetContentRegionAvail().x - buttonsBegin };
+	const auto buttonOneLetterSize{ Ui::buttonOneLetterSize() };
+	const auto expectedButtonSize{ regionRemainer / InputWrapper::nbInputs - itemSpacingXButton * 2.f - buttonOneLetterSize.x };
+	const ImVec2 buttonSize{ expectedButtonSize >= buttonMinSize ? expectedButtonSize : buttonMinSize, 0.f };
+
+	s32 buttonID{};
+	Ui::setXSpacing(buttonsBegin);
+	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, { itemSpacingXButton, style.ItemSpacing.y });
+
+	for (s32 id{}; id < nameInputsSize; ++id)
 	{
 		Ui::labelXSpacing(m_nameInputs[id].name);
 
@@ -81,18 +119,15 @@ void InputWrapper::draw()
 		{
 			ImGui::PushID(buttonID++);
 
-			if (m_waitingInput.has_value() &&
-				m_waitingInput.value().id == id &&
-				m_waitingInput.value().index == index)
+			if (Ui::button(buttonsText[id][index].c_str(), buttonSize))
 			{
-				if (Ui::button("...", buttonSize))
+				if (m_waitingInput.has_value() &&
+					m_waitingInput.value().id == id &&
+					m_waitingInput.value().index == index)
 				{
 					m_waitingInput = std::nullopt;
 				}
-			}
-			else
-			{
-				if (Ui::button(toString(id, index).c_str(), buttonSize))
+				else
 				{
 					m_waitingInput = { id, index };
 				}
@@ -113,6 +148,7 @@ void InputWrapper::draw()
 			ImGui::PopID();
 		}
 	}
+
 	ImGui::PopStyleVar();
 	ImGui::EndChild();
 
