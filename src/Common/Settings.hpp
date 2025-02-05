@@ -150,6 +150,9 @@ struct Settings
 	void drawWindow();
 	void drawPCSX2CheatsPathInputText();
 	bool isADarkTheme();
+	float gameTextComboSize();
+	float gameVersionComboSize();
+	float manualProcessComboSize();
 	void readSettings(const Json::Read& json);
 	void writeSettings(Json::Write* json) const;
 	void updateTheme() const;

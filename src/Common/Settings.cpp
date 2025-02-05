@@ -4,6 +4,7 @@
 
 #include "Console.hpp"
 #include "GamepadWrapper.hpp"
+#include "GamePlatform.hpp"
 #include "Path.hpp"
 #include "Types.hpp"
 #include "Ui.hpp"
@@ -180,6 +181,52 @@ void Settings::drawPCSX2CheatsPathInputText()
 bool Settings::isADarkTheme()
 {
 	return theme != Theme::Light;
+}
+
+float Settings::gameTextComboSize()
+{
+	float max{};
+
+	for (s32 i{}; i < GamePlatform::Count; ++i)
+	{
+		for (const auto& gameInfo : GamePlatform::gamesInfo(i))
+		{
+			const auto [x, y]{ ImGui::CalcTextSize(gameInfo.name) };
+			if (x > max)
+			{
+				max = x;
+			}
+		}	
+	}
+
+	return max + ImGui::GetStyle().FramePadding.x * 2.f + ImGui::GetTextLineHeightWithSpacing();
+}
+
+float Settings::gameVersionComboSize()
+{
+	float max{};
+
+	for (s32 i{}; i < GamePlatform::Count; ++i)
+	{
+		for (const auto& gameInfo : GamePlatform::gamesInfo(i))
+		{
+			for (s32 j{}; j < gameInfo.count; ++j)
+			{
+				const auto [x, y]{ ImGui::CalcTextSize(gameInfo.versionText(j)) };
+				if (x > max)
+				{
+					max = x;
+				}
+			}
+		}	
+	}
+
+	return max + ImGui::GetStyle().FramePadding.x * 2.f + ImGui::GetTextLineHeightWithSpacing();
+}
+
+float Settings::manualProcessComboSize()
+{
+	return gameTextComboSize() + gameVersionComboSize() + ImGui::GetStyle().ItemSpacing.x;
 }
 
 void Settings::readSettings(const Json::Read& json)

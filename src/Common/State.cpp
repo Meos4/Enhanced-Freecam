@@ -230,10 +230,8 @@ namespace State
 	{
 		ImGui::Begin(_State);
 		
-		const auto& style{ ImGui::GetStyle() };
-		const auto maximumWidthSize{ 512.f - style.WindowPadding.x };
-
-		ImGui::SetNextItemWidth(maximumWidthSize * 0.6f);
+		const auto gameTextComboSize{ g_settings.gameTextComboSize() };
+		ImGui::SetNextItemWidth(gameTextComboSize);
 		if (ImGui::BeginCombo("##Platform names", context.gpw.platformName(), ImGuiComboFlags_None))
 		{
 			for (s32 i{}; i < GamePlatform::Count; ++i)
@@ -256,7 +254,7 @@ namespace State
 			ImGui::EndCombo();
 		}
 
-		ImGui::SetNextItemWidth(maximumWidthSize * 0.6f);
+		ImGui::SetNextItemWidth(gameTextComboSize);
 		if (ImGui::BeginCombo("##Game names", context.gpw.gameName(), ImGuiComboFlags_None))
 		{
 			const auto gamesInfo{ context.gpw.gamesInfo() };
@@ -281,7 +279,7 @@ namespace State
 		}
 
 		ImGui::SameLine();
-		ImGui::SetNextItemWidth(maximumWidthSize * 0.4f - style.ItemSpacing.x);
+		ImGui::SetNextItemWidth(g_settings.gameVersionComboSize());
 		if (ImGui::BeginCombo("##Version names", context.gpw.versionName(), ImGuiComboFlags_None))
 		{
 			const auto& gameInfo{ context.gpw.gameInfo() };
@@ -343,7 +341,7 @@ namespace State
 					process.architecture() == Process::Architecture::x86 ? "32" : "64");
 			};
 
-			ImGui::SetNextItemWidth(maximumWidthSize);
+			ImGui::SetNextItemWidth(g_settings.manualProcessComboSize());
 			if (ImGui::BeginCombo("##Process Names", context.process ? processInfoFormatted(*context.process).c_str() : "", ImGuiComboFlags_None))
 			{
 				ImGui::PopStyleColor();
