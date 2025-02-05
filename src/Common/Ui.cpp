@@ -95,8 +95,10 @@ namespace Ui
 
 	ImVec2 buttonOneLetterSize()
 	{
-		const auto& style{ GImGui->Style };
-		return { 16.f, 13.f + style.FramePadding.y * 2.0f };
+		static constexpr auto letter{ 'A' };
+		const auto [lx, ly]{ ImGui::CalcTextSize(&letter) };
+		const auto& [fpX, fpY]{ GImGui->Style.FramePadding };
+		return { lx + 2 * fpX, ly + 2 * fpY };
 	}
 
 	bool downloadFileConfirmationWindow(const char* title, const char* label, const std::filesystem::path& path)
