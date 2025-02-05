@@ -33,6 +33,13 @@ enum class Font
 	RobotoMedium13,
 	RobotoMedium14,
 	RobotoMedium15,
+	RobotoMedium16,
+	RobotoMedium17,
+	RobotoMedium18,
+	RobotoMedium19,
+	RobotoMedium20,
+	RobotoMedium21,
+	RobotoMedium22,
 	Count
 };
 

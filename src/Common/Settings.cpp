@@ -52,7 +52,8 @@ void Settings::init(Resolution resolution)
 
 	switch (resolution)
 	{
-	case Resolution::_1080p: font = Font::RobotoMedium14; break;
+	case Resolution::_1440p: font = Font::RobotoMedium18; break;
+	case Resolution::_4k: font = Font::RobotoMedium22; break;
 	default: font = Font::RobotoMedium15; break;
 	}
 
