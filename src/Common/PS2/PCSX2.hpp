@@ -11,7 +11,7 @@
 #include <optional>
 #include <set>
 
-#define PS2_PCSX2_DRAW_PNACH_BEHAVIOR_WINDOW PS2::PCSX2::drawPnachBehaviorWindow(&m_game)
+#define PS2_PCSX2_DRAW_PNACH_BEHAVIOR_WINDOW(Game) PS2::PCSX2::drawPnachBehaviorWindow(m_ram, m_offset, Game::pnachInfo(m_version), Game::name, Game::versionText(m_version))
 
 namespace PS2::PCSX2
 {
@@ -33,15 +33,13 @@ namespace PS2::PCSX2
 	std::uintptr_t x86AGS(const Process& process, const std::atomic<bool>& running, const OffsetPattern& op);
 
 	template <typename T>
-	void drawPnachBehaviorWindow(T* game)
+	void drawPnachBehaviorWindow(const Ram& ram, const T& offsets, const PCSX2::PnachInfo& pnachInfo, const char* name, const char* versionText)
 	{
-		if (Util::isProcessName(game->ram().process(), "pcsx2"))
+		if (Util::isProcessName(ram.process(), "pcsx2"))
 		{
-			const auto& offsets{ game->offset() };
-			const auto& pnachInfo{ game->pnachInfo() };
 			const auto nbOffsets{ sizeof(offsets) / sizeof(u32) };
 			const auto textSectionOffsets{ PCSX2::textSectionOffsets((u32*)&offsets, nbOffsets, pnachInfo.textSectionBegin, pnachInfo.textSectionEnd) };
-			PCSX2::drawCreatePnachTextSectionWindow(game->ram(), textSectionOffsets, pnachInfo.crc, game->name, game->versionText(game->version()));
+			PCSX2::drawCreatePnachTextSectionWindow(ram, textSectionOffsets, pnachInfo.crc, name, versionText);
 		}
 	}
 }

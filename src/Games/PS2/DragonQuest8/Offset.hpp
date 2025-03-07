@@ -17,7 +17,7 @@ namespace PS2::DragonQuest8
 			Fn_SetPrimitiveMatrix__13mgCRenderInfoFR18mgRenderMatrixInfo,
 			Fn_Step__14CCameraControlFf,
 			Fn_TimeStep__8dqCSceneFf,
-		//
+			//
 			alchemyPtr,
 			bag,
 			cameraPtr,

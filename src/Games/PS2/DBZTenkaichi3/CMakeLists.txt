@@ -1,22 +1,8 @@
 target_sources(${PROJECT_NAME} PRIVATE
-	Bonus.cpp
-	Bonus.hpp
-	Camera.cpp
-	Camera.hpp
-	Controller.cpp
-	Controller.hpp
-	CustomCode.cpp
-	CustomCode.hpp
-	Freecam.cpp
-	Freecam.hpp
 	Game.cpp
 	Game.hpp
 	Loop.cpp
 	Loop.hpp
-	Misc.cpp
-	Misc.hpp
 	Offset.cpp
 	Offset.hpp
-	Settings.cpp
-	Settings.hpp
 )

@@ -109,7 +109,7 @@ namespace PS2::DBZTenkaichi3
 		.Fn_updateShenron = 0x00262AA0,
 		.Fn_viewModelUpdateCamera = 0x0023F558
 	};
-	
+
 	const Offset& Offset::create(s32 version)
 	{
 		static constexpr std::array<const Offset*, Version::Count> offsets

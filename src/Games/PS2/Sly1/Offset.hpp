@@ -37,7 +37,7 @@ namespace PS2::Sly1
 			Fn_SetCmPosMat__FP2CMP6VECTORP7MATRIX3,
 			Fn_UpdateCmMat4__FP2CM,
 			Fn_UpdateCplook__FP6CPLOOKP6CPDEFIP3JOYf,
-		//
+			//
 			levelInfo,
 			Fn_antiPiracy1,
 			Fn_antiPiracy2,

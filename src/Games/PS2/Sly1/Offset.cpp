@@ -7,7 +7,7 @@
 namespace PS2::Sly1
 {
 	static constexpr Offset
-		offsetPal
+	offsetPal
 	{
 		.g_pcm = 0x00262C90,
 		.g_gsCur = 0x002859A0,

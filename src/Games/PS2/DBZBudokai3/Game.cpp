@@ -1,21 +1,15 @@
 #include "Game.hpp"
 
-#include "Common/PS2/PS2.hpp"
-
 #include "Common/Settings.hpp"
 
 #include "Loop.hpp"
 
 #include <array>
+#include <type_traits>
 
-namespace PS2::DBZBudokai3
+namespace PS2::DBZBudokai3::Game
 {
-	Game::Game(Ram&& ram, s32 version)
-		: m_ram(std::move(ram)), m_version(version), m_offset(Offset::create(version)), m_input(&Game::baseInputs)
-	{
-	}
-
-	const char* Game::versionText(s32 version)
+	const char* versionText(s32 version)
 	{
 		static constexpr std::array<const char*, Version::Count> vText
 		{
@@ -29,7 +23,7 @@ namespace PS2::DBZBudokai3
 		return vText[version];
 	}
 
-	OffsetPattern Game::offsetPattern(s32 version)
+	OffsetPattern offsetPattern(s32 version)
 	{
 		static constexpr std::array<OffsetPatternStatic<u32, 64>, Version::Count> vOp
 		{
@@ -43,12 +37,12 @@ namespace PS2::DBZBudokai3
 		return { vOp[version].offset, vOp[version].pattern };
 	}
 
-	std::unique_ptr<GameLoop> Game::createLoop(Ram&& ram, s32 version)
+	std::unique_ptr<GameLoop> createLoop(Ram&& ram, s32 version)
 	{
-		return std::make_unique<Loop>(Game{ std::move(ram), version });
+		return std::make_unique<Loop>(std::move(ram), version);
 	}
 
-	std::vector<InputWrapper::NameInputs> Game::baseInputs()
+	std::vector<InputWrapper::NameInputs> baseInputs()
 	{
 		const auto& i{ g_settings.input };
 
@@ -84,7 +78,7 @@ namespace PS2::DBZBudokai3
 		};
 	}
 
-	std::span<const char* const> Game::stateNames()
+	std::span<const char* const> stateNames()
 	{
 		static constexpr std::array<const char*, State::Count> names
 		{
@@ -95,7 +89,7 @@ namespace PS2::DBZBudokai3
 		return names;
 	}
 
-	const PCSX2::PnachInfo& Game::pnachInfo() const
+	const PCSX2::PnachInfo& pnachInfo(s32 version)
 	{
 		static constexpr std::array<PCSX2::PnachInfo, Version::Count> pnachInfos
 		{
@@ -106,68 +100,6 @@ namespace PS2::DBZBudokai3
 			"5B26AFF9", 0x00100000, 0x00324BA4
 		};
 
-		return pnachInfos[m_version];
-	}
-
-	void Game::update()
-	{
-		const auto cameraPtr{ m_ram.read<u32>(m_offset.battleCameraPtr) };
-
-		if (PS2::isValidMemoryRange(cameraPtr) &&
-			PS2::isValidMemoryRange(m_ram.read<u32>(cameraPtr + 0x260)))
-		{
-			m_state = State::Battle;
-			return;
-		}
-
-		if (PS2::isValidMemoryRange(m_ram.read<u32>(m_offset.duBackgroundPtr)))
-		{
-			m_state = State::DragonUniverse;
-			return;
-		}
-
-		m_state = State::None;
-	}
-
-	void Game::readSettings(const Json::Read& json)
-	{
-		m_settings.readSettings(json);
-		m_input.readSettings(json);
-	}
-
-	void Game::writeSettings(Json::Write* json)
-	{
-		m_settings.writeSettings(json);
-		m_input.writeSettings(json);
-	}
-
-	const Ram& Game::ram() const
-	{
-		return m_ram;
-	}
-
-	s32 Game::version() const
-	{
-		return m_version;
-	}
-
-	const Offset& Game::offset() const
-	{
-		return m_offset;
-	}
-
-	Settings* Game::settings()
-	{
-		return &m_settings;
-	}
-
-	InputWrapper* Game::input()
-	{
-		return &m_input;
-	}
-
-	s32 Game::state() const
-	{
-		return m_state;
+		return pnachInfos[version];
 	}
 }

@@ -16,18 +16,17 @@
 #include <format>
 #include <fstream>
 
-#define PS2_DEBUG_DRAW_WINDOW PS2::Debug::drawWindow(&m_game)
+#define PS2_DEBUG_DRAW_WINDOW(Game) PS2::Debug::drawWindow(m_ram, m_offset, Game::pnachInfo(m_version), Game::name, m_version)
 
 namespace PS2::Debug
 {
 	void drawPCSX2CheatsPnachWindow(const std::filesystem::path& cheatsPath, bool* isOpen);
 
 	template <typename T>
-	void drawWindow(T* game)
+	void drawWindow(const Ram& ram, const T& offsets, const PCSX2::PnachInfo& pnachInfo, const char* name, s32 version)
 	{
 		ImGui::Begin(PS2::settingsName);
 
-		const auto& ram{ game->ram() };
 		const bool isPcsx2{ Util::isProcessName(ram.process(), "pcsx2") };
 		Ui::setXSpacingStr(isPcsx2 ? "Pnach Force Jit" : "Write Analyzer");
 
@@ -57,7 +56,6 @@ namespace PS2::Debug
 		static bool isOffsetOpen{};
 		if (isOpenWindowButton("Offset", &isOffsetOpen))
 		{
-			const auto& offsets{ game->offset() };
 			::Debug::Ui::offsetWindow((u32*)&offsets, sizeof(offsets) / sizeof(u32), ram, &isOffsetOpen);
 		}
 
@@ -70,8 +68,6 @@ namespace PS2::Debug
 		if (isPcsx2)
 		{
 			Ui::separatorText("PCSX2");
-
-			const auto& pnachInfo{ game->pnachInfo() };
 
 			static bool isPCSX2CheatsOpen{};
 			if (isOpenWindowButton("Cheats", &isPCSX2CheatsOpen))
@@ -87,7 +83,7 @@ namespace PS2::Debug
 
 				if (std::filesystem::is_directory(path))
 				{
-					path = std::format("{}/{} ({} - ({}) force jit).pnach", path.string().c_str(), pnachInfo.crc, game->name, game->version());
+					path = std::format("{}/{} ({} - ({}) force jit).pnach", path.string().c_str(), pnachInfo.crc, name, version);
 					std::ofstream pnach{ path };
 					const auto iteration{ ((pnachInfo.textSectionEnd & ~0xFFF) / 0x1000) - ((pnachInfo.textSectionBegin & ~0xFFF) / 0x1000) + 1 };
 
@@ -106,7 +102,6 @@ namespace PS2::Debug
 			}
 
 			Ui::labelXSpacing("Offset Fn 4096");
-			const auto& offsets{ game->offset() };
 			u32 nb4096{};
 
 			for (std::size_t i{}; i < sizeof(offsets) / sizeof(u32); ++i)

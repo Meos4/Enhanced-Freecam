@@ -1,22 +1,8 @@
-target_sources(${PROJECT_NAME} PRIVATE 
-	AntiPiracy.cpp
-	AntiPiracy.hpp
-	Bonus.cpp
-	Bonus.hpp
-	Camera.cpp
-	Camera.hpp
-	Controller.cpp
-	Controller.hpp
-	Freecam.cpp
-	Freecam.hpp
+target_sources(${PROJECT_NAME} PRIVATE
 	Game.cpp
 	Game.hpp
 	Loop.cpp
 	Loop.hpp
-	Misc.cpp
-	Misc.hpp
 	Offset.cpp
 	Offset.hpp
-	Settings.cpp
-	Settings.hpp
 )
