@@ -7,6 +7,12 @@ struct Vec3
 {
 	T x, y, z;
 
+	template <typename U>
+	operator Vec3<U>() const
+	{
+		return Vec3<U>{ static_cast<U>(x), static_cast<U>(y), static_cast<U>(z) };
+	}
+
 	friend constexpr Vec3 operator+(const Vec3& lhs, const Vec3& rhs)
 	{
 		return Vec3(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z);
