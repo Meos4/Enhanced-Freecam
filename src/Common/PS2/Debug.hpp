@@ -120,5 +120,5 @@ namespace PS2::Debug
 	}
 }
 #else
-#define PS2_DEBUG_DRAW_WINDOW
+#define PS2_DEBUG_DRAW_WINDOW(Game)
 #endif
