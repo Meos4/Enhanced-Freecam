@@ -45,6 +45,7 @@ namespace PS2::ResidentEvilCVX
 				JSON_GET(j, m_resetMovementSpeed);
 				JSON_GET(j, m_resetRotationSpeed);
 				JSON_GET(j, m_resetFovSpeed);
+				JSON_GET(j, m_noCutsceneBlackBars);
 				m_input.readSettings(j);
 			}
 			catch (const Json::Exception& e)
@@ -65,6 +66,7 @@ namespace PS2::ResidentEvilCVX
 		JSON_SET(j, m_resetMovementSpeed);
 		JSON_SET(j, m_resetRotationSpeed);
 		JSON_SET(j, m_resetFovSpeed);
+		JSON_SET(j, m_noCutsceneBlackBars);
 		m_input.writeSettings(&json);
 
 		Json::overwrite(json, PS2::settingsFilePath(Game::name));
@@ -78,7 +80,7 @@ namespace PS2::ResidentEvilCVX
 
 	void Loop::draw()
 	{
-		DRAW_GAME_WINDOWS(drawFreecam(), m_input.draw(), drawSettings(), ImGui::TextUnformatted("None"));
+		DRAW_GAME_WINDOWS(drawFreecam(), m_input.draw(), drawSettings(), drawBonus());
 		PS2_PCSX2_DRAW_PNACH_BEHAVIOR_WINDOW(Game);
 		PS2_DEBUG_DRAW_WINDOW(Game);
 	}
@@ -122,6 +124,7 @@ namespace PS2::ResidentEvilCVX
 		}
 
 		updateFreecam();
+		updateBonus();
 	}
 
 	bool Loop::isValid()
@@ -176,6 +179,13 @@ namespace PS2::ResidentEvilCVX
 		Ui::checkbox(Ui::lol("Reset Movement Speed"), &m_resetMovementSpeed);
 		Ui::checkbox(Ui::lol("Reset Rotation Speed"), &m_resetRotationSpeed);
 		Ui::checkbox(Ui::lol("Reset Fov Speed"), &m_resetFovSpeed);
+	}
+
+	void Loop::drawBonus()
+	{
+		Ui::setXSpacingStr("No Cutscene Black Bars");
+
+		Ui::checkbox(Ui::lol("No Cutscene Black Bars"), &m_noCutsceneBlackBars);
 	}
 
 	void Loop::updateFreecam()
@@ -424,6 +434,16 @@ namespace PS2::ResidentEvilCVX
 
 		m_ram.write(m_offset.Fn_Ps2_pad_read + 0x44C, m_isButtonEnabled ? 0xA4E20000 : 0xA4E00000);
 		m_ram.write(m_offset.Fn_Ps2_pad_read + 0x450, m_isJoystickEnabled ? vanillaStick : defaultStick);
+	}
+
+	void Loop::updateBonus()
+	{
+		const auto jal_njDrawPolygon2D{ Mips::jal(m_offset.Fn_njDrawPolygon2D) };
+
+		m_ram.writeConditional(m_noCutsceneBlackBars,
+			m_offset.Fn_bhDrawCinesco + 0x100, 0x00000000, jal_njDrawPolygon2D,
+			m_offset.Fn_bhDrawCinesco + 0x134, 0x00000000, jal_njDrawPolygon2D
+		);
 	}
 
 	void Loop::enable(bool enable)

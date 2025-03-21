@@ -26,9 +26,11 @@ namespace PS2::ResidentEvilCVX
 		void drawCamera();
 		void drawOthers();
 		void drawSettings();
+		void drawBonus();
 		void updateFreecam();
 		void updateCamera();
 		void updateOthers();
+		void updateBonus();
 		void enable(bool enable);
 		void writeNearFarClip(float _near, float _far) const;
 		u32 viewMatrixOffset() const;
@@ -57,5 +59,7 @@ namespace PS2::ResidentEvilCVX
 		bool m_resetMovementSpeed{ g_settings.gameSettings.resetMovementSpeed };
 		bool m_resetRotationSpeed{ g_settings.gameSettings.resetRotationSpeed };
 		bool m_resetFovSpeed{ g_settings.gameSettings.resetFovSpeed };
+
+		bool m_noCutsceneBlackBars{};
 	};
 }
