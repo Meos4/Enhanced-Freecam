@@ -60,6 +60,7 @@ namespace PS2::ResidentEvilCVX
 		bool m_resetRotationSpeed{ g_settings.gameSettings.resetRotationSpeed };
 		bool m_resetFovSpeed{ g_settings.gameSettings.resetFovSpeed };
 
+		bool m_noFog{};
 		bool m_noCutsceneBlackBars{};
 	};
 }

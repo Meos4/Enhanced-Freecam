@@ -45,6 +45,7 @@ namespace PS2::ResidentEvilCVX
 				JSON_GET(j, m_resetMovementSpeed);
 				JSON_GET(j, m_resetRotationSpeed);
 				JSON_GET(j, m_resetFovSpeed);
+				JSON_GET(j, m_noFog);
 				JSON_GET(j, m_noCutsceneBlackBars);
 				m_input.readSettings(j);
 			}
@@ -66,6 +67,7 @@ namespace PS2::ResidentEvilCVX
 		JSON_SET(j, m_resetMovementSpeed);
 		JSON_SET(j, m_resetRotationSpeed);
 		JSON_SET(j, m_resetFovSpeed);
+		JSON_SET(j, m_noFog);
 		JSON_SET(j, m_noCutsceneBlackBars);
 		m_input.writeSettings(&json);
 
@@ -185,6 +187,7 @@ namespace PS2::ResidentEvilCVX
 	{
 		Ui::setXSpacingStr("No Cutscene Black Bars");
 
+		Ui::checkbox(Ui::lol("No Fog"), &m_noFog);
 		Ui::checkbox(Ui::lol("No Cutscene Black Bars"), &m_noCutsceneBlackBars);
 	}
 
@@ -438,6 +441,8 @@ namespace PS2::ResidentEvilCVX
 
 	void Loop::updateBonus()
 	{
+		m_ram.write(m_offset.Fn_njCalcFogPowerEx + 0x10, m_noFog ? 0x1000004A : 0x1040004A);
+
 		const auto jal_njDrawPolygon2D{ Mips::jal(m_offset.Fn_njDrawPolygon2D) };
 
 		m_ram.writeConditional(m_noCutsceneBlackBars,

@@ -33,6 +33,7 @@ namespace PS2::ResidentEvilCVX
 		.Fn_bhSetCut = 0x0027F7A0,
 		.Fn_bhSetEventCamera = 0x002828B0,
 		.Fn_bhSysCallEvent = 0x00133420,
+		.Fn_njCalcFogPowerEx = 0x002DD900,
 		.Fn_njDrawPolygon2D = 0x002E6A10,
 		.Fn_njGetMatrix = 0x002DDFB0,
 		.Fn_njTranslate = 0x002DE070,
