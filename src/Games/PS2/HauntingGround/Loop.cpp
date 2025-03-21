@@ -329,7 +329,6 @@ namespace PS2::HauntingGround
 		};
 
 		m_ram.writeConditional(m_isEnabled,
-			m_offset.Fn_setMatrix + 0x148, Mips::jal(m_offset.Fn_std__default_new_handler), Mips::jal(m_offset.Fn_sceVu0CameraMatrix),
 			m_offset.Fn_initMapProjection + 0x60, 0x00000000, 0x0320F809, // Near
 			m_offset.Fn_initMapProjection + 0xB0, 0x00000000, 0x0320F809, // Fov
 			m_offset.Fn_cameraTransition + 0x164, 0x00000000, 0x0320F809, // Fov
@@ -341,6 +340,9 @@ namespace PS2::HauntingGround
 		{
 			m_isEnabled ? write() : read();
 		}
+
+		m_ram.write(m_offset.Fn_setMatrix + 0x148, m_isEnabled ? 
+			Mips::jal(m_offset.Fn_std__default_new_handler) : Mips::jal(m_offset.Fn_sceVu0CameraMatrix));
 	}
 
 	void Loop::updateOthers()

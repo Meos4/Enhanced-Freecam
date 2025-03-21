@@ -694,12 +694,7 @@ namespace PS1::ApeEscape
 			m_ram.write(m_offset.Fn_setViewMatrix, std::array<Mips_t, 2>{ 0x27BDFF90, 0xAFB50064 });
 		}
 
-		if (m_state == State::Ingame)
-		{
-			m_ram.write(m_offset.Fn_setViewMatrix, m_isEnabled ?
-				std::array<Mips_t, 2>{ Mips::j(m_offset.sonyLibrary), 0x00C02021 } : std::array<Mips_t, 2>{ 0x27BDFF90, 0xAFB50064 });
-		}
-		else if (m_state == State::IngameCutscene || m_state == State::AllVideo)
+		if (m_state == State::IngameCutscene || m_state == State::AllVideo)
 		{
 			m_ram.write(m_offset.overlay + m_dep.avShift, m_isEnabled ? Mips::jrRaNop() : std::array<Mips_t, 2>{ 0x27BDFFE8, 0xAFB00010 } );
 		}
@@ -789,6 +784,12 @@ namespace PS1::ApeEscape
 		}
 
 		m_isEnabled ? write() : read();
+
+		if (m_state == State::Ingame)
+		{
+			m_ram.write(m_offset.Fn_setViewMatrix, m_isEnabled ?
+				std::array<Mips_t, 2>{ Mips::j(m_offset.sonyLibrary), 0x00C02021 } : std::array<Mips_t, 2>{ 0x27BDFF90, 0xAFB50064 });
+		}
 	}
 
 	void Loop::updateOthers()

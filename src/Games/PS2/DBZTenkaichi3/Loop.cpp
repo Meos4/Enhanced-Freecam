@@ -357,6 +357,8 @@ namespace PS2::DBZTenkaichi3
 			m_ram.write(viewMatrixOffset(), vm, viewMatrixSize);
 		};
 
+		m_isEnabled ? write() : read();
+
 		const auto
 			jal_setViewMatrix{ Mips::jal(m_offset.Fn_setViewMatrix) },
 			jal_ccSetViewMatrix{ Mips::jal(m_offset.Fn_unknown) },
@@ -371,8 +373,6 @@ namespace PS2::DBZTenkaichi3
 			m_offset.Fn_cutsceneUpdateCamera + m_dep.cucShift, jal_ccSetViewMatrix, jal_sceVu0InversMatrix,
 			m_offset.Fn_cutsceneUpdateCamera + m_dep.cucShift + 0xD4, 0x00000000, jal_sceVu0InversMatrix
 		);
-
-		m_isEnabled ? write() : read();
 	}
 
 	void Loop::updateOthers()

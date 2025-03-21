@@ -290,12 +290,12 @@ namespace PS2::ResidentEvil4
 			m_fov = Math::toRadians(m_ram.read<float>(m_cameraPtr + 0x1A4));
 		};
 
+		m_isEnabled ? writeCamera() : read();
+
 		m_ram.writeConditional(m_isEnabled,
 			m_offset.Fn_transposeMatrix + 0xE0, Mips::j(fnSetPacketOffset()), 0x03E00008,
 			m_offset.Fn_setMatrix + 0x15C, Mips::jal(fnSetFovOffset()), Mips::jal(m_offset.Fn_unknown)
 		);
-
-		m_isEnabled ? writeCamera() : read();
 	}
 
 	void Loop::updateOthers()

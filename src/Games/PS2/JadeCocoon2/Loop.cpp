@@ -353,23 +353,7 @@ namespace PS2::JadeCocoon2
 			m_ram.write(m_cameraPtr + 0x34, packet);
 		};
 
-		const std::array<Mips_t, 3> sceVu0CameraMatrixCall
-		{
-			0x24470040,	// addiu a3, v0, 0x40
-			Mips::jal(m_offset.Fn_sceVu0CameraMatrix),
-			0x00000000	// nop
-		};
-
-		const auto [vmo1, vmo2]{ Mips::li32(Mips::Register::a1, viewMatrixOffset()) };
-		const std::array<Mips_t, 3> setViewMatrixCall
-		{
-			vmo1,
-			Mips::jal(m_offset.Fn_std___BCD___BCD),
-			vmo2
-		};
-
 		m_ram.writeConditional(m_isEnabled,
-			m_offset.Fn__XVIVIEW__SetMatrix + 0x1F4, setViewMatrixCall, sceVu0CameraMatrixCall,
 			m_offset.Fn_m2MapCamera + 0x34, 0x00000000, 0xE4800034, // Fov
 			m_offset.Fn_m2Camera_Init + 0xA4, 0x00000000, 0xE6000034, // Fov
 			m_offset.Fn_m2Camera_ExeFcurve + 0x2AC, 0x00000000, 0xE4600034, // Fov
@@ -381,6 +365,23 @@ namespace PS2::JadeCocoon2
 		{
 			m_isEnabled ? write() : read();
 		}
+
+		const std::array<Mips_t, 3> sceVu0CameraMatrixCall
+		{
+			0x24470040,	// addiu a3, v0, 0x40
+			Mips::jal(m_offset.Fn_sceVu0CameraMatrix),
+			0x00000000	// nop
+		};
+
+		const auto [vmo1, vmo2] { Mips::li32(Mips::Register::a1, viewMatrixOffset()) };
+		const std::array<Mips_t, 3> setViewMatrixCall
+		{
+			vmo1,
+			Mips::jal(m_offset.Fn_std___BCD___BCD),
+			vmo2
+		};
+
+		m_ram.write(m_offset.Fn__XVIVIEW__SetMatrix + 0x1F4, m_isEnabled ? setViewMatrixCall : sceVu0CameraMatrixCall);
 	}
 
 	void Loop::updateOthers()
