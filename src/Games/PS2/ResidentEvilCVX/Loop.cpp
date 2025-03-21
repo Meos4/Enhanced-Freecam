@@ -47,6 +47,7 @@ namespace PS2::ResidentEvilCVX
 				JSON_GET(j, m_resetFovSpeed);
 				JSON_GET(j, m_noFog);
 				JSON_GET(j, m_noCutsceneBlackBars);
+				JSON_GET(j, m_noCollisions);
 				m_input.readSettings(j);
 			}
 			catch (const Json::Exception& e)
@@ -69,6 +70,7 @@ namespace PS2::ResidentEvilCVX
 		JSON_SET(j, m_resetFovSpeed);
 		JSON_SET(j, m_noFog);
 		JSON_SET(j, m_noCutsceneBlackBars);
+		JSON_SET(j, m_noCollisions);
 		m_input.writeSettings(&json);
 
 		Json::overwrite(json, PS2::settingsFilePath(Game::name));
@@ -189,6 +191,9 @@ namespace PS2::ResidentEvilCVX
 
 		Ui::checkbox(Ui::lol("No Fog"), &m_noFog);
 		Ui::checkbox(Ui::lol("No Cutscene Black Bars"), &m_noCutsceneBlackBars);
+
+		Ui::separatorText("Cheats");
+		Ui::checkbox(Ui::lol("No Collisions"), &m_noCollisions);
 	}
 
 	void Loop::updateFreecam()
@@ -449,6 +454,8 @@ namespace PS2::ResidentEvilCVX
 			m_offset.Fn_bhDrawCinesco + 0x100, 0x00000000, jal_njDrawPolygon2D,
 			m_offset.Fn_bhDrawCinesco + 0x134, 0x00000000, jal_njDrawPolygon2D
 		);
+
+		m_ram.write(m_offset.Fn_bhCheckWallEx, m_noCollisions ? Mips::jrRaNop() : std::array<Mips_t, 2>{ 0x27BDFE90, 0x7FBF00C0 });
 	}
 
 	void Loop::enable(bool enable)

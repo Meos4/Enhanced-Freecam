@@ -15,6 +15,7 @@ namespace PS2::ResidentEvilCVX
 			pNaMatMatrixStuckPtr,
 			Ps2_zbuff_a,
 			sysp,
+			Fn_bhCheckWallEx,
 			Fn_bhControlActiveCamera,
 			Fn_bhControlCamera,
 			Fn_bhControlDoor,

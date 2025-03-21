@@ -16,6 +16,7 @@ namespace PS2::ResidentEvilCVX
 		.pNaMatMatrixStuckPtr = 0x011486F0,
 		.Ps2_zbuff_a = 0x01E2AB40,
 		.sysp = 0x00449930,
+		.Fn_bhCheckWallEx = 0x0025EF80,
 		.Fn_bhControlActiveCamera = 0x00281750,
 		.Fn_bhControlCamera = 0x0027EB40,
 		.Fn_bhControlDoor = 0x002B4DE0,
