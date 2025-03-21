@@ -64,5 +64,6 @@ namespace PS2::ResidentEvilCVX
 		bool m_noCutsceneBlackBars{};
 		bool m_noSubtitles{};
 		bool m_noCollisions{};
+		bool m_teleportToCamera{};
 	};
 }

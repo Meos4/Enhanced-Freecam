@@ -41,6 +41,7 @@ namespace PS2::ResidentEvilCVX
 			RotationSpeedNeg,
 			FovSpeedPos,
 			FovSpeedNeg,
+			TeleportToCamera,
 			Count
 		};
 	};

@@ -12,6 +12,7 @@ namespace PS2::ResidentEvilCVX
 			DoorWrk,
 			fNaViwClipNear,
 			fVu1FarClip,
+			plp,
 			pNaMatMatrixStuckPtr,
 			Ps2_zbuff_a,
 			sysp,
@@ -30,6 +31,7 @@ namespace PS2::ResidentEvilCVX
 			Fn_bhDispFont,
 			Fn_bhDrawCinesco,
 			Fn_bhEff106, // Rain
+			Fn_bhFixPosition,
 			Fn_bhInitActiveCamera,
 			Fn_bhInitCamera,
 			Fn_bhSetCut,

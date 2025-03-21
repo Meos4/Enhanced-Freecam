@@ -197,6 +197,7 @@ namespace PS2::ResidentEvilCVX
 
 		Ui::separatorText("Cheats");
 		Ui::checkbox(Ui::lol("No Collisions"), &m_noCollisions);
+		MiscModel::drawEnableButton("Teleport To Camera", "Set##TTC", &m_teleportToCamera);
 	}
 
 	void Loop::updateFreecam()
@@ -449,6 +450,8 @@ namespace PS2::ResidentEvilCVX
 
 	void Loop::updateBonus()
 	{
+		MiscModel::teleportToCamera(&m_input, Input::TeleportToCamera, &m_teleportToCamera);
+
 		m_ram.write(m_offset.Fn_njCalcFogPowerEx + 0x10, m_noFog ? 0x1000004A : 0x1040004A);
 
 		const auto jal_njDrawPolygon2D{ Mips::jal(m_offset.Fn_njDrawPolygon2D) };
@@ -465,7 +468,38 @@ namespace PS2::ResidentEvilCVX
 			m_offset.Fn_bhControlMessage + 0xB68, 0x00000000, jal_bhDispFont
 		);
 
-		m_ram.write(m_offset.Fn_bhCheckWallEx, m_noCollisions ? Mips::jrRaNop() : std::array<Mips_t, 2>{ 0x27BDFE90, 0x7FBF00C0 });
+		m_ram.writeConditional(m_noCollisions || m_teleportToCamera,
+			m_offset.Fn_bhCheckWallEx, std::array<Mips_t, 2>{ 0x03E00008, 0x00001021 }, std::array<Mips_t, 2>{ 0x27BDFE90, 0x7FBF00C0 },
+			m_offset.Fn_bhControlPlayer + 0x7B0, 0x00000000, Mips::jal(m_offset.Fn_bhFixPosition)
+		);
+	
+		if (m_teleportToCamera)
+		{
+			const auto playerPtr{ m_ram.read<u32>(m_offset.plp) };
+
+			if (playerPtr)
+			{
+				const auto& [px, py, pz]{ m_position };
+				const auto& [rx, ry, rz]{ m_rotation };
+
+				const auto
+					sx{ std::sin(rx) },
+					cx{ std::cos(rx) },
+					sy{ std::sin(ry) },
+					cy{ std::cos(ry) };
+
+				static constexpr auto forwardAmount{ 15.f };
+				const Vec3<float> playerPosition
+				{
+					px + cx * sy * forwardAmount,
+					py + -sx * forwardAmount - 12.f,
+					pz + cy * cx * forwardAmount
+				};
+
+				m_ram.write(playerPtr + 0x10, playerPosition);
+			}
+			m_teleportToCamera = false;
+		}
 	}
 
 	void Loop::enable(bool enable)
