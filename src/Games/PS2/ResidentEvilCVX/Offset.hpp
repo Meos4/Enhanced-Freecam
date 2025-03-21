@@ -24,8 +24,10 @@ namespace PS2::ResidentEvilCVX
 			Fn_bhControlEvent,
 			Fn_bhControlEventCamera,
 			Fn_bhControlLight,
+			Fn_bhControlMessage,
 			Fn_bhControlObjTim,
 			Fn_bhControlPlayer,
+			Fn_bhDispFont,
 			Fn_bhDrawCinesco,
 			Fn_bhEff106, // Rain
 			Fn_bhInitActiveCamera,

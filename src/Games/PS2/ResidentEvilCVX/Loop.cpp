@@ -47,6 +47,7 @@ namespace PS2::ResidentEvilCVX
 				JSON_GET(j, m_resetFovSpeed);
 				JSON_GET(j, m_noFog);
 				JSON_GET(j, m_noCutsceneBlackBars);
+				JSON_GET(j, m_noSubtitles);
 				JSON_GET(j, m_noCollisions);
 				m_input.readSettings(j);
 			}
@@ -70,6 +71,7 @@ namespace PS2::ResidentEvilCVX
 		JSON_SET(j, m_resetFovSpeed);
 		JSON_SET(j, m_noFog);
 		JSON_SET(j, m_noCutsceneBlackBars);
+		JSON_SET(j, m_noSubtitles);
 		JSON_SET(j, m_noCollisions);
 		m_input.writeSettings(&json);
 
@@ -191,6 +193,7 @@ namespace PS2::ResidentEvilCVX
 
 		Ui::checkbox(Ui::lol("No Fog"), &m_noFog);
 		Ui::checkbox(Ui::lol("No Cutscene Black Bars"), &m_noCutsceneBlackBars);
+		Ui::checkbox(Ui::lol("No Subtitles"), &m_noSubtitles);
 
 		Ui::separatorText("Cheats");
 		Ui::checkbox(Ui::lol("No Collisions"), &m_noCollisions);
@@ -453,6 +456,13 @@ namespace PS2::ResidentEvilCVX
 		m_ram.writeConditional(m_noCutsceneBlackBars,
 			m_offset.Fn_bhDrawCinesco + 0x100, 0x00000000, jal_njDrawPolygon2D,
 			m_offset.Fn_bhDrawCinesco + 0x134, 0x00000000, jal_njDrawPolygon2D
+		);
+
+		const auto jal_bhDispFont{ Mips::jal(m_offset.Fn_bhDispFont) };
+
+		m_ram.writeConditional(m_noSubtitles,
+			m_offset.Fn_bhControlMessage + 0x5D4, 0x00000000, jal_bhDispFont,
+			m_offset.Fn_bhControlMessage + 0xB68, 0x00000000, jal_bhDispFont
 		);
 
 		m_ram.write(m_offset.Fn_bhCheckWallEx, m_noCollisions ? Mips::jrRaNop() : std::array<Mips_t, 2>{ 0x27BDFE90, 0x7FBF00C0 });
