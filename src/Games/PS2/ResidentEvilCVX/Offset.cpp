@@ -17,6 +17,7 @@ namespace PS2::ResidentEvilCVX
 		.pNaMatMatrixStuckPtr = 0x011486F0,
 		.Ps2_zbuff_a = 0x01E2AB40,
 		.sysp = 0x00449930,
+		.Fn__s2b = 0x00124450,
 		.Fn_bhCheckWallEx = 0x0025EF80,
 		.Fn_bhControlActiveCamera = 0x00281750,
 		.Fn_bhControlCamera = 0x0027EB40,
@@ -38,13 +39,12 @@ namespace PS2::ResidentEvilCVX
 		.Fn_bhSetCut = 0x0027F7A0,
 		.Fn_bhSetEventCamera = 0x002828B0,
 		.Fn_bhSysCallEvent = 0x00133420,
+		.Fn_memcpy = 0x00123FD8,
 		.Fn_njCalcFogPowerEx = 0x002DD900,
 		.Fn_njDrawPolygon2D = 0x002E6A10,
 		.Fn_njGetMatrix = 0x002DDFB0,
 		.Fn_njTranslate = 0x002DE070,
 		.Fn_njUnitMatrix = 0x002DDF00,
-		.Fn__s2b = 0x00124450,
-		.Fn_memcpy = 0x00123FD8,
 		.Fn_Ps2_pad_read = 0x002E14B0
 	};
 
