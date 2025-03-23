@@ -19,8 +19,6 @@ namespace PS2::ResidentEvilCVX
 		u32 bsceShift,
 			bcmShift,
 			bcmShift2;
-
-		u16 lowerFov;
 	};
 
 	class Loop final : public GameLoop

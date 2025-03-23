@@ -52,6 +52,7 @@ namespace PS2::ResidentEvilCVX
 		{
 			Pal,
 			NtscU,
+			NtscJ,
 			Count
 		};
 	};

@@ -14,7 +14,7 @@ namespace PS2::ResidentEvilCVX
 			fVu1FarClip,
 			plp,
 			pNaMatMatrixStuckPtr,
-			Ps2_zbuff_a,
+			Ps2_zbuff_b,
 			sysp,
 			Fn__s2b,
 			Fn_bhCheckWallEx,

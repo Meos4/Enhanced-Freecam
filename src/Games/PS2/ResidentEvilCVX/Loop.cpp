@@ -34,11 +34,17 @@ namespace PS2::ResidentEvilCVX
 			d.bcmShift = 0x5D4;
 			d.bcmShift2 = 0xB68;
 		}
-		else
+		else if (version == Version::NtscU)
 		{
 			d.bsceShift = 0x344;
 			d.bcmShift = 0x50C;
 			d.bcmShift2 = 0xA5C;
+		}
+		else
+		{
+			d.bsceShift = 0x70;
+			d.bcmShift = 0x4F0;
+			d.bcmShift2 = 0xA34;
 		}
 
 		return d;
@@ -367,7 +373,6 @@ namespace PS2::ResidentEvilCVX
 			sw_v1_fov{ 0xAC230000 + lower16FovOffset },
 			sw_v0_fov{ 0xAC220000 + lower16FovOffset };
 
-
 		m_ram.writeConditional(m_isEnabled,
 			// Common Vm
 			m_offset.Fn_bhInitCamera + 0x84, 0x00000000, Mips::jal(m_offset.Fn_njUnitMatrix),
@@ -494,7 +499,9 @@ namespace PS2::ResidentEvilCVX
 		);
 
 		m_ram.writeConditional(m_noCollisions || m_teleportToCamera,
-			m_offset.Fn_bhCheckWallEx, std::array<Mips_t, 2>{ 0x03E00008, 0x00001021 }, std::array<Mips_t, 2>{ 0x27BDFE90, 0x7FBF00C0 },
+			m_offset.Fn_bhCheckWallEx + 4, 
+				std::array<Mips_t, 3>{ 0x00001021, 0x03E00008, 0x27BD0170 },
+				std::array<Mips_t, 3>{ 0x7FBF00C0, 0x7FBE00B0, 0x7FB700A0 },
 			m_offset.Fn_bhControlPlayer + 0x7B0, 0x00000000, Mips::jal(m_offset.Fn_bhFixPosition)
 		);
 	
@@ -571,8 +578,8 @@ namespace PS2::ResidentEvilCVX
 
 		m_ram.write(m_offset.fNaViwClipNear + 0x10, -_near); // _fNaViwClipNear
 		m_ram.write(m_offset.fNaViwClipNear + 0x18, -_far); // _fNaViwClipFar
-		m_ram.write(m_offset.Ps2_zbuff_a, z * _near * _far / range);
-		m_ram.write(m_offset.Ps2_zbuff_a + 8, -z * _near / range); // Ps2_zbuff_b
+		m_ram.write(m_offset.Ps2_zbuff_b, z * _near * _far / range);
+		m_ram.write(m_offset.Ps2_zbuff_b + 8, -z * _near / range); // Ps2_zbuff_a
 		m_ram.write(m_offset.fVu1FarClip, -_far);
 		m_ram.write(m_offset.fVu1FarClip + 8, 1.f / -_near); // fVu1InvNearClip
 		m_ram.write(m_offset.fVu1FarClip + 0x10, -_near); // fVu1NearClip
