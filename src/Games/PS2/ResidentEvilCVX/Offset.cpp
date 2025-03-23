@@ -46,13 +46,54 @@ namespace PS2::ResidentEvilCVX
 		.Fn_njTranslate = 0x002DE070,
 		.Fn_njUnitMatrix = 0x002DDF00,
 		.Fn_Ps2_pad_read = 0x002E14B0
+	},
+	offsetNtscU
+	{
+		.cam = 0x00432860,
+		.DoorWrk = 0x004F78A0,
+		.fNaViwClipNear = 0x00339C60,
+		.fVu1FarClip = 0x01130A60,
+		.plp = 0x00303CA0,
+		.pNaMatMatrixStuckPtr = 0x01130AF0,
+		.Ps2_zbuff_a = 0x01E12F40,
+		.sysp = 0x00433100,
+		.Fn__s2b = 0x00124450,
+		.Fn_bhCheckWallEx = 0x0025E930,
+		.Fn_bhControlActiveCamera = 0x0027CB60,
+		.Fn_bhControlCamera = 0x00279F50,
+		.Fn_bhControlDoor = 0x002AF370,
+		.Fn_bhControlEffect = 0x0021CC70,
+		.Fn_bhControlEnemy = 0x00174A90,
+		.Fn_bhControlEvent = 0x00155AD0,
+		.Fn_bhControlEventCamera = 0x0027E910,
+		.Fn_bhControlLight = 0x00281270,
+		.Fn_bhControlMessage = 0x002B7670,
+		.Fn_bhControlObjTim = 0x00283400,
+		.Fn_bhControlPlayer = 0x0013A6E0,
+		.Fn_bhDispFont = 0x002B8190,
+		.Fn_bhDrawCinesco = 0x0026C590,
+		.Fn_bhEff106 = 0x0022FA90,
+		.Fn_bhFixPosition = 0x00130D90,
+		.Fn_bhInitActiveCamera = 0x0027B900,
+		.Fn_bhInitCamera = 0x00279EA0,
+		.Fn_bhSetCut = 0x0027ABB0,
+		.Fn_bhSetEventCamera = 0x0027DCC0,
+		.Fn_bhSysCallEvent = 0x001331A0,
+		.Fn_memcpy = 0x00123FD8,
+		.Fn_njCalcFogPowerEx = 0x002D63D0,
+		.Fn_njDrawPolygon2D = 0x002DF450,
+		.Fn_njGetMatrix = 0x002D6A80,
+		.Fn_njTranslate = 0x002D6B40,
+		.Fn_njUnitMatrix = 0x002D69D0,
+		.Fn_Ps2_pad_read = 0x002D9F80
 	};
 
 	const Offset& Offset::create(s32 version)
 	{
 		static constexpr std::array<const Offset*, Version::Count> offsets
 		{
-			&offsetPal
+			&offsetPal,
+			&offsetNtscU
 		};
 
 		return *offsets[version];

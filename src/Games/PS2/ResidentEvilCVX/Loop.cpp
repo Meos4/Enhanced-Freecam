@@ -9,7 +9,6 @@
 #include "Common/FreecamModel.hpp"
 #include "Common/Json.hpp"
 #include "Common/Math.hpp"
-#include "Common/Mips.hpp"
 #include "Common/MiscModel.hpp"
 #include "Common/Ui.hpp"
 
@@ -25,12 +24,33 @@ namespace PS2::ResidentEvilCVX
 
 	static constexpr auto viewMatrixSize{ sizeof(float[4][4]) };
 
+	static inline auto createVersionDependency(s32 version)
+	{
+		VersionDependency d;
+
+		if (version == Version::Pal)
+		{
+			d.bsceShift = 0x350;
+			d.bcmShift = 0x5D4;
+			d.bcmShift2 = 0xB68;
+		}
+		else
+		{
+			d.bsceShift = 0x344;
+			d.bcmShift = 0x50C;
+			d.bcmShift2 = 0xA5C;
+		}
+
+		return d;
+	}
+
 	Loop::Loop(Ram&& ram, s32 version)
 		: m_ram(std::move(ram)),
 		m_version(version),
 		m_offset(Offset::create(version)),
 		m_input(&Game::baseInputs),
-		m_controls(&m_input)
+		m_controls(&m_input),
+		m_dep(createVersionDependency(version))
 	{
 		const auto jsonRead{ Json::read(PS2::settingsFilePath(Game::name)) };
 		if (jsonRead.has_value())
@@ -342,18 +362,23 @@ namespace PS2::ResidentEvilCVX
 		};
 
 		const auto liFov{ Mips::li(Mips::Register::a0, static_cast<u16>(intFov(m_fov))) };
+		const auto lower16FovOffset{ static_cast<u16>(m_offset.cam + 0x84) };
+		const auto
+			sw_v1_fov{ 0xAC230000 + lower16FovOffset },
+			sw_v0_fov{ 0xAC220000 + lower16FovOffset };
+
 
 		m_ram.writeConditional(m_isEnabled,
 			// Common Vm
 			m_offset.Fn_bhInitCamera + 0x84, 0x00000000, Mips::jal(m_offset.Fn_njUnitMatrix),
 			// Common Fov
-			m_offset.Fn_bhControlActiveCamera + 0xBE8, 0x00000000, 0xAC239114,
-			m_offset.Fn_bhInitCamera + 0x38, 0x00000000, 0xAC229114,
-			m_offset.Fn_bhSetCut + 0x434, 0x00000000, 0xAC239114,
-			m_offset.Fn_bhInitActiveCamera + 0x6BC, 0x00000000, 0xAC239114,
-			m_offset.Fn_bhSetEventCamera + 0x170, 0x00000000, 0xAC229114,
-			m_offset.Fn_bhControlEventCamera + 0x454, 0x00000000, 0xAC229114,
-			m_offset.Fn_bhControlEventCamera + 0x9A4, 0x00000000, 0xAC229114,
+			m_offset.Fn_bhControlActiveCamera + 0xBE8, 0x00000000, sw_v1_fov,
+			m_offset.Fn_bhInitCamera + 0x38, 0x00000000, sw_v0_fov,
+			m_offset.Fn_bhSetCut + 0x434, 0x00000000, sw_v1_fov,
+			m_offset.Fn_bhInitActiveCamera + 0x6BC, 0x00000000, sw_v1_fov,
+			m_offset.Fn_bhSetEventCamera + 0x170, 0x00000000, sw_v0_fov,
+			m_offset.Fn_bhControlEventCamera + 0x454, 0x00000000, sw_v0_fov,
+			m_offset.Fn_bhControlEventCamera + 0x9A4, 0x00000000, sw_v0_fov,
 			// Door Fov
 			m_offset.Fn_bhControlDoor + 0x28C, liFov, 0x240431C7,
 			m_offset.Fn_bhControlDoor + 0x298, liFov, 0x240431C7
@@ -427,7 +452,7 @@ namespace PS2::ResidentEvilCVX
 			m_offset.Fn_bhControlLight + 0x264, 0x100002D1, 0x104002D1,
 			m_offset.Fn_bhControlLight + 0x1280, 0x1000000D, 0x1040000D,
 			m_offset.Fn_bhEff106 + 0x7C, 0x10000062, 0x10400062,
-			m_offset.Fn_bhSysCallEvent + 0x350, 0x00000000, Mips::jal(m_offset.Fn_bhControlEvent)
+			m_offset.Fn_bhSysCallEvent + m_dep.bsceShift, 0x00000000, Mips::jal(m_offset.Fn_bhControlEvent)
 		);
 
 		static constexpr std::array<Mips_t, 3> 
@@ -464,8 +489,8 @@ namespace PS2::ResidentEvilCVX
 		const auto jal_bhDispFont{ Mips::jal(m_offset.Fn_bhDispFont) };
 
 		m_ram.writeConditional(m_noSubtitles,
-			m_offset.Fn_bhControlMessage + 0x5D4, 0x00000000, jal_bhDispFont,
-			m_offset.Fn_bhControlMessage + 0xB68, 0x00000000, jal_bhDispFont
+			m_offset.Fn_bhControlMessage + m_dep.bcmShift, 0x00000000, jal_bhDispFont,
+			m_offset.Fn_bhControlMessage + m_dep.bcmShift2, 0x00000000, jal_bhDispFont
 		);
 
 		m_ram.writeConditional(m_noCollisions || m_teleportToCamera,

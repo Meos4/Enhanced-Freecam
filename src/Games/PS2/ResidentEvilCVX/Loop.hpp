@@ -3,6 +3,7 @@
 #include "Common/Camera3DControls.hpp"
 #include "Common/GameInfo.hpp"
 #include "Common/InputWrapper.hpp"
+#include "Common/Mips.hpp"
 #include "Common/Ram.hpp"
 #include "Common/Settings.hpp"
 #include "Common/Types.hpp"
@@ -13,6 +14,15 @@
 
 namespace PS2::ResidentEvilCVX
 {
+	struct VersionDependency
+	{
+		u32 bsceShift,
+			bcmShift,
+			bcmShift2;
+
+		u16 lowerFov;
+	};
+
 	class Loop final : public GameLoop
 	{
 	public:
@@ -40,6 +50,7 @@ namespace PS2::ResidentEvilCVX
 		const Offset& m_offset;
 		InputWrapper m_input;
 		Camera3DControls m_controls;
+		const VersionDependency m_dep;
 
 		s32 m_state{ State::None };
 		bool m_isEnabled{};

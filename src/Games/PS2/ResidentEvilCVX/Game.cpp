@@ -13,7 +13,8 @@ namespace PS2::ResidentEvilCVX::Game
 	{
 		static constexpr std::array<const char*, Version::Count> vText
 		{
-			"PAL - [SLES-50306]"
+			"PAL - [SLES-50306]",
+			"NTSC-U - [SLUS-20184]"
 		};
 
 		return vText[version];
@@ -23,7 +24,8 @@ namespace PS2::ResidentEvilCVX::Game
 	{
 		static constexpr std::array<OffsetPatternStatic<u32, 64>, Version::Count> vOp
 		{
-			0x00335518, { 64, 84, 51, 0, 80, 84, 51, 0, 96, 84, 51, 0, 112, 84, 51, 0, 128, 84, 51, 0, 144, 84, 51, 0, 160, 84, 51, 0, 176, 84, 51, 0, 192, 84, 51, 0, 208, 84, 51, 0, 224, 84, 51, 0, 240, 84, 51, 0, 66, 69, 83, 76, 69, 83, 45, 53, 48, 51, 48, 54, 0, 0, 0, 0 }
+			0x00335518, { 64, 84, 51, 0, 80, 84, 51, 0, 96, 84, 51, 0, 112, 84, 51, 0, 128, 84, 51, 0, 144, 84, 51, 0, 160, 84, 51, 0, 176, 84, 51, 0, 192, 84, 51, 0, 208, 84, 51, 0, 224, 84, 51, 0, 240, 84, 51, 0, 66, 69, 83, 76, 69, 83, 45, 53, 48, 51, 48, 54, 0, 0, 0, 0 },
+			0x0032D108, { 48, 208, 50, 0, 64, 208, 50, 0, 80, 208, 50, 0, 96, 208, 50, 0, 112, 208, 50, 0, 128, 208, 50, 0, 144, 208, 50, 0, 160, 208, 50, 0, 176, 208, 50, 0, 192, 208, 50, 0, 208, 208, 50, 0, 224, 208, 50, 0, 66, 65, 83, 76, 85, 83, 45, 50, 48, 49, 56, 52, 0, 0, 0, 0 }
 		};
 
 		return { vOp[version].offset, vOp[version].pattern };
@@ -83,7 +85,8 @@ namespace PS2::ResidentEvilCVX::Game
 	{
 		static constexpr std::array<PCSX2::PnachInfo, Version::Count> pnachInfos
 		{
-			"6EA9DDA9", 0x00100000, 0x0030A320
+			"6EA9DDA9", 0x00100000, 0x0030A320,
+			"24036809", 0x00100000, 0x00301F10
 		};
 
 		return pnachInfos[version];
