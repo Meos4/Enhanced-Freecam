@@ -11,6 +11,7 @@ Games
 |PS2     |Haunting Ground                               |PAL, NTSC-U, NTSC-J|
 |PS2     |Jade Cocoon 2                                 |PAL, NTSC-U, NTSC-J|
 |PS2     |Resident Evil 4                               |PAL, NTSC-U, NTSC-J|
+|PS2     |Resident Evil - CODE Veronica X               |PAL, NTSC-U, NTSC-J|
 |PS2     |Sly Cooper and the Thievius Raccoonus         |PAL, NTSC-U, NTSC-J|
 
 Download
