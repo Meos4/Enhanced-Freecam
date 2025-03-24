@@ -4,5 +4,5 @@
 
 namespace Software
 {
-	inline constexpr auto name{ "Enhanced Freecam" }, version{ "1.3.1" };
+	inline constexpr auto name{ "Enhanced Freecam" }, version{ "1.4.0" };
 }
