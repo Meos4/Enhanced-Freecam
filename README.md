@@ -1,3 +1,7 @@
+Features
+--------
+Tool for PlayStation 1 or 2 emulator that allows the camera to be detached for free movement, can be controlled using a gamepad or keyboard.
+
 Games
 -----
 |Platform|Name                                          |Version            |
