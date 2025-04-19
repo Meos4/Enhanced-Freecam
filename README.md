@@ -26,11 +26,6 @@ Requirements:
 * SDL2
 * Windows
 
-Dependencies
------------
-* [Dear ImGui](https://github.com/ocornut/imgui)
-* [nlohmann json](https://github.com/nlohmann/json)
-
 Screenshots
 -----------
 ![Budokai3](https://github.com/user-attachments/assets/66fc975c-c89c-4f27-a2ea-9194e1ac9cb5)
