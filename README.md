@@ -18,10 +18,6 @@ Games
 |PS2     |Resident Evil - CODE Veronica X               |PAL, NTSC-U, NTSC-J|
 |PS2     |Sly Cooper and the Thievius Raccoonus         |PAL, NTSC-U, NTSC-J|
 
-Download
---------
-[GitHub](https://github.com/Meos4/Enhanced-Freecam/releases)
-
 Building
 --------
 Requirements:
