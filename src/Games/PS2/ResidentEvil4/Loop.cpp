@@ -109,7 +109,7 @@ namespace PS2::ResidentEvil4
 
 	void Loop::update()
 	{
-		const auto [cp1, cp2]{ Mips::li32(Mips::Register::t1, m_offset.cameraPtr) };
+		const auto [cp1, cp2]{ Mips::li32(Mips::Register::t1, m_offset.pG) };
 		const auto [po1, po2]{ Mips::li32(Mips::Register::t2, packetOffset()) };
 		const auto [fo1, fo2]{ Mips::li32(Mips::Register::t0, fovOffset()) };
 
@@ -144,14 +144,14 @@ namespace PS2::ResidentEvil4
 			fo1,
 			fo2,
 			0xC50C0000, // lwc1 f12, 0(t0)
-			Mips::j(m_offset.Fn_unknown),
+			Mips::j(m_offset.Fn_C_MTXPerspective),
 			0xE62C0124 // swc1 f12, 0x124(s1)
 		};
 
 		m_ram.write(fnSetPacketOffset(), Fn_setPacket);
 		m_ram.write(fnSetFovOffset(), Fn_setFov);
 
-		m_ram.read(m_offset.cameraPtr, &m_cameraPtr);
+		m_ram.read(m_offset.pG, &m_cameraPtr);
 
 		updateFreecam();
 		updateBonus();
@@ -293,8 +293,8 @@ namespace PS2::ResidentEvil4
 		m_isEnabled ? writeCamera() : read();
 
 		m_ram.writeConditional(m_isEnabled,
-			m_offset.Fn_transposeMatrix + 0xE0, Mips::j(fnSetPacketOffset()), 0x03E00008,
-			m_offset.Fn_setMatrix + 0x15C, Mips::jal(fnSetFovOffset()), Mips::jal(m_offset.Fn_unknown)
+			m_offset.Fn_C_MTXLookAt + 0xE0, Mips::j(fnSetPacketOffset()), 0x03E00008,
+			m_offset.Fn_CameraMove__Fv + 0x15C, Mips::jal(fnSetFovOffset()), Mips::jal(m_offset.Fn_C_MTXPerspective)
 		);
 	}
 
@@ -309,33 +309,33 @@ namespace PS2::ResidentEvil4
 		}
 
 		m_ram.writeConditional(m_isGamePaused,
-			m_offset.Fn_updatePlayer, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFB0, 0x7FB00040 },
-			m_offset.Fn_updateNpc, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFD0, 0x7FB00020 },
-			m_offset.Fn_updateExtern, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFE0, 0x7FB00010 },
-			m_offset.Fn_updateAction, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFD0, 0x3C040032 },
-			m_offset.Fn_updateSfx, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFF70, 0x3C020032 },
-			m_offset.Fn_updateSfx2, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFF90, 0x3C060032 },
-			m_offset.Fn_updateItems, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFD0, 0x7FB00020 },
-			m_offset.Fn_updateGameOver + 0x634, 0x00000000, 0x26D60001,
-			m_offset.Fn_updateTimer, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFE0, 0x7FB00010 }
+			m_offset.Fn_move__7cPlayer, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFB0, 0x7FB00040 },
+			m_offset.Fn_move__6cEmMgr, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFD0, 0x7FB00020 },
+			m_offset.Fn_move__7cObjMgr, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFE0, 0x7FB00010 },
+			m_offset.Fn_ScenarioMove__Fv, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFD0, 0x3C040032 },
+			m_offset.Fn_EspgenMove__Fv, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFF70, 0x3C020032 },
+			m_offset.Fn_EspMove__Fv, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFF90, 0x3C060032 },
+			m_offset.Fn_move__9cLightMgr, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFD0, 0x7FB00020 },
+			m_offset.Fn_gameDiedemo__FP12DIEDEMO_WORK + 0x634, 0x00000000, 0x26D60001,
+			m_offset.Fn_move__7Cockpit, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFE0, 0x7FB00010 }
 		);
 
 		m_ram.writeConditional(m_isHudHidden,
-			m_offset.Fn_drawHud, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFD0, 0x7FB00020 },
-			m_offset.Fn_drawText, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFC0, 0x7FB00030 }
+			m_offset.Fn_unitTrans__8IDSystemP7ID_UNIT, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFD0, 0x7FB00020 },
+			m_offset.Fn_Trans__14MessageControl, Mips::jrRaNop(), std::array<Mips_t, 2>{ 0x27BDFFC0, 0x7FB00030 }
 		);
 
 		m_ram.writeConditional(m_isButtonEnabled,
-			m_offset.Fn_padStatus + 0x178, 0xAE0C0010, 0xAE000010,
-			m_offset.Fn_padStatus + 0x188, 0xAE020010, 0xAE000010,
-			m_offset.Fn_padStatus + 0x1A0, 0xAE020010, 0xAE000010
+			m_offset.Fn_PadRead__Fv + 0x178, 0xAE0C0010, 0xAE000010,
+			m_offset.Fn_PadRead__Fv + 0x188, 0xAE020010, 0xAE000010,
+			m_offset.Fn_PadRead__Fv + 0x1A0, 0xAE020010, 0xAE000010
 		);
 
 		m_ram.writeConditional(m_isJoystickEnabled,
-			m_offset.Fn_padStatus + 0x158, 0xA2070000, 0xA2000000,
-			m_offset.Fn_padStatus + 0x160, 0xA2020001, 0xA2000001,
-			m_offset.Fn_padStatus + 0x164, 0xA2030002, 0xA2000002,
-			m_offset.Fn_padStatus + 0x168, 0xA2040003, 0xA2000003
+			m_offset.Fn_PadRead__Fv + 0x158, 0xA2070000, 0xA2000000,
+			m_offset.Fn_PadRead__Fv + 0x160, 0xA2020001, 0xA2000001,
+			m_offset.Fn_PadRead__Fv + 0x164, 0xA2030002, 0xA2000002,
+			m_offset.Fn_PadRead__Fv + 0x168, 0xA2040003, 0xA2000003
 		);
 	}
 
@@ -343,13 +343,13 @@ namespace PS2::ResidentEvil4
 	{
 		MiscModel::teleportToCamera(&m_input, Input::TeleportToCamera, &m_teleportToCamera);
 
-		m_ram.write(m_offset.Fn_drawFog, m_noFog ? Mips::jrRaNop() : std::array<Mips_t, 2>{ 0x27BDFF30, 0x7FB000C0 });
-		m_ram.write(m_offset.Fn_updateGameOver + 0x70, m_noGameOver ? 0x00009021 : 0x0062900A);
-		m_ram.write(m_offset.Fn_updatePlayer + m_dep.upShift, m_noCollisions || m_teleportToCamera ? 0x00000000 : Mips::jal(m_offset.Fn_updatePlayerCollisions));
+		m_ram.write(m_offset.Fn_Draw__8FILTER0C, m_noFog ? Mips::jrRaNop() : std::array<Mips_t, 2>{ 0x27BDFF30, 0x7FB000C0 });
+		m_ram.write(m_offset.Fn_gameDiedemo__FP12DIEDEMO_WORK + 0x70, m_noGameOver ? 0x00009021 : 0x0062900A);
+		m_ram.write(m_offset.Fn_move__7cPlayer + m_dep.upShift, m_noCollisions || m_teleportToCamera ? 0x00000000 : Mips::jal(m_offset.Fn_check__7cSatMgrP6cModelUi));
 
 		if (m_teleportToCamera)
 		{
-			const auto playerPtr{ m_ram.read<u32>(m_offset.playerPtr) };
+			const auto playerPtr{ m_ram.read<u32>(m_offset.pPL) };
 
 			if (playerPtr)
 			{
@@ -377,9 +377,9 @@ namespace PS2::ResidentEvil4
 
 		if (m_unlockAll)
 		{
-			const auto current{ m_ram.read<s32>(m_offset.progression) };
-			m_ram.write(m_offset.progression, current | 0xFF'DD'00'0F);
-			m_ram.write(m_offset.progression + 9, u8(4)); // Ada's report
+			const auto current{ m_ram.read<s32>(m_offset.SystemSave + 4) };
+			m_ram.write(m_offset.SystemSave + 4, current | 0xFF'DD'00'0F);
+			m_ram.write(m_offset.SystemSave + 0xD, u8(4)); // Ada's report
 			Console::append(Console::Type::Success, "All unlocked successfully");
 			m_unlockAll = false;
 		}
@@ -424,7 +424,7 @@ namespace PS2::ResidentEvil4
 
 			if (m_cameraPtr)
 			{
-				const auto entranceMenu{ m_ram.read<s32>(m_offset.menuStruct + 0x2C) };
+				const auto entranceMenu{ m_ram.read<s32>(m_offset.SubScreenWk + 0x2C) };
 
 				if (entranceMenu != 0)
 				{
@@ -432,7 +432,7 @@ namespace PS2::ResidentEvil4
 					const bool isShopOpen{ entranceMenu == 0x10 };
 					const bool isRadioOpen{ entranceMenu == 0x20 };
 					const bool isFileOpen{ entranceMenu == 0x40 };
-					const auto id{ m_ram.read<s8>(m_offset.menuStruct + 0x2D4) };
+					const auto id{ m_ram.read<s8>(m_offset.SubScreenWk + 0x2D4) };
 
 					// Keys Treasures | Weapons Recovery | Files
 					if ((isInventoryOpen && (id == 0 || id == 1 || id == 3)) || isShopOpen || isFileOpen)
@@ -542,7 +542,7 @@ namespace PS2::ResidentEvil4
 
 	u32 Loop::fnSetPacketOffset() const
 	{
-		return m_offset.Fn_unknown2;
+		return m_offset.Fn_ExePacket_SetParts__5EventP5Event;
 	}
 
 	u32 Loop::packetOffset() const
