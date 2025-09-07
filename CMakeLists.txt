@@ -91,8 +91,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<CONFIG:Debug>:EF_DEBUG>)
 
-
-
 target_link_libraries(${PROJECT_NAME} PRIVATE
 	SDL2::SDL2
 	OpenGL::GL
