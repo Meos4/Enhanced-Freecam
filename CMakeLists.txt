@@ -54,6 +54,9 @@ if (WIN32)
 	else()
 		message(FATAL_ERROR "DWM lib not found")
 	endif()
+
+	# WinRT
+	target_link_libraries(${PROJECT_NAME} PRIVATE windowsapp)
 endif()
 
 if (MSVC)
@@ -87,6 +90,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 	${PROJECT_SOURCE_DIR}/dep/json/include)
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<CONFIG:Debug>:EF_DEBUG>)
+
+
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
 	SDL2::SDL2
