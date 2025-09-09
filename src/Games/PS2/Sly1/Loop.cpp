@@ -201,7 +201,7 @@ namespace PS2::Sly1
 
 	void Loop::drawBonus()
 	{
-		Ui::setXSpacingStr("No Motion Blur");
+		Ui::setXSpacingStr("Teleport To Camera");
 
 		Ui::checkbox(Ui::lol("No Motion Blur"), &m_noMotionBlur);
 
@@ -209,6 +209,7 @@ namespace PS2::Sly1
 		Ui::checkbox(Ui::lol("Invulnerable"), &m_invulnerable);
 		MiscModel::drawEnableButton("Keys", "Unlock All##Keys", &m_unlockAllKeys);
 		MiscModel::drawEnableButton("Power-ups", "Unlock All##Power-ups", &m_unlockAllPowerUps);
+		MiscModel::drawEnableButton("Teleport To Camera", "Set##TTC", &m_teleportToCamera);
 	}
 
 	void Loop::updateFreecam()
@@ -376,8 +377,10 @@ namespace PS2::Sly1
 
 	void Loop::updateBonus()
 	{
+		MiscModel::teleportToCamera(&m_input, Input::TeleportToCamera, &m_teleportToCamera);
+
 		m_ram.write(m_offset.Fn_BlendPrevFrame__Fv + 0x15C, m_noMotionBlur ? 0x00003021 : 0x24060030);
-		m_ram.write(m_offset.g_fInvulnerable, m_invulnerable ? 1 : 0);
+		m_ram.write(m_offset.g_fInvulnerable, m_invulnerable || m_teleportToCamera ? 1 : 0);
 
 		enum : s32
 		{
@@ -493,6 +496,45 @@ namespace PS2::Sly1
 
 			Console::append(Console::Type::Success, "Power-ups unlocked successfully");
 			m_unlockAllPowerUps = false;
+		}
+
+		auto flyingJt = [&](bool flag)
+		{
+			// Should be improved by disabling collisions and positions rollback
+			m_ram.write(m_offset.Fn_FInvulnerableJt__FP2JT3ZPK + 0xCC, flag ? 0x00000000 : 0x10400018); // Death Barriers
+		};
+
+		if (m_teleportToCamera)
+		{
+			const auto jtPtr{ m_ram.read<u32>(m_offset.g_pjt) };
+
+			if (jtPtr)
+			{
+				const auto& [px, py, pz]{ m_position };
+				const auto& [rx, ry, rz]{ m_rotation };
+
+				const auto
+					sy{ std::sin(ry) },
+					cy{ std::cos(ry) },
+					sz{ std::sin(rz) },
+					cz{ std::cos(rz) };
+
+				static constexpr auto forwardAmount{ 500.f };
+				const Vec3<float> jtPosition
+				{
+					px + cy * cz * forwardAmount,
+					py + -cy * sz * forwardAmount,
+					pz + sy * forwardAmount
+				};
+
+				flyingJt(true);
+				m_ram.write(jtPtr + 0x100, jtPosition);
+			}
+			m_teleportToCamera = false;
+		}
+		else
+		{
+			flyingJt(false);
 		}
 	}
 

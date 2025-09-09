@@ -41,6 +41,7 @@ namespace PS2::Sly1
 			RotationSpeedNeg,
 			FovSpeedPos,
 			FovSpeedNeg,
+			TeleportToCamera,
 			Count
 		};
 	};

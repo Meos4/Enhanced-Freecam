@@ -86,5 +86,6 @@ namespace PS2::Sly1
 		bool m_invulnerable{};
 		bool m_unlockAllKeys{};
 		bool m_unlockAllPowerUps{};
+		bool m_teleportToCamera{};
 	};
 }

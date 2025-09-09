@@ -10,6 +10,7 @@ namespace PS2::Sly1
 
 		// E3 5-19D
 		u32 g_pcm,
+			g_pjt,
 			g_gsCur,
 			g_prompt,
 			g_fInvulnerable,
@@ -27,6 +28,7 @@ namespace PS2::Sly1
 			Fn_DrawTitle__FP5TITLE,
 			Fn_DrawTv__FP2TV,
 			Fn_DrawWmc__FP3WMC,
+			Fn_FInvulnerableJt__FP2JT3ZPK,
 			Fn_FReadJoy__FP3JOY,
 			Fn_GetJoyXYDeflection__FP3JOYUcUcPfN23PUcT6PiP2LM,
 			Fn_LoadRotateMatrixPanTilt__FffP7MATRIX3,

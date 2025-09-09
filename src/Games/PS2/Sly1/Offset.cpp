@@ -10,6 +10,7 @@ namespace PS2::Sly1
 	offsetPal
 	{
 		.g_pcm = 0x00262C90,
+		.g_pjt = 0x00264070,
 		.g_gsCur = 0x002859A0,
 		.g_prompt = 0x00274E00,
 		.g_fInvulnerable = 0x00263ECC,
@@ -27,6 +28,7 @@ namespace PS2::Sly1
 		.Fn_DrawTitle__FP5TITLE = 0x001AE138,
 		.Fn_DrawTv__FP2TV = 0x001E83E8,
 		.Fn_DrawWmc__FP3WMC = 0x001F30F0,
+		.Fn_FInvulnerableJt__FP2JT3ZPK = 0x001D61C8,
 		.Fn_FReadJoy__FP3JOY = 0x0016EF98,
 		.Fn_GetJoyXYDeflection__FP3JOYUcUcPfN23PUcT6PiP2LM = 0x0016ED90,
 		.Fn_LoadRotateMatrixPanTilt__FffP7MATRIX3 = 0x00189908,
@@ -46,6 +48,7 @@ namespace PS2::Sly1
 	offsetNtscU
 	{
 		.g_pcm = 0x00261990,
+		.g_pjt = 0x00262E10,
 		.g_gsCur = 0x0027C220,
 		.g_prompt = 0x0026FA90,
 		.g_fInvulnerable = 0x00262C64,
@@ -63,6 +66,7 @@ namespace PS2::Sly1
 		.Fn_DrawTitle__FP5TITLE = 0x001AD3F0,
 		.Fn_DrawTv__FP2TV = 0x001E73B8,
 		.Fn_DrawWmc__FP3WMC = 0x001F20A8,
+		.Fn_FInvulnerableJt__FP2JT3ZPK = 0x001D54E0,
 		.Fn_FReadJoy__FP3JOY = 0x0016E940,
 		.Fn_GetJoyXYDeflection__FP3JOYUcUcPfN23PUcT6PiP2LM = 0x0016E738,
 		.Fn_LoadRotateMatrixPanTilt__FffP7MATRIX3 = 0x001892A0,
@@ -82,6 +86,7 @@ namespace PS2::Sly1
 	offsetNtscJ
 	{
 		.g_pcm = 0x00261F10,
+		.g_pjt = 0x00263320,
 		.g_gsCur = 0x00284820,
 		.g_prompt = 0x002740C0,
 		.g_fInvulnerable = 0x0026317C,
@@ -99,6 +104,7 @@ namespace PS2::Sly1
 		.Fn_DrawTitle__FP5TITLE = 0x001AE7A0,
 		.Fn_DrawTv__FP2TV = 0x001E8A90,
 		.Fn_DrawWmc__FP3WMC = 0x001F3828,
+		.Fn_FInvulnerableJt__FP2JT3ZPK = 0x001D6828,
 		.Fn_FReadJoy__FP3JOY = 0x0016F220,
 		.Fn_GetJoyXYDeflection__FP3JOYUcUcPfN23PUcT6PiP2LM = 0x0016F018,
 		.Fn_LoadRotateMatrixPanTilt__FffP7MATRIX3 = 0x00189BA8,

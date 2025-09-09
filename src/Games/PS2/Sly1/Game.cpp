@@ -68,7 +68,8 @@ namespace PS2::Sly1::Game
 			{ "Rotation Speed+", i.rotationSpeedPos },
 			{ "Rotation Speed-", i.rotationSpeedNeg },
 			{ "Fov Speed+", i.fovSpeedPos },
-			{ "Fov Speed-", i.fovSpeedNeg }
+			{ "Fov Speed-", i.fovSpeedNeg },
+			{ "Teleport To Camera", i.teleportToCamera }
 		};
 	}
 
