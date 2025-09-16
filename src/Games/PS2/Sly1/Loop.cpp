@@ -256,9 +256,9 @@ namespace PS2::Sly1
 			m_position.y += (sc + sy * cs) * uv;
 			m_position.z += cx * cy * uv;
 
-			CameraModel::rotatePitch(&m_rotation.x, m_fov, m_controls.pitchVelocity(Input::RotateXPos, Input::RotateXNeg));
-			CameraModel::rotateYaw(&m_rotation.y, m_fov, m_controls.yawVelocity(Input::RotateYPos, Input::RotateYNeg));
-			CameraModel::rotateRoll(&m_rotation.z, m_controls.rollVelocity(Input::RotateZPos, Input::RotateZNeg));
+			CameraModel::rotateRoll(&m_rotation.x, m_controls.rollVelocity(Input::RotateXPos, Input::RotateXNeg));
+			CameraModel::rotatePitch(&m_rotation.y, m_fov, m_controls.pitchVelocity(Input::RotateYPos, Input::RotateYNeg));
+			CameraModel::rotateYaw(&m_rotation.z, m_fov, m_controls.yawVelocity(Input::RotateZPos, Input::RotateZNeg));
 			CameraModel::increaseFov(&m_fov, m_controls.fovVelocity(Input::FovPos, Input::FovNeg));
 		}
 	}
